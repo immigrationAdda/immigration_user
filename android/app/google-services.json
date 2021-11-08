@@ -1,0 +1,204 @@
+{
+  "project_info": {
+    "project_number": "951082717486",
+    "firebase_url": "https://immigrationaddafinal-default-rtdb.firebaseio.com",
+    "project_id": "immigrationaddafinal",
+    "storage_bucket": "immigrationaddafinal.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951082717486:android:b8fc9daa041a0bd2f5aabf",
+        "android_client_info": {
+          "package_name": "com.immigration.immigration"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "951082717486-77roqob41iub9nl5rl6mjpr03hmtn8u7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.immigration.immigration",
+            "certificate_hash": "b93764e05c57d42c8dc7a2a2cef0d8e462c5a83f"
+          }
+        },
+        {
+          "client_id": "951082717486-3n9hebq9ueo5nbu9cei1ta9sp7b8ff7b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnZrIGQD2ppUmuTeKno0jN7Mu6Sc_Hz3U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "951082717486-3n9hebq9ueo5nbu9cei1ta9sp7b8ff7b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951082717486:android:a8504c8bd279e552f5aabf",
+        "android_client_info": {
+          "package_name": "com.immigrationadda.admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "951082717486-gcc782lijd21spgd9aks6cml760kcl8a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.immigrationadda.admin",
+            "certificate_hash": "b93764e05c57d42c8dc7a2a2cef0d8e462c5a83f"
+          }
+        },
+        {
+          "client_id": "951082717486-3n9hebq9ueo5nbu9cei1ta9sp7b8ff7b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnZrIGQD2ppUmuTeKno0jN7Mu6Sc_Hz3U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "951082717486-3n9hebq9ueo5nbu9cei1ta9sp7b8ff7b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951082717486:android:b3f9b9f4b31324d5f5aabf",
+        "android_client_info": {
+          "package_name": "com.immigrationadda.ia_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "951082717486-3n9hebq9ueo5nbu9cei1ta9sp7b8ff7b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnZrIGQD2ppUmuTeKno0jN7Mu6Sc_Hz3U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "951082717486-3n9hebq9ueo5nbu9cei1ta9sp7b8ff7b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951082717486:android:62934786ffcb9c07f5aabf",
+        "android_client_info": {
+          "package_name": "com.immigrationadda.seller"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "951082717486-elpkiqrv87h0e5m205mft71quva8qdet.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.immigrationadda.seller",
+            "certificate_hash": "d8075ecd9996837fb459dfac47d34b5e76653d59"
+          }
+        },
+        {
+          "client_id": "951082717486-v3571e3bcpa57kqdbramkbelq9j029ti.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.immigrationadda.seller",
+            "certificate_hash": "255443f8171a1674f8734470bf3f1c4d877609fc"
+          }
+        },
+        {
+          "client_id": "951082717486-3n9hebq9ueo5nbu9cei1ta9sp7b8ff7b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnZrIGQD2ppUmuTeKno0jN7Mu6Sc_Hz3U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "951082717486-3n9hebq9ueo5nbu9cei1ta9sp7b8ff7b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951082717486:android:51c9e5953312250ff5aabf",
+        "android_client_info": {
+          "package_name": "com.immigrationadda.user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "951082717486-d8njdhht7jpkgita94fuh722as011i7g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.immigrationadda.user",
+            "certificate_hash": "255443f8171a1674f8734470bf3f1c4d877609fc"
+          }
+        },
+        {
+          "client_id": "951082717486-ruijhvo700b0al3bkndjsrq7u6bm4tlu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.immigrationadda.user",
+            "certificate_hash": "f84afc10f9d71955de1c658cc5215875af16a529"
+          }
+        },
+        {
+          "client_id": "951082717486-3n9hebq9ueo5nbu9cei1ta9sp7b8ff7b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnZrIGQD2ppUmuTeKno0jN7Mu6Sc_Hz3U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "951082717486-3n9hebq9ueo5nbu9cei1ta9sp7b8ff7b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
