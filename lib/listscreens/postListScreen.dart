@@ -9,7 +9,8 @@ import 'package:http/http.dart' as http;
 import 'package:immigration/screens/Post_detals.dart';
 
 class PostListScreen extends StatefulWidget {
-  const PostListScreen({Key? key}) : super(key: key);
+  final String uri;
+  const PostListScreen({Key? key, required this.uri}) : super(key: key);
 
   @override
   _PostListScreenState createState() => _PostListScreenState();
@@ -23,7 +24,7 @@ class _PostListScreenState extends State<PostListScreen> {
 
   Future<List<PostModel>> getListData() async {
     var res = await http.get(Uri.parse(
-        "https://frozen-savannah-16893.herokuapp.com/Seller/postList"));
+        widget.uri));
     var obj = json.decode(res.body);
     print("gkjglug======" + obj.toString());
     postModelList.clear();

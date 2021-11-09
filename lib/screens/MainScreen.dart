@@ -1,6 +1,7 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:immigration/constants.dart';
+import 'package:immigration/listscreens/postListScreen.dart';
 import 'package:immigration/screens/Home_page.dart';
 import 'package:immigration/screens/Post_detals.dart';
 import 'package:immigration/screens/addPostScreen.dart';
@@ -20,7 +21,7 @@ class _MainScreenState extends State<MainScreen> {
     HomePage(),
     PostDetails("XosbdVvwzsvnRII7DUoO"),
     AddPost(),
-    Login(),
+    PostListScreen(uri: "https://frozen-savannah-16893.herokuapp.com/User/favoritelist/hfk"),
     ProfileScreen(),
 
 

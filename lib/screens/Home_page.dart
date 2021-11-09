@@ -55,13 +55,17 @@ class _HomePageState extends State<HomePage> {
                     child: button(context, "IELTS", "assets/images/ielts.png")),
                 GestureDetector(
                     onTap: () {
-                      print("object yes");
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              SellerLists(type: "educationLoan")));
                     },
                     child: button(
                         context, "Passport", "assets/images/passport.png")),
                 GestureDetector(
                     onTap: () {
-                      print("object yes");
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              SellerLists(type: "educationLoan")));
                     },
                     child: button(context, "Study Visa", "assets/images/visa.png")),
                 GestureDetector(
@@ -74,13 +78,17 @@ class _HomePageState extends State<HomePage> {
                         "assets/images/university.png")),
                 GestureDetector(
                     onTap: () {
-                      print("object yes");
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              SellerLists(type: "educationLoan")));
                     },
                     child: button(
                         context, "Air Ticket", "assets/images/airplane.png")),
                 GestureDetector(
                     onTap: () {
-                      print("object yes");
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              SellerLists(type: "educationLoan")));
                     },
                     child: button(context, "Travel\nInsurance",
                         "assets/images/travel-insurance.png")),
@@ -88,73 +96,97 @@ class _HomePageState extends State<HomePage> {
 
                 GestureDetector(
                     onTap: () {
-                      print("object yes");
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              SellerLists(type: "educationLoan")));
                     },
                     child: button(context, "Money\nExchange",
                         "assets/images/dollar-rupee.png")),
                 GestureDetector(
                     onTap: () {
-                      print("object yes");
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              SellerLists(type: "educationLoan")));
                     },
                     child:
                         button(context, "Transport", "assets/images/car.png")),
                 GestureDetector(
                     onTap: () {
-                      print("object yes");
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              SellerLists(type: "educationLoan")));
                     },
                     child: button(context, "Legal\nAdvisor",
                         "assets/images/legal.png")),
                  GestureDetector(
                     onTap: () {
-                      print("object yes");
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              SellerLists(type: "educationLoan")));
                     },
                     child: button(context, "International\nCourier",
                         "assets/images/courier.png")),
                 GestureDetector(
                     onTap: () {
-                      print("object yes");
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              SellerLists(type: "educationLoan")));
                     },
                     child: button(context, "Work\nPermit",
                         "assets/images/job-seeker.png")),
                 GestureDetector(
                     onTap: () {
-                      print("object yes");
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              SellerLists(type: "educationLoan")));
                     },
                     child: button(context, "Business\nVisa",
                         "assets/images/bus-visa.png")),
                 GestureDetector(
                     onTap: () {
-                      print("object yes");
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              SellerLists(type: "educationLoan")));
                     },
                     child: button(context, "Permanent\nResident",
                         "assets/images/permanent.png")),
                 GestureDetector(
                     onTap: () {
-                      print("object yes");
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              SellerLists(type: "educationLoan")));
                     },
                     child: button(context, "Tour Travel\nPackage",
                         "assets/images/tourTravel.png")),
                 GestureDetector(
                     onTap: () {
-                      print("object yes");
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              SellerLists(type: "educationLoan")));
                     },
                     child: button(context, "Jobs \n At Abroad",
                         "assets/images/jobsAtAbroad.png")),
                 GestureDetector(
                     onTap: () {
-                      print("object yes");
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              SellerLists(type: "educationLoan")));
                     },
                     child: button(context, "Accommodation\n at Abroad",
                         "assets/images/accommodation.png")),
                 GestureDetector(
                     onTap: () {
-                      print("object yes");
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              SellerLists(type: "educationLoan")));
                     },
                     child: button(context, "Event", "assets/images/event.png")),
 
                 GestureDetector(
                     onTap: () {
-                      print("object yes");
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              SellerLists(type: "educationLoan")));
                     },
                     child: button(context, "Online IELTS\nClasses",
                         "assets/images/ielts-online-class.png")),
@@ -167,7 +199,9 @@ class _HomePageState extends State<HomePage> {
 
                 GestureDetector(
                     onTap: () {
-                      print("object yes");
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              SellerLists(type: "educationLoan")));
                     },
                     child: button(context, "Check PR\nStudy Visa",
                         "assets/images/check-pr.png")),
@@ -209,7 +243,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
 
-          PostListScreen(),]),
+          PostListScreen(uri: "https://frozen-savannah-16893.herokuapp.com/Seller/postList"),]),
 
 
 

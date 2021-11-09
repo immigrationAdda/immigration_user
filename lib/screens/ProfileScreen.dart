@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:immigration/SizeConfig.dart';
 import 'package:immigration/constants.dart';
+import 'package:immigration/screens/UserProfileDetails.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -41,7 +42,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Text("Name"),
           ),
           GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (cont)=>
+                  UserProfile()
+                ));
+
+              },
               child: textButton(context, "Profile", Icons.person)),
           GestureDetector(
               onTap: () {},
