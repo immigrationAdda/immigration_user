@@ -140,6 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: InternationalPhoneNumberInput(
+
                 cursorColor: kBlueColor,
                 inputDecoration: InputDecoration(
                   enabledBorder: UnderlineInputBorder(

@@ -1,7 +1,5 @@
-import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:immigration/Models/seller_model.dart';
 import 'package:immigration/Models/seller_profile_model.dart';
 

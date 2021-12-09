@@ -1,9 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:immigration/constants.dart';
 import 'package:immigration/provider/auth_provider.dart';
 import 'package:immigration/screens/Home_page.dart';
 import 'package:immigration/screens/MainScreen.dart';
+import 'package:immigration/screens/UserProfileDetails.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 class OtpScreen extends StatefulWidget {
   @override
@@ -44,7 +47,14 @@ class _OtpScreenState extends State<OtpScreen> {
       ),
     );
   }
-
+Future<String> check(String uId)async{
+    var res =await http.get(Uri.parse("https://frozen-savannah-16893.herokuapp.com/User/check/$uId"));
+    if(res.statusCode==200){
+      print("hgkj8888888888888"+res.body);
+    return res.body;
+    }
+    return res.body;
+}
   verifyOTP(BuildContext context) {
     try {
       Provider.of<AuthProvider>(context, listen: false)
@@ -55,15 +65,13 @@ class _OtpScreenState extends State<OtpScreen> {
               fifthController.text +
               sixthController.text)
           .then((_) {
-        if (Provider.of<AuthProvider>(context, listen: false)
-            .user!
-            .additionalUserInfo!
-            .isNewUser) {
+            print("-----------============------"+FirebaseAuth.instance.currentUser!.uid.toString());
+        if (check(FirebaseAuth.instance.currentUser!.uid.toString())=="true") {
           return Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => MainScreen()));
         } else {
           return Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => MainScreen()));
+              context, MaterialPageRoute(builder: (context) => UserProfile(uId:FirebaseAuth.instance.currentUser!.uid)));
         }
 
         // Navigator.pushReplacement(

@@ -1,14 +1,21 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'dart:io';
 
+import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:http/http.dart' as http;
 import 'package:immigration/Models/LuggagePost.dart';
+import 'package:status_alert/status_alert.dart';
 import '../SizeConfig.dart';
+import '../api_config.dart';
 import '../constants.dart';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 
 class LuggageScreen extends StatefulWidget {
   const LuggageScreen({Key? key}) : super(key: key);
@@ -19,74 +26,107 @@ class LuggageScreen extends StatefulWidget {
 
 class _LuggageScreenState extends State<LuggageScreen> {
   late LuggagePost luggagePost;
+  bool loading = false;
+  var _image;
+  bool submitActive = false;
 
-  var imageLoading = false;
-
-  submit() async {
-    luggagePost=  new LuggagePost(
-        pId: "uyg",
-        name: nameController.value.text,
-        fatherName: fatherNameController.value.text,
-        address: addressController.value.text,
-        phoneNo: mobileNoController.value.text,
-        passportNo: passportNoController.value.text,
-        aadharCard: aadharNoController.value.text,
-        city: cityController.value.text,
-        flightTimeing: flightDateTimeNoController.value.text,
-        flightNameAndNo: flightNameANDFlightNoController.value.text,
-        description: descriptionOfLuggageController.value.text,
-        detailsOfLuggage: detailOfLuggageController.value.text,
-        totalWeight: totalWeightController.value.text,
-        amountOffer: amountOfferController.value.text,
-        receiverName: receiverNameController.value.text,
-        receiverFatherName: receiverFatherNameController.value.text,
-        receiverPassportNo: receiverPassportNoController.value.text,
-        receiverAaddress: receiverAddressController.value.text,
-        receiverPhoneNo: receiverMobileNoController.value.text,
-        timing: 'tr',
+  submit(data) async {
+    luggagePost = new LuggagePost(
+        pId: "jj",
+        name: nameController.text,
+        fatherName: fatherNameController.text,
+        address: addressController.text,
+        phoneNo: mobileNoController.text,
+        passportNo: passportNoController.text,
+        aadharCard: aadharNoController.text,
+        city: cityController.text,
+        flightTimeing: flightDateTimeNoController.text,
+        flightNameAndNo: flightNameANDFlightNoController.text,
+        description: descriptionOfLuggageController.text,
+        detailsOfLuggage: detailOfLuggageController.text,
+        totalWeight: totalWeightController.text,
+        amountOffer: amountOfferController.text,
+        receiverName: receiverNameController.text,
+        receiverFatherName: receiverFatherNameController.text,
+        receiverPassportNo: receiverPassportNoController.text,
+        receiverAddress: receiverAddressController.text,
+        receiverPhoneNo: receiverMobileNoController.text,
         countryName: dropdownValue,
-        alternatePhoneNo: 'tr',
-        receiverPersonImage: 'tr',
-        uId: 'tr');
+        alternatePhoneNo: alterMobileNoController.text,
+        receiverPersonImage: data,
+        uId: FirebaseAuth.instance.currentUser!.uid);
 
     var res = await http.post(
         Uri.parse(
             "https://frozen-savannah-16893.herokuapp.com/User/luggagePost"),
-        body:json.encode( luggagePost.toJson()),headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    });
+        body: json.encode(luggagePost.toJson()),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        });
     if (res.statusCode == 200) {
       print("Luggage Post Success fully complete");
-    }else {
-      print("Luggage Post failed fully complete${res.statusCode}");
-
+      setState(() {
+        loading = false;
+        StatusAlert.show(
+          context,
+          duration: Duration(seconds: 3),
+          title: 'Done',
+          subtitle: '',
+          configuration: IconConfiguration(icon: Icons.done),
+        );
+        Timer(Duration(seconds: 2), () => {Navigator.pop(context)});
+      });
+    } else {
+      print("Luggage Post failed fully complete${res.body}");
+      setState(() {
+        loading = false;
+        StatusAlert.show(
+          context,
+          duration: Duration(seconds: 3),
+          title: 'Error',
+          subtitle: '',
+          configuration: IconConfiguration(icon: Icons.error),
+        );
+        Timer(Duration(seconds: 2), () => {Navigator.pop(context)});
+      });
     }
   }
 
-  bool imageupload() {
-    setState(() async {
-      if (CustomImagePicker().image != null) {
-        var multipartFile = await http.MultipartFile.fromPath(
-            'file', CustomImagePicker().image!.path.toString());
-        var request = await http.MultipartRequest(
-            "Post",
-            Uri.parse(
-                "https://frozen-savannah-16893.herokuapp.com/User/upload"));
-        request.files.add(multipartFile);
-        http.StreamedResponse response = await request.send();
-        final respStr = await response.stream.bytesToString();
-        var jsonData = jsonDecode(respStr);
-        if (response.statusCode == 200) {
-          // success
-        }
-        print("fbjkdvb hffr =er g=re =r-r"+response.statusCode.toString());
-      }
-      else{
-        print("image url null");
+  Future<void> getLostData() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      File file = new File(image!.path);
+      _image = file;
+      print("select image" + _image.toString());
+    });
+  }
+
+  uploadImage() async {
+    Dio dio = new Dio();
+    String fileName = _image!.path.split('.').last;
+    print(fileName);
+    FormData formData = FormData.fromMap({
+      "file": await MultipartFile.fromFile(_image!.path,
+          contentType: MediaType("image", fileName))
+    });
+    return await dio
+        .postUri(Uri.parse(ApiConfig.BASE_URL + "User/upload"), data: formData)
+        .then((value) {
+      // if (response!.statusCode != 200) {
+
+      // }
+
+      if (value.statusCode == 200) {
+        print(value.data);
+        setState(() {
+          submit(value.data);
+          // statuscode = value.statusCode!;
+          // imgUrl = value.data;
+        });
       }
     });
-    return false;
   }
 
   TextEditingController nameController = TextEditingController();
@@ -380,111 +420,187 @@ class _LuggageScreenState extends State<LuggageScreen> {
           ),
         ),
       ),
-      body: ListView(
-        shrinkWrap: true,
+      body: Stack(
         children: [
-          textfield(context, nameController, "Name"),
-          textfield(context, fatherNameController, "Father Name"),
-          textfield(context, addressController, "Address"),
-          textfield(context, mobileNoController, "Mobile No",
-              keyboardType: TextInputType.phone),
-          textfield(context, alterMobileNoController, "Alternate Mobile No",
-              keyboardType: TextInputType.phone),
-          textfield(context, passportNoController, "Passport Number"),
-          textfield(context, aadharNoController, "Aadhaar Number",
-              keyboardType: TextInputType.number),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton<String>(
-                hint: Text("Select Country"),
-                value: dropdownValue,
-                isExpanded: true,
-                elevation: 16,
-                style: TextStyle(
-                  color: kBlueColor,
-                  fontSize: 18,
-                ),
-                underline: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 1,
-                  color: kBlueColor,
-                ),
-                onChanged: (value) {
-                  setState(() {
-                    dropdownValue = value.toString();
-                  });
-                },
-                items: countryNameList
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
-          textfield(context, cityController, "City"),
-          textfield(
-              context, flightDateTimeNoController, "Flight date and time"),
-          textfield(context, flightNameANDFlightNoController,
-              "Flight Name and Number"),
-          textfield(context, descriptionOfLuggageController,
-              "Description of Luggage"),
-          textfield(context, detailOfLuggageController, "Details of Luggage"),
-          textfield(context, totalWeightController, "Total Weight",
-              keyboardType: TextInputType.number),
-          textfield(context, amountOfferController, "Amount offer",
-              keyboardType: TextInputType.number),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              width: double.infinity,
-              color: kBlueColor,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4.0),
-                child: Center(
-                  child: Text("Receiver Details",
-                      style: TextStyle(color: Colors.white)),
-                ),
-              ),
-            ),
-          ),
-          textfield(context, receiverNameController, "Receiver Name"),
-          textfield(
-              context, receiverFatherNameController, "Receiver Father Name"),
-          textfield(context, receiverAddressController, "Receiver Address"),
-          textfield(
-              context, receiverMobileNoController, "Receiver Mobile Number",
-              keyboardType: TextInputType.phone),
-          textfield(context, receiverPassportNoController,
-              "Receiver Passport Number"),
-          CustomImagePicker(),
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
-              child: TextButton(
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                style: TextButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                    backgroundColor: kBlueColor),
-                onPressed: () {
-                  submit();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Text(
-                    "Submit",
+          ListView(
+            shrinkWrap: true,
+            children: [
+              textfield(context, nameController, "Name"),
+              textfield(context, fatherNameController, "Father Name"),
+              textfield(context, addressController, "Address"),
+              textfield(context, mobileNoController, "Mobile No",
+                  keyboardType: TextInputType.phone,limit: 10),
+              textfield(context, alterMobileNoController, "Alternate Mobile No",
+                  keyboardType: TextInputType.phone,limit: 10),
+              textfield(context, passportNoController, "Passport Number"),
+              textfield(context, aadharNoController, "Aadhaar Number",
+                  keyboardType: TextInputType.number,limit: 12),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    hint: Text("Select Country"),
+                    value: dropdownValue,
+                    isExpanded: true,
+                    elevation: 16,
                     style: TextStyle(
-                        color: Colors.white,
-                        fontSize: SizeConfig.screenHeight! / 40),
+                      color: kBlueColor,
+                      fontSize: 18,
+                    ),
+                    underline: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 1,
+                      color: kBlueColor,
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        dropdownValue = value.toString();
+                      });
+                    },
+                    items: countryNameList
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
                   ),
                 ),
               ),
-            ),
+              textfield(context, cityController, "City"),
+              textfield(
+                  context, flightDateTimeNoController, "Flight date and time"),
+              textfield(context, flightNameANDFlightNoController,
+                  "Flight Name and Number"),
+              textfield(context, descriptionOfLuggageController,
+                  "Description of Luggage"),
+              textfield(
+                  context, detailOfLuggageController, "Details of Luggage"),
+              textfield(context, totalWeightController, "Total Weight",
+                  keyboardType: TextInputType.number),
+              textfield(context, amountOfferController, "Amount offer",
+                  keyboardType: TextInputType.number),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  width: double.infinity,
+                  color: kBlueColor,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: Center(
+                      child: Text("Receiver Details",
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                  ),
+                ),
+              ),
+              textfield(context, receiverNameController, "Receiver Name"),
+              textfield(context, receiverFatherNameController,
+                  "Receiver Father Name"),
+              textfield(context, receiverAddressController, "Receiver Address"),
+              textfield(
+                  context, receiverMobileNoController, "Receiver Mobile Number",
+                  keyboardType: TextInputType.phone,limit: 10),
+              textfield(context, receiverPassportNoController,
+                  "Receiver Passport Number"),
+              GestureDetector(
+                onTap: () {
+                  getLostData();
+                },
+                child: Card(
+                  margin: EdgeInsets.all(10),
+                  child: _image != null
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.file(
+                            _image,
+                            width: 100,
+                            height: 200,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border:
+                                  Border.all(color: Colors.black45, width: 0.8),
+                              borderRadius: BorderRadius.circular(3)),
+                          width: 100,
+                          height: 200,
+                          child: Icon(
+                            Icons.camera_alt,
+                            size: 70,
+                            color: Colors.grey[400],
+                          ),
+                        ),
+                ),
+              ),
+              Container(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
+                  child: TextButton(
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    style: TextButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30)),
+                        backgroundColor: kBlueColor),
+                    onPressed: () {
+                      setState(() {
+                        submitActive = true;
+                        if (nameController.text.isEmpty) {
+                        } else if (fatherNameController.text.isEmpty) {
+                        } else if (addressController.text.isEmpty) {
+                        } else if (mobileNoController.text.isEmpty) {
+                        } else if (alterMobileNoController.text.isEmpty) {
+                        } else if (passportNoController.text.isEmpty) {
+                        } else if (aadharNoController.text.isEmpty) {
+                        } else if (cityController.text.isEmpty) {
+                        } else if (flightDateTimeNoController.text.isEmpty) {
+                        } else if (flightNameANDFlightNoController
+                            .text.isEmpty) {
+                        } else if (descriptionOfLuggageController
+                            .text.isEmpty) {
+                        } else if (detailOfLuggageController.text.isEmpty) {
+                        } else if (totalWeightController.text.isEmpty) {
+                        } else if (amountOfferController.text.isEmpty) {
+                        } else if (receiverNameController.text.isEmpty) {
+                        } else if (receiverFatherNameController.text.isEmpty) {
+                        } else if (receiverAddressController.text.isEmpty) {
+                        } else if (receiverMobileNoController.text.isEmpty) {
+                        } else if (receiverPassportNoController.text.isEmpty) {
+                        } else if (_image == null) {
+                        } else {
+                          loading = true;
+                          uploadImage();
+                        }
+                      });
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: Text(
+                        "Submit",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: SizeConfig.screenHeight! / 40),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
+          loading == true
+              ? Container(
+                  height: SizeConfig.screenHeight,
+                  width: SizeConfig.screenWidth,
+                  color: Colors.white10,
+                  child: SpinKitCircle(
+                    color: kBlueColor,
+                    size: 50,
+                  ),
+                )
+              : Container()
         ],
       ),
     );
@@ -492,143 +608,26 @@ class _LuggageScreenState extends State<LuggageScreen> {
 
   Widget textfield(
       BuildContext context, TextEditingController controller, String hint,
-      {TextInputType? keyboardType}) {
+      {TextInputType? keyboardType,int? limit}) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextField(
         keyboardType: keyboardType,
         controller: controller,
+        maxLength:limit!=null?limit:60,textCapitalization: TextCapitalization.words,
         decoration: InputDecoration(
+          counterText: "",
+
             contentPadding: EdgeInsets.only(top: 15, bottom: 6, left: 10),
+            errorText: (submitActive == true && controller.text.isEmpty)
+                ? "Please Fill"
+                : null,
+            errorBorder: (submitActive == true)
+                ? OutlineInputBorder(borderSide: BorderSide(color: Colors.red))
+                : null,
             border: OutlineInputBorder(),
             labelText: hint),
       ),
-    );
-  }
-}
-
-class CustomTextFieldForData extends StatelessWidget {
-  final String? title;
-  final String? dataToShow;
-
-  const CustomTextFieldForData({
-    Key? key,
-    required this.title,
-    required this.dataToShow,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-      child: Container(
-        child: TextFormField(
-          controller: TextEditingController(
-            text: dataToShow,
-          ),
-          decoration: InputDecoration(
-              labelText: title,
-              labelStyle: TextStyle(color: Colors.white, fontSize: 22)),
-          readOnly: true,
-          style: TextStyle(
-            fontSize: 18,
-            color: kBlueColor,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class CustomImagePicker extends StatefulWidget {
-  late File? image;
-
-  CustomImagePicker({Key? key, this.image}) : super(key: key);
-
-  @override
-  _CustomImagePickerState createState() => _CustomImagePickerState();
-}
-
-class _CustomImagePickerState extends State<CustomImagePicker> {
-  final picker = ImagePicker();
-late File image;
- String url="";
-  Future getImage() async {
-    final pickedFile =
-        await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
-
-
-      if (pickedFile != null) {
-        url=pickedFile.path;
-        image = File(pickedFile.path);
-        var multipartFile = await http.MultipartFile.fromPath(
-            'file', image.path.toString());
-        var request = await http.MultipartRequest(
-            "Post",
-            Uri.parse(
-                "https://frozen-savannah-16893.herokuapp.com/User/upload"));
-        request.files.add(multipartFile);
-        http.StreamedResponse response = await request.send();
-        final respStr = await response.stream.bytesToString();
-        var jsonData = jsonDecode(respStr);
-
-        if (response.statusCode == 200) {
-          // success
-        }
-        print("fbjkdvb hffr =er g=re =r-r"+response.statusCode.toString());
-        print("fbjkdvb hffr =er g=re =r-r"+jsonData);
-      }
-      else{
-        print("image url null");
-      }
-
-
-
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Align(
-          alignment: Alignment.topLeft,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "Upload photo:",
-              style: TextStyle(
-                color: kBlueColor,
-                fontSize: 18,
-              ),
-            ),
-          ),
-        ),
-        GestureDetector(
-            onTap: () {
-              getImage();
-            },
-            child: Container(
-              height: 200,
-              width: width * 1,
-              child: Card(
-                elevation: 1,
-                child: url != ""
-                    ? Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black45, width: 0.8),
-                          borderRadius: BorderRadius.circular(3),
-                          image:
-                              DecorationImage(image: FileImage(image)),
-                        ),
-                      )
-                    : Icon(Icons.add_a_photo),
-              ),
-            )),
-      ],
     );
   }
 }

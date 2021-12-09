@@ -57,18 +57,18 @@ class AddPost extends StatelessWidget {
                     child: addPostIten(
                         context, "assets/images/job.png", "job\nRequirements"),
                   ),
-                  GestureDetector(
-                    onTap:(){
-                      Navigator.push(context, MaterialPageRoute(builder: (_)=> LuggageScreen() ));
-                    },child: addPostIten(context, "assets/images/luggage.png",
-                        "luggage\nAdjustment"),
-                  ),
+
                   GestureDetector(
                     onTap:(){
                       Navigator.push(context, MaterialPageRoute(builder: (_)=> Franchise() ));
                     },
                     child: addPostIten(context, "assets/images/franchise.png",
                         "Purchase\nfranchise"),
+                  ),  GestureDetector(
+                    onTap:(){
+                      Navigator.push(context, MaterialPageRoute(builder: (_)=> LuggageScreen() ));
+                    },child: addPostIten(context, "assets/images/luggage.png",
+                      "luggage\nAdjustment"),
                   ),
                 ],
               ),

@@ -5,8 +5,10 @@ import 'package:immigration/SizeConfig.dart';
 import 'package:immigration/constants.dart';
 import 'package:immigration/listscreens/postListScreen.dart';
 import 'package:immigration/listscreens/sellerLIstScreen.dart';
+import 'package:immigration/postCreateScreens/pr_score.dart';
 import 'package:immigration/screens/Login.dart';
 import 'package:immigration/screens/ProfileScreen.dart';
+import 'package:immigration/screens/luggage_post_user.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -50,14 +52,14 @@ class _HomePageState extends State<HomePage> {
                 GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => SellerLists(type: "ielts")));
+                          builder: (context) => SellerLists(type: "IELTS")));
                     },
                     child: button(context, "IELTS", "assets/images/ielts.png")),
                 GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              SellerLists(type: "educationLoan")));
+                              SellerLists(type: "Passport")));
                     },
                     child: button(
                         context, "Passport", "assets/images/passport.png")),
@@ -65,22 +67,22 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              SellerLists(type: "educationLoan")));
+                              SellerLists(type: "Study Visa")));
                     },
                     child: button(context, "Study Visa", "assets/images/visa.png")),
                 GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              SellerLists(type: "educationLoan")));
+                              SellerLists(type: "Education Loan")));
                     },
-                    child: button(context, "Education\nLoan",
+                    child: button(context, "Education Loan",
                         "assets/images/university.png")),
                 GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              SellerLists(type: "educationLoan")));
+                              SellerLists(type: "Air Ticket")));
                     },
                     child: button(
                         context, "Air Ticket", "assets/images/airplane.png")),
@@ -88,7 +90,7 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              SellerLists(type: "educationLoan")));
+                              SellerLists(type: "Travel Insurance")));
                     },
                     child: button(context, "Travel\nInsurance",
                         "assets/images/travel-insurance.png")),
@@ -98,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              SellerLists(type: "educationLoan")));
+                              SellerLists(type: "Money Exchange")));
                     },
                     child: button(context, "Money\nExchange",
                         "assets/images/dollar-rupee.png")),
@@ -106,15 +108,15 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              SellerLists(type: "educationLoan")));
+                              SellerLists(type: "Transportation")));
                     },
                     child:
-                        button(context, "Transport", "assets/images/car.png")),
+                        button(context, "Transport\nFor AirPort", "assets/images/car.png")),
                 GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              SellerLists(type: "educationLoan")));
+                              SellerLists(type: "Legal Advisor")));
                     },
                     child: button(context, "Legal\nAdvisor",
                         "assets/images/legal.png")),
@@ -122,7 +124,7 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              SellerLists(type: "educationLoan")));
+                              SellerLists(type: "International Courier")));
                     },
                     child: button(context, "International\nCourier",
                         "assets/images/courier.png")),
@@ -130,7 +132,7 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              SellerLists(type: "educationLoan")));
+                              SellerLists(type: "Work Permit")));
                     },
                     child: button(context, "Work\nPermit",
                         "assets/images/job-seeker.png")),
@@ -138,15 +140,15 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              SellerLists(type: "educationLoan")));
+                              SellerLists(type: "Tourist & Business Visa")));
                     },
-                    child: button(context, "Business\nVisa",
+                    child: button(context, "Tourist &\nBusiness Visa",
                         "assets/images/bus-visa.png")),
                 GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              SellerLists(type: "educationLoan")));
+                              SellerLists(type: "Permanent Residence")));
                     },
                     child: button(context, "Permanent\nResident",
                         "assets/images/permanent.png")),
@@ -154,15 +156,15 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              SellerLists(type: "educationLoan")));
+                              SellerLists(type: "Tour Travel")));
                     },
-                    child: button(context, "Tour Travel\nPackage",
+                    child: button(context, "Tour & Travel\nPackage",
                         "assets/images/tourTravel.png")),
                 GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              SellerLists(type: "educationLoan")));
+                              SellerLists(type: "Jobs at Abroad")));
                     },
                     child: button(context, "Jobs \n At Abroad",
                         "assets/images/jobsAtAbroad.png")),
@@ -170,40 +172,38 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              SellerLists(type: "educationLoan")));
+                              SellerLists(type: "Accommodation at Abraod")));
                     },
-                    child: button(context, "Accommodation\n at Abroad",
+                    child: button(context, "Accommodation at Abroad",
                         "assets/images/accommodation.png")),
                 GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              SellerLists(type: "educationLoan")));
+                              SellerLists(type: "Events")));
                     },
                     child: button(context, "Event", "assets/images/event.png")),
 
                 GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              SellerLists(type: "educationLoan")));
+
                     },
-                    child: button(context, "Online IELTS\nClasses",
+                    child: button(context, "Online IELTS Classes",
                         "assets/images/ielts-online-class.png")),
                 GestureDetector(
                     onTap: () {
                       print("object yes");
                     },
-                    child: button(context, "Weekly \nIELTS Test",
+                    child: button(context, "Online Weekly Free IELTS Test",
                         "assets/images/week-online-class.png")),
 
                 GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              SellerLists(type: "educationLoan")));
+                               PRScore()));
                     },
-                    child: button(context, "Check PR\nStudy Visa",
+                    child: button(context, "Check PR/Study Visa Score Free",
                         "assets/images/check-pr.png")),
                 GestureDetector(
                   onTap: () {
@@ -226,6 +226,9 @@ class _HomePageState extends State<HomePage> {
                         context, "Franchise", "assets/images/franchise.png")),
                 GestureDetector(
                     onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              LuggagePostByUser()));
                       print("object yes");
                     },
                     child: button(context, "Luggage\nAdjustment",
@@ -243,7 +246,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
 
-          PostListScreen(uri: "https://frozen-savannah-16893.herokuapp.com/Seller/postList"),]),
+          PostListScreen(uri: "https://frozen-savannah-16893.herokuapp.com/Seller/postLists/f"),]),
 
 
 
@@ -262,7 +265,7 @@ Widget button(BuildContext context, String text, String icon) {
     child: Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 18),
+        padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -273,15 +276,13 @@ Widget button(BuildContext context, String text, String icon) {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 2),
-              child: FittedBox(
-                child: Text(
-                  text,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: kBlueColor,
-                      fontSize: SizeConfig.safeBlockHorizontal! * 3),
-                  maxLines: 2,
-                ),
+              child: Text(
+                text,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: kBlueColor,
+                    fontSize: SizeConfig.safeBlockHorizontal! * 2.8),
+
               ),
             )
           ],

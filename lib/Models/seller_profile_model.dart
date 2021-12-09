@@ -1,7 +1,23 @@
+// To parse this JSON data, do
+//
+//     final sellerProfileModel = sellerProfileModelFromJson(jsonString);
+
+import 'dart:convert';
+
+SellerProfileModel sellerProfileModelFromJson(String str) =>
+    SellerProfileModel.fromJson(json.decode(str));
+
+String sellerProfileModelToJson(SellerProfileModel data) =>
+    json.encode(data.toJson());
+
 class SellerProfileModel {
   SellerProfileModel({
     required this.sId,
+    required this.lat,
+    required this.lng,
     required this.companyName,
+    required this.contactPersonName,
+    required this.roleOfPerson,
     required this.phoneNo,
     required this.email,
     required this.address,
@@ -11,6 +27,8 @@ class SellerProfileModel {
     required this.plan,
     required this.accountStatus,
     required this.status,
+    required this.district,
+    required this.state,
     required this.view,
     required this.star,
     required this.companyCertification,
@@ -19,67 +37,86 @@ class SellerProfileModel {
     required this.previousResult,
     required this.categories,
   });
-  late final String sId;
-  late final String companyName;
-  late final String phoneNo;
-  late final String email;
-  late final String address;
-  late final String city;
-  late final String profilePicture;
-  late final String joiningDate;
-  late final String plan;
-  late final String accountStatus;
-  late final String status;
-  late final int view;
-  late final int star;
-  late final List<String> companyCertification;
-  late final List<String> companyImages;
-  late final List<String> reviews;
-  late final List<String> previousResult;
-  late final List<String> categories;
 
-  SellerProfileModel.fromJson(Map<String, dynamic> json) {
-    sId = json['sId'];
-    companyName = json['companyName'];
-    phoneNo = json['phoneNo'];
-    email = json['email'];
-    address = json['address'];
-    city = json['city'];
-    profilePicture = json['profilePicture'];
-    joiningDate = json['joiningDate'];
-    plan = json['plan'];
-    accountStatus = json['accountStatus'];
-    status = json['status'];
-    view = json['view'];
-    star = json['star'];
-    companyCertification =
-        List.castFrom<dynamic, String>(json['companyCertification']);
-    companyImages = List.castFrom<dynamic, String>(json['companyImages']);
-    reviews = List.castFrom<dynamic, String>(json['reviews']);
-    previousResult = List.castFrom<dynamic, String>(json['previousResult']);
-    categories = List.castFrom<dynamic, String>(json['categories']);
-  }
+  String sId;
+  double lat;
+  double lng;
+  String companyName;
+  String contactPersonName;
+  String roleOfPerson;
+  String phoneNo;
+  String email;
+  String address;
+  String city;
+  String profilePicture;
+  DateTime joiningDate;
+  String plan;
+  String accountStatus;
+  String status;
+  String district;
+  String state;
+  int view;
+  int star;
+  List<String> companyCertification;
+  List<String> companyImages;
+  List<String> reviews;
+  List<String> previousResult;
+  List<String> categories;
 
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['sId'] = sId;
-    _data['companyName'] = companyName;
-    _data['phoneNo'] = phoneNo;
-    _data['email'] = email;
-    _data['address'] = address;
-    _data['city'] = city;
-    _data['profilePicture'] = profilePicture;
-    _data['joiningDate'] = joiningDate;
-    _data['plan'] = plan;
-    _data['accountStatus'] = accountStatus;
-    _data['status'] = status;
-    _data['view'] = view;
-    _data['star'] = star;
-    _data['companyCertification'] = companyCertification;
-    _data['companyImages'] = companyImages;
-    _data['reviews'] = reviews;
-    _data['previousResult'] = previousResult;
-    _data['categories'] = categories;
-    return _data;
-  }
+  factory SellerProfileModel.fromJson(Map<String, dynamic> json) =>
+      SellerProfileModel(
+        sId: json["sId"],
+        lat: json["lat"].toDouble(),
+        lng: json["lng"].toDouble(),
+        companyName: json["companyName"],
+        contactPersonName: json["contactPersonName"],
+        roleOfPerson: json["roleOfPerson"],
+        phoneNo: json["phoneNo"],
+        email: json["email"],
+        address: json["address"],
+        city: json["city"],
+        profilePicture: json["profilePicture"],
+        joiningDate: DateTime.parse(json["joiningDate"]),
+        plan: json["plan"],
+        accountStatus: json["accountStatus"],
+        status: json["status"],
+        district: json["district"],
+        state: json["state"],
+        view: json["view"],
+        star: json["star"],
+        companyCertification:
+        List<String>.from(json["companyCertification"].map((x) => x)),
+        companyImages: List<String>.from(json["companyImages"].map((x) => x)),
+        reviews: List<String>.from(json["reviews"].map((x) => x)),
+        previousResult: List<String>.from(json["previousResult"].map((x) => x)),
+        categories: List<String>.from(json["categories"].map((x) => x)),
+      );
+
+  Map<String, dynamic> toJson() => {
+    "sId": sId,
+    "lat": lat,
+    "lng": lng,
+    "companyName": companyName,
+    "contactPersonName": contactPersonName,
+    "roleOfPerson": roleOfPerson,
+    "phoneNo": phoneNo,
+    "email": email,
+    "address": address,
+    "city": city,
+    "profilePicture": profilePicture,
+    "joiningDate": joiningDate.toIso8601String(),
+    "plan": plan,
+    "accountStatus": accountStatus,
+    "status": status,
+    "district": district,
+    "state": state,
+    "view": view,
+    "star": star,
+    "companyCertification":
+    List<dynamic>.from(companyCertification.map((x) => x)),
+    "companyImages": List<dynamic>.from(companyImages.map((x) => x)),
+    "reviews": List<dynamic>.from(reviews.map((x) => x)),
+    "previousResult": List<dynamic>.from(previousResult.map((x) => x)),
+    "categories": List<dynamic>.from(categories.map((x) => x)),
+  };
 }

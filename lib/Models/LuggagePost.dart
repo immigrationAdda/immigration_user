@@ -2,7 +2,7 @@ class LuggagePost {
   LuggagePost({
     required this.pId,
     required this.uId,
-    required this.timing,
+     this.timing,
     required this.name,
     required this.fatherName,
     required this.address,
@@ -22,12 +22,12 @@ class LuggagePost {
     required this.receiverFatherName,
     required this.receiverPhoneNo,
     required this.receiverPassportNo,
-    required this.receiverAaddress,
+    required this.receiverAddress,
     required this.receiverPersonImage,
   });
   late  String pId;
   late  String uId;
-  late  String timing;
+    String? timing;
   late  String name;
   late  String fatherName;
   late  String address;
@@ -47,7 +47,7 @@ class LuggagePost {
   late  String receiverFatherName;
   late  String receiverPhoneNo;
   late  String receiverPassportNo;
-  late  String receiverAaddress;
+  late  String receiverAddress;
   late  String receiverPersonImage;
 
   LuggagePost.fromJson(Map<String, dynamic> json){
@@ -73,7 +73,7 @@ class LuggagePost {
     receiverFatherName = json['receiverFatherName'];
     receiverPhoneNo = json['receiverPhoneNo'];
     receiverPassportNo = json['receiverPassportNo'];
-    receiverAaddress = json['receiverAaddress'];
+    receiverAddress = json['receiverAddress'];
     receiverPersonImage= json['receiverPersonImage;'];
   }
 
@@ -101,8 +101,8 @@ class LuggagePost {
     _data['receiverFatherName'] = receiverFatherName;
     _data['receiverPhoneNo'] = receiverPhoneNo;
     _data['receiverPassportNo'] = receiverPassportNo;
-    _data['receiverAaddress'] = receiverAaddress;
-    _data['receiverPersonImage;'] = receiverPersonImage;;
+    _data['receiverAddress'] = receiverAddress;
+    _data['receiverPersonImage;'] = receiverPersonImage;
     return _data;
   }
 }

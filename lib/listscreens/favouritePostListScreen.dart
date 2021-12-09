@@ -9,15 +9,15 @@ import 'package:immigration/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:immigration/screens/Post_detals.dart';
 
-class PostListScreen extends StatefulWidget {
+class FavouritePostListScreen extends StatefulWidget {
   final String uri;
-   PostListScreen({Key? key, required this.uri}) : super(key: key);
+   FavouritePostListScreen({Key? key, required this.uri,}) : super(key: key);
 
   @override
-  _PostListScreenState createState() => _PostListScreenState();
+  _FavouritePostListScreenState createState() => _FavouritePostListScreenState();
 }
 
-class _PostListScreenState extends State<PostListScreen> {
+class _FavouritePostListScreenState extends State<FavouritePostListScreen> {
   var _getData;
   late PostModel postModel;
   List<PostModel> postModelList = [];
@@ -193,8 +193,7 @@ setState(() {
 
                                           },
                                           child: IconButton(
-                                            icon:(!checkList[index])?Icon(
-                                                Icons.favorite_border):Icon(Icons.favorite),
+                                            icon:Icon(Icons.favorite),
 
                                             onPressed: () {
                                               SetFavorite(snapshot.data![index].pId);
