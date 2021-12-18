@@ -62,8 +62,6 @@ class Login extends StatelessWidget {
                             color: Color(0xff475298)),
                         ),
                       ),
-
-
                     Align(
                       alignment: Alignment.center,
                       child: SizedBox(

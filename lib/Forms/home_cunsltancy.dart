@@ -6,20 +6,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:immigration/Forms/education_loan.dart';
+import 'package:immigration/Forms/travell_insurance.dart';
 import 'package:immigration/api_config.dart';
 import 'package:immigration/constants.dart';
 import 'package:http_parser/http_parser.dart';
-class TravelInsuranse extends StatefulWidget {
-  const TravelInsuranse({Key? key}) : super(key: key);
 
-
-
+class HomeCunsultancy extends StatefulWidget {
+  const HomeCunsultancy({Key? key}) : super(key: key);
 
   @override
-  _TravelInsuranseState createState() => _TravelInsuranseState();
+  _HomeCunsultancyState createState() => _HomeCunsultancyState();
 }
 
-class _TravelInsuranseState extends State<TravelInsuranse> {
+class _HomeCunsultancyState extends State<HomeCunsultancy> {
   TextEditingController? nameController = new TextEditingController();
   TextEditingController? companyNameController = new TextEditingController();
   TextEditingController? companyAddressController = new TextEditingController();
@@ -50,23 +50,12 @@ class _TravelInsuranseState extends State<TravelInsuranse> {
 
   var yearSelected;
   var floorSelected;
-
-  //File? _image;
-  Dio dio = Dio();
-//  PostMethods _postMethods = PostMethods();
-  List areaType = [
-    "Commercial",
-    "Residential",
-    "SCO",
-    "Booth",
-  ];
-
-  var selectedAreaType;
-
-  int statuscode = 0;
-  String imgUrl = '';
   bool loading=false;
   var _image;
+
+  String? selectedpassportType;
+
+  String? selectedservices;
   uploadImage() async {
     Dio dio=new Dio();
     String fileName = _image!.path.split('.').last;
@@ -101,6 +90,30 @@ class _TravelInsuranseState extends State<TravelInsuranse> {
       print("select image"+_image.toString());
     });
   }
+
+  //File? _image;
+  Dio dio = Dio();
+//  PostMethods _postMethods = PostMethods();
+  List<String>? passportType = ['Ordinary Passport','Official Passport','Diplomatic Passport','Emergency Passport','Family Passport','Collective Passport'];
+
+  List services = [
+    "New",
+    "Emergency Certificate",
+    "Re issue",
+    "Lost damage",
+
+  ];
+  List areaType = [
+    "Commercial",
+    "Residential",
+    "SCO",
+    "Booth",
+  ];
+
+  var selectedAreaType;
+
+  int statuscode = 0;
+  String imgUrl = '';
   final picker = ImagePicker();
 
   late TextEditingController? franchiseOfferCityController =
@@ -110,6 +123,8 @@ class _TravelInsuranseState extends State<TravelInsuranse> {
   // }
 
   var newConteoller;
+
+
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -119,7 +134,7 @@ class _TravelInsuranseState extends State<TravelInsuranse> {
       appBar: AppBar(
         title: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Center(child: Text("Travel Insurance")),
+          child: Text("Immigration Adda"),
         ),
         backgroundColor: kBlueColor,
       ),
@@ -128,13 +143,16 @@ class _TravelInsuranseState extends State<TravelInsuranse> {
           ListView(
             shrinkWrap: true,
             children: [
-              Center(
-                child: Text('Personal Information',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: kBlueColor,
-                  fontWeight: FontWeight.bold
-                ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text('Home Consultancy ',
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: kBlueColor,
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
                 ),
               ),
               Form(
@@ -161,8 +179,8 @@ class _TravelInsuranseState extends State<TravelInsuranse> {
                       CustomTextFormField(
                           readOnly: false,
                           controller: contactPersonController,
-                          hintText: "Enter Date of Birth here",
-                          labelText: "Date of Birth"),
+                          hintText: "Enter Mobile no. here",
+                          labelText: "Mobile number"),
 
                       CustomTextFormField(
                           readOnly: false,
@@ -172,109 +190,34 @@ class _TravelInsuranseState extends State<TravelInsuranse> {
                       CustomTextFormField(
                           readOnly: false,
                           controller: alterMobileController,
-                          hintText: "Enter  Mobile here",
-                          labelText: " Mobile No"),
+                          hintText: "Enter  Qualification here",
+                          labelText: " Qualification"),
 
                       CustomTextFormField(
                           readOnly: false,
                           controller: licenseController,
-                          hintText: "Enter Email Id here",
-                          labelText: "Email Id"),
-                      Center(
-                        child: Text('Travel Insurance Information',
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: kBlueColor,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                      ),
+                          hintText: "Enter Preferred Country here",
+                          labelText: "Prefered Country"),
                       CustomTextFormField(
                           readOnly: false,
-                          controller: stablizeController,
-                          hintText: "Are you physically fit ?",
-                          labelText: "Are you physically fit ?"),
+                          controller: licenseController,
+                          hintText: "Enter Preferred City here",
+                          labelText: "Preferred City"),
                       CustomTextFormField(
                           readOnly: false,
-                          controller: noEmployeeController,
-                          hintText: "Purpose of going Abroad",
-                          labelText: "Purpose of going Abroad"),
+                          controller: licenseController,
+                          hintText: "Enter Preferred Course here",
+                          labelText: "Preferred Course"),
                       CustomTextFormField(
                           readOnly: false,
-                          controller: annualTurnOverController,
-                          hintText: "Which country do you want to go to?",
-                          labelText: "Which country do you want to go to?"),
-
+                          controller: licenseController,
+                          hintText: "Enter Actual requirement here",
+                          labelText: "Actual requirement"),
                       CustomTextFormField(
                           readOnly: false,
-                          controller: franchiseOfferCityController,
-                          hintText: "Date of Travel ",
-                          labelText: "Date of Travel "),
-                      CustomTextFormField(
-                          readOnly: false,
-                          controller: totalAreaController,
-                          hintText: "Return Date of Travel ",
-                          labelText: "Return Date of Travel"),
-
-                      CustomTextFormField(
-                          readOnly: false,
-                          controller: investmentRatioController,
-                          hintText: "Type of Trip",
-                          labelText: "Type of Trip"),
-                      CustomTextFormField(
-                          readOnly: false,
-                          controller: returnInvestmentController,
-                          hintText: "When to take policy",
-                          labelText: "When to take policy"),
-                      CustomTextFormField(
-                          readOnly: false,
-                          controller: returnInvestmentController,
-                          hintText: "Which company policy do you want to take?",
-                          labelText: "Which company policy do you want to take?"),
-                      CustomTextFormField(
-                          readOnly: false,
-                          controller: returnInvestmentController,
-                          hintText: "how much insurance do you want to take",
-                          labelText: "how much insurance do you want to take"),
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "Upload photo:",
-                            style: TextStyle(
-                              color: kBlueColor,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Card(
-                        margin: EdgeInsets.all(10),
-                        child: _image != null
-                            ? ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Image.file(
-                            _image,
-                            width: 100,
-                            height: 200,
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                            : Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: Colors.black45, width: 0.8),
-                              borderRadius: BorderRadius.circular(3)),
-
-                          width: 100,
-                          height: 200,
-                          child: Icon(
-                            Icons.camera_alt,
-                            size: 70,
-                            color: Colors.grey[400],
-                          ),
-                        ),
-                      ),
+                          controller: licenseController,
+                          hintText: "Do you want Home Consultancy for your requirement",
+                          labelText: "Do you want Home Consultancy for your requirement"),
                     ],
                   ),
                 ),
@@ -307,6 +250,7 @@ class NameTextField extends StatelessWidget {
   final String titleName;
   final String hint;
 
+  //final bool? submit;
   final String Function(String?)? validator;
   const NameTextField({
     Key? key,
@@ -346,61 +290,20 @@ class NameTextField extends StatelessWidget {
             keyboardType: keyboardType,
             cursorColor: kBlueColor,
             decoration: InputDecoration(
+              // errorText: (submit == true && controller!.text.isEmpty)
+              //     ? "Please fill"
+              //     : null,
               hintText: hint,
+              // suffixIcon: (submit == true && controller!.text.isEmpty)
+              //     ? Icon(
+              //         Icons.error,
+              //         color: Colors.red,
+              //       )
+              //     : null
             ),
           ),
         ),
       ],
-    );
-  }
-}
-class CustomTextFormField extends StatelessWidget {
-  const CustomTextFormField(
-      {Key? key,
-        required this.controller,
-        required this.hintText,
-        required this.labelText,
-        this.onTap,
-        required this.readOnly})
-      : super(key: key);
-
-  final TextEditingController? controller;
-  final String hintText;
-  final String labelText;
-  final Function()? onTap;
-  final bool readOnly;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TextFormField(
-        onTap: onTap,
-        validator: (value) {
-          if (value!.isEmpty) {
-            return "Please fill field";
-          }
-        },
-        readOnly: readOnly,
-        controller: controller,
-        cursorColor: kBlueColor,
-        textCapitalization: TextCapitalization.words,
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.only(top: 15, bottom: 6, left: 10),
-          border: OutlineInputBorder(
-              borderSide: BorderSide(color: kBlueColor)),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: kBlueColor)),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: kBlueColor)),
-          hoverColor: kBlueColor,
-          focusColor: kBlueColor,
-          labelText: labelText,
-          labelStyle: TextStyle(color: kBlueColor),
-          hintText: hintText,
-          hintStyle: TextStyle(color: kBlueColor),
-        ),
-      ),
     );
   }
 }

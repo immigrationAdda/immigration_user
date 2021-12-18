@@ -66,7 +66,7 @@ Future<String> check(String uId)async{
               sixthController.text)
           .then((_) {
             print("-----------============------"+FirebaseAuth.instance.currentUser!.uid.toString());
-        if (check(FirebaseAuth.instance.currentUser!.uid.toString())=="true") {
+        if (check(FirebaseAuth.instance.currentUser!.uid.toString()) =="true") {
           return Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => MainScreen()));
         } else {

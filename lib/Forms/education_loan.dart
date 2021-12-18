@@ -1,11 +1,15 @@
 
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:immigration/Forms/travell_insurance.dart';
+import 'package:immigration/api_config.dart';
 import 'package:immigration/constants.dart';
+import 'package:http_parser/http_parser.dart';
 
 class EducationLoan extends StatefulWidget {
   const EducationLoan({Key? key}) : super(key: key);
@@ -49,6 +53,8 @@ class _EducationLoanState extends State<EducationLoan> {
   //File? _image;
   Dio dio = Dio();
 //  PostMethods _postMethods = PostMethods();
+  List <String>? property =['House','Apartments and Flats','Village house','Villas','Kothi','None'];
+  List<String>? house =['Owner','Rental','Lease','None'];
   List areaType = [
     "Commercial",
     "Residential",
@@ -56,7 +62,46 @@ class _EducationLoanState extends State<EducationLoan> {
     "Booth",
   ];
 
+
+  String? selectedHouse;
+  String? selectedproperty;
   var selectedAreaType;
+  bool loading=false;
+  var _image;
+  uploadImage() async {
+    Dio dio=new Dio();
+    String fileName = _image!.path.split('.').last;
+    print(fileName);
+    FormData formData = FormData.fromMap({
+      "file": await MultipartFile.fromFile(_image!.path,
+          contentType: MediaType("image", fileName))
+    });
+    return await dio
+        .postUri(Uri.parse(ApiConfig.BASE_URL + "User/upload"), data: formData)
+        .then((value) {
+      // if (response!.statusCode != 200) {
+
+      // }
+
+      if (value.statusCode == 200) {
+        print(value.data);
+        setState(() {
+          loading=true;
+          //submit(value.data);
+          // statuscode = value.statusCode!;
+          // imgUrl = value.data;
+        });
+      }
+    });
+  }Future<void> getLostData() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      File file = new File(image!.path);
+      _image = file;
+      print("select image"+_image.toString());
+    });
+  }
 
   int statuscode = 0;
   String imgUrl = '';
@@ -64,76 +109,8 @@ class _EducationLoanState extends State<EducationLoan> {
 
   late TextEditingController? franchiseOfferCityController =
   new TextEditingController();
-  // showToast(BuildContext context, String msg) {
-  //   Fluttertoast.showToast(msg: msg, toastLength: Toast.LENGTH_LONG);
-  // }
 
   var newConteoller;
-  // postData() {
-  //   var franchiseData = FranchiseModel(
-  //       sId: FirebaseAuth.instance.currentUser!.uid,
-  //       companyName: companyNameController!.text,
-  //       contactPerson: contactPersonController!.text,
-  //       gstNo: gstController!.text,
-  //       licenseNo: licenseController!.text,
-  //       offerCity: franchiseOfferCityController!.text,
-  //       companyAddress: companyAddressController!.text,
-  //       mobileNo: mobileController!.text,
-  //       alternateMobileNo: alternateMobileController!.text,
-  //       year: yearSelected,
-  //       totalNoOfEmployess: noEmployeeController!.text,
-  //       turnOver: annualTurnOverController!.text,
-  //       areaRequired: totalAreaController!.text,
-  //       areaType: selectedAreaType,
-  //       totalInvestmentRequired: investmentRatioController!.text,
-  //       returnOfInvestment: returnInvestmentController!.text,
-  //       postImage: imgUrl);
-  //
-  //   _postMethods.franchisePost(franchiseData);
-  // }
-
-  // Future getImage() async {
-  //   final pickedFile =
-  //   await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
-  //
-  //   setState(() {
-  //     if (pickedFile != null) {
-  //       _image = File(pickedFile.path);
-  //     } else {
-  //       print("Image is not added!");
-  //     }
-  //   });
-  // }
-
-  // uploadImage() async {
-  //   setState(() {
-  //     statuscode = 100;
-  //   });
-  //   String fileName = _image!.path.split('.').last;
-  //   print(fileName);
-  //   FormData formData = FormData.fromMap({
-  //     "file": await MultipartFile.fromFile(_image!.path,
-  //         contentType: MediaType("image", fileName))
-  //   });
-  //   return await dio
-  //       .postUri(Uri.parse(ApiConfig.BASE_URL + "User/upload"), data: formData)
-  //       .then((value) {
-  //     // if (response!.statusCode != 200) {
-  //
-  //     // }
-  //
-  //     if (value.statusCode == 200) {
-  //       print(value.data);
-  //       setState(() {
-  //         statuscode = value.statusCode!;
-  //         imgUrl = value.data;
-  //       });
-  //     }
-  //   });
-  // }
-
-  //bool? submitcheck = false;
-
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -208,7 +185,7 @@ class _EducationLoanState extends State<EducationLoan> {
                           hintText: "Enter Email Id here",
                           labelText: "Email Id"),
                       Center(
-                        child: Text('Travel Insurance Information',
+                        child: Text('Loan Information',
                           style: TextStyle(
                               fontSize: 18,
                               color: kBlueColor,
@@ -266,100 +243,184 @@ class _EducationLoanState extends State<EducationLoan> {
                       Center(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "Upload photo:",
+                          child: Text('Financial Information',
                             style: TextStyle(
-                              color: kBlueColor,
-                              fontSize: 18,
+                                fontSize: 18,
+                                color: kBlueColor,
+                                fontWeight: FontWeight.bold
                             ),
                           ),
                         ),
                       ),
-                      // GestureDetector(
-                      //     onTap: () {
-                      //       getImage().then((value) => uploadImage());
-                      //     },
-                      //     child: Container(
-                      //       height: height * 0.35,
-                      //       width: width * 0.8,
-                      //       child: Card(
-                      //         elevation: 1,
-                      //         child: _image != null
-                      //             ? Container(
-                      //           decoration: BoxDecoration(
-                      //             image: DecorationImage(
-                      //                 image: FileImage(_image!)),
-                      //           ),
-                      //         )
-                      //             : Icon(Icons.add_a_photo),
-                      //       ),
-                      //     )),
+                      CustomTextFormField(
+                          readOnly: false,
+                          controller: returnInvestmentController,
+                          hintText: "Your current ITR value",
+                          labelText: "Your current ITR value"),
+                      SizedBox(
+                        width: double.infinity,
+                        child: Card(
+                          shape: RoundedRectangleBorder(side: BorderSide(color:kBlueColor, width: 0.3),borderRadius: BorderRadius.circular(3)),
+                          //color: Colors.grey.shade200,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                               Padding(
+                                padding: EdgeInsets.only(top: 8.0, left: 8),
+                                child: Text(
+                                  'House type',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                     color: kBlueColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              Wrap(
+                                children: house!
+                                    .map((e) => InkWell(
+                                    onTap: () {
+                                      var object = "I LIKE JAVA";
+
+                                      setState(() {
+                                        selectedHouse = e;
+                                      });
+                                      print(selectedHouse);
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.    all(8.0),
+                                      child: Container(
+                                          width: 90.0,
+                                          padding: const EdgeInsets.  all(4.0),
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(8.0),
+                                            border: Border.all(
+                                                width: 0.7, color: kBlueColor),
+                                            color: (e == selectedHouse)
+                                                ? kBlueColor
+                                                : Colors.white,
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.  all(4.0),
+                                            child: Text(e,
+                                                style: TextStyle(
+                                                    color: (e == selectedHouse)
+                                                        ? Colors.white
+                                                        : Colors.black)),
+                                          )),
+                                    )))
+                                    .toList(),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: Card(
+                          shape: RoundedRectangleBorder(side: BorderSide(color:kBlueColor, width: 0.3),borderRadius: BorderRadius.circular(3)),
+                          //color: Colors.grey.shade200,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(top: 8.0, left: 8),
+                                child: Text(
+                                  'Any other Property',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: kBlueColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              Wrap(
+                                children: property!
+                                    .map((e) => InkWell(
+                                    onTap: () {
+                                      var object = "I LIKE JAVA";
+
+                                      setState(() {
+                                        selectedproperty = e;
+                                      });
+                                      print(selectedproperty);
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.    all(8.0),
+                                      child: Container(
+                                          width: 90.0,
+                                          padding: const EdgeInsets.  all(4.0),
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(8.0),
+                                            border: Border.all(
+                                                width: 0.7, color: kBlueColor),
+                                            color: (e == selectedproperty)
+                                                ? kBlueColor
+                                                : Colors.white,
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.  all(4.0),
+                                            child: Text(e,
+                                                style: TextStyle(
+                                                    color: (e == selectedproperty)
+                                                        ? Colors.white
+                                                        : Colors.black)),
+                                          )),
+                                    )))
+                                    .toList(),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('Upload you Image',
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: kBlueColor,
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        ),
+                      ),
+                      Card(
+                        margin: EdgeInsets.all(10),
+                        child: _image != null
+                            ? ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.file(
+                            _image,
+                            width: 100,
+                            height: 200,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                            : Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: Colors.black45, width: 0.8),
+                              borderRadius: BorderRadius.circular(3)),
+
+                          width: 100,
+                          height: 200,
+                          child: Icon(
+                            Icons.camera_alt,
+                            size: 70,
+                            color: Colors.grey[400],
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ),
-
-
-
-              // CustomButton(
-              //     buttonName: "Submit",
-              //     icon: Icons.done,
-              //     onTap: () {
-              //       // setState(() {
-              //       //   submitcheck = true;
-              //       // });
-              //       if (_formKey.currentState!.validate()) {
-              //         print("-----------------------object");
-              //         postData();
-              //       }
-              //       if (companyNameController!.text.length < 3) {
-              //         showToast(context, "Name should be correct");
-              //       }
-              //       // else if (fathernameController.text.length < 3) {
-              //       //   showToast(context, "Father Name should be correct");
-              //       // }
-              //       else if (companyAddressController!.text.length < 3) {
-              //         showToast(context, "Address should be correct");
-              //       } else if (mobileController!.text.length < 10) {
-              //         showToast(context, "Mobile Number should be correct");
-              //       } else if (alterMobileController!.text.length < 10) {
-              //         showToast(
-              //             context, "Alternate Mobile Number should be correct");
-              //       }
-              //       // else if (aadhaarController!.text.length < 12) {
-              //       //   showToast(context, "Aadhar Number should be correct");
-              //       // }
-              //       // else if (passportController!.text.length < 5) {
-              //       //   showToast(context, "Passport Number should be correct");
-              //       // }
-              //       else if (noEmployeeController!.text.length == 0) {
-              //         showToast(context, "No of employee  should be correct");
-              //       } else if (annualTurnOverController!.text.length < 3) {
-              //         showToast(context, "Annual turn over should be correct");
-              //       } else if (totalAreaController!.text.length == 0) {
-              //         showToast(context, "Total area should be correct");
-              //       } else if (investmentRatioController!.text.length == 0) {
-              //         showToast(context, "Investment ratio should be correct");
-              //       } else if (returnInvestmentController!.text.length == 0) {
-              //         showToast(context, "Return investment should be correct");
-              //       } else if (_image == null) {
-              //         showToast(context, "Please upload image");
-              //       }
-              //     }
-              //
-              //   // if (nameController!.text.isEmpty) {
-              //   // showDialog(
-              //   //     context: context,
-              //   //     builder: (context) {
-              //   //       return AlertDialog(
-              //   //         title: Text("something went wrong!"),
-              //
-              //   //       );
-              //   //     });
-              //   // }
-              //   //postData();
-              //
-              // ),
             ],
           ),
           Container(

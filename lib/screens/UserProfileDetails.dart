@@ -6,39 +6,104 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:immigration/Models/UserModel.dart';
 import 'package:immigration/constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:immigration/provider/auth_provider.dart';
+import 'package:immigration/screens/MainScreen.dart';
+import 'package:provider/provider.dart';
 
 import '../api_config.dart';
 
 class UserProfile extends StatefulWidget {
+
   final String uId;
  final UserModel? userModel;
-  const UserProfile({Key? key, required this.uId, this.userModel}) : super(key: key);
+   UserProfile({Key? key, required this.uId, this.userModel}) : super(key: key);
+
 
   @override
+
   _UserProfileState createState() => _UserProfileState();
 }
 
 class _UserProfileState extends State<UserProfile> {
+
+  void initState() {
+
+    initState();getCurrentLocAndAddress ();
+  }
+  var getaddress;
+  var finalAddress;
+  getCurrentLocAndAddress() async {
+    Position position = await _getGeoLocationPosition();
+    GetAddressFromLatLong(position);
+  }
+
+  Future<Position> _getGeoLocationPosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      await Geolocator.openLocationSettings();
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+  }
+
+  Future<void> GetAddressFromLatLong(Position position) async {
+    List<Placemark> placemarks =
+    await placemarkFromCoordinates(position.latitude, position.longitude);
+    print(placemarks);
+    Placemark place = placemarks[0];
+
+    getaddress =
+    '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+
+    setState(() {
+      finalAddress = getaddress;
+    });
+  }
+
   TextEditingController nameController = new TextEditingController();
   TextEditingController phoneNoController = new TextEditingController();
   TextEditingController emailIdController = new TextEditingController();
   TextEditingController dateOfBirthController = new TextEditingController();
-  TextEditingController cityController = new TextEditingController();
   var _image;
   late String ProfilePicture;
   int statuscode=0;
+
   getSubmit() async {
     bool check = false;
-    UserModel userModel = new UserModel(uId: "uId",
+    UserModel userModel = new UserModel(uId: widget.uId,
         name: nameController.text,
-        phoneNo: phoneNoController.text,
+        phoneNo: Provider.of<AuthProvider>(context, listen: false).controllerPhone.text,
         email: emailIdController.text,
-        city: cityController.text,
+        city: getaddress.text,
         dateOfBirth: dateOfBirthController.text,
         profilePicture: ProfilePicture,);
     var res = await http.post(
@@ -53,8 +118,9 @@ class _UserProfileState extends State<UserProfile> {
     setState(() {
     statuscode=res.statusCode;
     });
-         print("fffffffffff"+res.body);    check = true;
-    // return  Fluttertoast.showToast(msg: "Update Success",toastLength: Toast.LENGTH_LONG);
+         print("fffffffffff"+res.body);
+         check = true;
+     return  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_)=> MainScreen()));
     }
     return check;
   }
@@ -145,14 +211,14 @@ class _UserProfileState extends State<UserProfile> {
                         ),
                       ),
 
-                      customTextfield(context, nameController, "Name", true,TextInputType.text),
-                      customTextfield(
-                          context, phoneNoController, "Phone No", false,TextInputType.phone),
-                      customTextfield(
-                          context, emailIdController, "Email ID", true,TextInputType.emailAddress),
-                      customTextfield(
-                          context, dateOfBirthController, "Date Of Birth", true,TextInputType.text),
-                      customTextfield(context, cityController, "City", true,TextInputType.datetime),
+                      customTextField(context, nameController, "Name", true,TextInputType.text),
+                      customTextField(
+                          context,  Provider.of<AuthProvider>(context,listen: false).controllerPhone, "Phone No", false,TextInputType.phone),
+                      // customTextField(
+                      //     context, emailIdController, "Email ID", true,TextInputType.emailAddress),
+                      // customTextField(
+                      //     context, dateOfBirthController, "Date Of Birth", true,TextInputType.text),
+                      customTextField(context, TextEditingController(text: finalAddress), "City", true,TextInputType.text),
                       SizedBox(height: 30),
 
                       Padding(
@@ -176,11 +242,10 @@ class _UserProfileState extends State<UserProfile> {
                             onPressed: () {
 setState(() {
   statuscode=100;
-}); getSubmit();
+});
+getSubmit();
 
-
-
-                            },
+},
                             child: Text(
                               "Submit",
                               style: TextStyle(color: Colors.white, fontSize: 18),
@@ -194,7 +259,7 @@ setState(() {
           ),
         ),
           Container(
-              child: statuscode == 100
+              child: statuscode == 80
                   ? AlertDialog(
                 insetPadding:
                 EdgeInsets.symmetric(horizontal: 2.0, vertical: 2.0),
@@ -214,7 +279,7 @@ setState(() {
   }
 }
 
-Widget customTextfield(BuildContext context, TextEditingController controller,
+Widget customTextField(BuildContext context, TextEditingController controller,
     String labelText, bool enable,var type) {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 8),

@@ -1,10 +1,15 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:immigration/Forms/education_loan.dart';
+import 'package:immigration/Forms/passport.dart';
+import 'package:immigration/Forms/travell_insurance.dart';
 import 'package:immigration/SizeConfig.dart';
 import 'package:immigration/constants.dart';
 import 'package:immigration/listscreens/postListScreen.dart';
 import 'package:immigration/listscreens/sellerLIstScreen.dart';
+import 'package:immigration/matrimonial/Constants/const.dart';
+import 'package:immigration/matrimonial/Screens/welcome_screen.dart';
 import 'package:immigration/postCreateScreens/pr_score.dart';
 import 'package:immigration/screens/Login.dart';
 import 'package:immigration/screens/ProfileScreen.dart';
@@ -22,6 +27,33 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
+        floatingActionButton: Container(
+          width: 80,
+          height:80,
+          
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(540)),
+              border: Border.all(
+            
+            color: kRedColor,
+            width: 2
+          )),
+          
+          
+          child: new FloatingActionButton(
+              elevation: 0.0,
+              child:Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Image.asset("Images/newelcome1.png"),
+              ),
+              backgroundColor:  Colors.white,
+              onPressed: (){
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        WelcomeScreen()));
+              }
+      ),
+        ),
       backgroundColor: lightGray,
       body: SingleChildScrollView(
         child: Column(
@@ -59,14 +91,6 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              SellerLists(type: "Passport")));
-                    },
-                    child: button(
-                        context, "Passport", "assets/images/passport.png")),
-                GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
                               SellerLists(type: "Study Visa")));
                     },
                     child: button(context, "Study Visa", "assets/images/visa.png")),
@@ -74,27 +98,10 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              SellerLists(type: "Education Loan")));
+                              SellerLists(type: "Tourist & Business Visa")));
                     },
-                    child: button(context, "Education Loan",
-                        "assets/images/university.png")),
-                GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              SellerLists(type: "Air Ticket")));
-                    },
-                    child: button(
-                        context, "Air Ticket", "assets/images/airplane.png")),
-                GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              SellerLists(type: "Travel Insurance")));
-                    },
-                    child: button(context, "Travel\nInsurance",
-                        "assets/images/travel-insurance.png")),
-
+                    child: button(context, "Tourist &\nBusiness Visa",
+                        "assets/images/bus-visa.png")),
 
                 GestureDetector(
                     onTap: () {
@@ -140,14 +147,6 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              SellerLists(type: "Tourist & Business Visa")));
-                    },
-                    child: button(context, "Tourist &\nBusiness Visa",
-                        "assets/images/bus-visa.png")),
-                GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
                               SellerLists(type: "Permanent Residence")));
                     },
                     child: button(context, "Permanent\nResident",
@@ -176,6 +175,39 @@ class _HomePageState extends State<HomePage> {
                     },
                     child: button(context, "Accommodation at Abroad",
                         "assets/images/accommodation.png")),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              Passport()));
+                    },
+                    child: button(
+                        context, "Passport", "assets/images/passport.png")),
+
+                GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              EducationLoan()));
+                    },
+                    child: button(context, "Education Loan",
+                        "assets/images/university.png")),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              SellerLists(type: "Air Ticket")));
+                    },
+                    child: button(
+                        context, "Air Ticket", "assets/images/airplane.png")),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              TravelInsuranse()));
+                    },
+                    child: button(context, "Travel\nInsurance",
+                        "assets/images/travel-insurance.png")),
                 GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
@@ -240,7 +272,7 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.only(left: 20),
             child: Text("Latest Deals For You",
     style: TextStyle(
-    fontSize: SizeConfig.blockSizeHorizontal! * 5,
+    fontSize: SizeConfig.blockSizeHorizontal! * 4,
     fontWeight: FontWeight.bold,
     color: kBlueColor),
             ),
@@ -281,7 +313,8 @@ Widget button(BuildContext context, String text, String icon) {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: kBlueColor,
-                    fontSize: SizeConfig.safeBlockHorizontal! * 2.8),
+                    fontSize: SizeConfig.safeBlockHorizontal! * 2.9,
+                fontWeight: FontWeight.bold),
 
               ),
             )

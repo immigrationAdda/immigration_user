@@ -11,6 +11,8 @@ String sellerProfileModelToJson(SellerProfileModel data) =>
     json.encode(data.toJson());
 
 class SellerProfileModel {
+  var getaddress;
+
   SellerProfileModel({
     required this.sId,
     required this.lat,

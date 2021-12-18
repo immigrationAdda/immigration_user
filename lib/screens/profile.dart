@@ -136,7 +136,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                     child: Container(
                                       child: TextFormField(
                                         controller: TextEditingController(
-                                          text: snapshot.data!.city,
+                                          text: snapshot.data!.getaddress,
                                         ),
                                         decoration: InputDecoration(
                                             labelText: 'City',
