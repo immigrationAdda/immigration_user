@@ -50,7 +50,7 @@ dependencies:
   paytm: ^3.0.1
   geolocator: ^8.0.1
   geocoding: ^2.0.1
-  razorpay_plugin: ^0.3.0
+  razorpay_flutter: ^1.2.7
 dev_dependencies:
   flutter_test:
     sdk: flutter
