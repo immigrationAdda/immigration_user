@@ -18,6 +18,7 @@ class PersonalInfo extends StatefulWidget {
 }
 
 class _PersonalInfoState extends State<PersonalInfo> {
+
   List<String>? living = ['India', 'Abroad'];
   List<String> selectedCountries=[];
 
@@ -105,7 +106,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
   List drinkingList = ["Yes", "No", "Occasionally Drink"];
   List smoking = ["Yes", "No"];
   List ieltsTofelList = ["IELTS", "TOFEL", "No"];
-  List<String>? gender = ["Male", "Female", "Transgender"];
+  List<String>? gender = ["Male", "Female", "Other"];
   List<String>? maritalStatus = [
     'Single',
     'Widow / Widower',
@@ -213,6 +214,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
       "dob": selectedDate.toLocal().toString().split(' ')[0],
       "height": selectedInch.toString(),
       "weight": weightController.text,
+      "gender": selectedgender.toString(),
       "bodyType": selectedValue.toString(),
       "complexion": selectedComplexionType,
       "maritalStatus": selectedMaritalStatus,

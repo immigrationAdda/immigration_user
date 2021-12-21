@@ -17,6 +17,7 @@ class PersonalInfoModel {
     this.whatsappNo,
     this.dob,
     this.height,
+    this.gender,
     this.weight,
     this.bodyType,
     this.complexion,
@@ -43,6 +44,7 @@ class PersonalInfoModel {
   String? profilePic;
   String? mId;
   String? dob;
+  String? gender;
   String? age;
   String? height;
   String? weight;
@@ -73,6 +75,7 @@ class PersonalInfoModel {
     firstName: json["firstName"],
     lastName: json["lastName"],
     dob: json["dob"],
+    gender: json["gender"],
     interestedCountry: json["interestedCountry"],
     age: json["age"],
     height: json["height"],
@@ -99,6 +102,7 @@ class PersonalInfoModel {
     "livingStatus": livingStatus,
     "profilePic": profilePic,
     "mId": mId,
+    gender: gender,
     "dob": dob,
     "age": age,
     "height": height,

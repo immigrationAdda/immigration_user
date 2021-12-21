@@ -1,5 +1,9 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:immigration/matrimonial/ChatData/image_upload.dart';
 import 'package:immigration/matrimonial/ChatData/upload_profile_pic.dart';
 import 'package:immigration/matrimonial/Screens/personal_info.dart';
@@ -9,9 +13,127 @@ class PostView extends StatefulWidget {
 
   @override
   _PostViewState createState() => _PostViewState();
+
 }
 
 class _PostViewState extends State<PostView> {
+  int? statusCode=0;
+  bool isDocExists = false;
+  int profileCount =0;
+  String? imgUrl= "";
+  int? planId;
+  int check =0;
+  FirebaseFirestore db = FirebaseFirestore.instance;
+  String? gender;
+  getUserGender(){
+    db.collection("matrimonial").doc("12345").get().then((value) {
+     setState(() {
+       gender = value.data()!["gender"];
+     });
+    });
+  }
+  Future<int> userIdCheck() async{
+    await db.collection("userPlan").doc("12345").get().then((value) async {
+
+      await db.collection("matrimonial").doc("12345").get().then((v){
+        setState(() {
+          planId= v.data()!["planId"];
+          log("---------plan----$planId-----");
+
+        });
+      });
+      setState(() {
+        isDocExists =value.exists;
+        log("-----existxs--------$isDocExists-----");
+        profileCount=  value.data()!["profileCount"];
+        log("----count---------$profileCount-----");
+
+      });
+///plan btana ek bar mujhe view krne wala
+    });
+    if(isDocExists== true && planId==0 && profileCount ==5){
+      log("-----1st");
+      setState(() {
+        check =1;
+      });
+      Fluttertoast.showToast(msg: "Please update your plan!");
+
+    }else if(isDocExists== true && planId ==1 ){
+      log("-----2t");
+      setState(() {
+        check =1;
+
+      });
+      log("-check value-2---$check");
+      if(profileCount ==2){
+        Fluttertoast.showToast(msg: "Please update your plan!");
+        showAboutDialog(context:context,children: [
+          Center(child: Text("Error Happen!")),
+          Text("To upload image please upgrade your plan!"),
+
+        ]);
+      }
+    }
+    else if(isDocExists== true && planId ==2 ){
+      log("-0-------3");
+      setState(() {
+        check =1;
+      });
+      if(profileCount ==5){
+        showAboutDialog(context:context,children: [
+          Center(child: Text("Error Happen!")),
+          Text("To view profile please upgrade your plan!"),
+
+        ]);
+      }
+      db.collection("userPlan").doc("12345").update({"profileCount":1,"uid":"12345"}).whenComplete(() => log("Added image"));
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              UploadProfilePic (),
+        ),
+      );
+      /*
+      getImage().then((value) {
+        uploadImage();
+      });
+
+       */
+
+    }
+    else if(isDocExists== false ){
+      log("----------------4");
+      db.collection("userPlan").doc("12345").update({"profileCount":1,"uid":"12345"}).whenComplete(() => log("Added image"));
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              UploadProfilePic (),
+        ),
+      );
+      /*
+      getImage().then((value) {
+        uploadImage();
+      });
+
+       */
+      db.collection("userPlan").doc("12345").update({"profileCount":1,"uid":"12345"}).whenComplete(() => log("Added image"));
+    }
+    return check;
+  }
+   /// initialise firebase
+
+  updatePostViewCount(){
+    db.collection("collectionPath");
+  }
+  @override
+  void initState() {
+    getUserGender();// TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Object>(
@@ -50,6 +172,7 @@ class _PostViewState extends State<PostView> {
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
                                 child: GestureDetector(
                                   onTap: () {
+
                                     Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
@@ -101,6 +224,7 @@ class _PostViewState extends State<PostView> {
                                     ),
                                   ),
                                 ),
+                                ((gender=="male")&&(planId == 3 || planId ==4))?
                                 Container(
                                   height:
                                       MediaQuery.of(context).size.height / 1.7,
@@ -110,7 +234,7 @@ class _PostViewState extends State<PostView> {
                                     color: Colors.orange,
                                     size: 40,
                                   ),
-                                ),
+                                ):Container(),
                                 Container(
                                   height: MediaQuery.of(context).size.height / 1.7,
                                   width: MediaQuery.of(context).size.width / 2.0,

@@ -1,7 +1,10 @@
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:immigration/matrimonial/Api/api_config.dart';
 import 'package:immigration/matrimonial/ChatData/chart_list.dart';
@@ -25,9 +28,79 @@ class _UploadProfilePicState extends State<UploadProfilePic> {
   final picker = ImagePicker();
 
   int? statusCode=0;
-
+  bool isDocExists = false;
+  int imageCount =0;
   String? imgUrl= "";
+  int? planId;
+  int check =0;
+FirebaseFirestore db = FirebaseFirestore.instance;
+Future<int> userIdCheck() async{
+  await db.collection("userPlan").doc("12345").get().then((value) async {
 
+    await db.collection("matrimonial").doc("12345").get().then((v){
+      setState(() {
+        planId= v.data()!["planId"];
+        log("---------plan----$planId-----");
+
+      });
+    });
+   setState(() {
+     isDocExists =value.exists;
+     log("-----existxs--------$isDocExists-----");
+     imageCount=  value.data()!["imageCount"];
+     log("----count---------$imageCount-----");
+
+   });
+
+  });
+  if(isDocExists== true && planId==0){
+    log("-----1st");
+    setState(() {
+      check =1;
+    });
+    Fluttertoast.showToast(msg: "Please update your plan!");
+
+  }else if(isDocExists== true && planId ==1 ){
+    log("-----2t");
+    setState(() {
+      check =1;
+    });
+    log("-check value-2---$check");
+    if(imageCount ==2){
+      Fluttertoast.showToast(msg: "Please update your plan!");
+       showAboutDialog(context:context,children: [
+        Center(child: Text("Error Happen!")),
+        Text("To upload image please upgrade your plan!"),
+
+      ]);
+    }
+  }
+  else if(isDocExists== true && planId ==2 ){
+    log("-0-------3");
+    setState(() {
+      check =1;
+    });
+    if(imageCount ==5){
+       showAboutDialog(context:context,children: [
+        Center(child: Text("Error Happen!")),
+        Text("To upload image please upgrade your plan!"),
+
+      ]);
+    }
+    getImage().then((value) {
+      uploadImage();
+    });
+
+  }
+  else if(isDocExists== false ){
+    log("----------------4");
+    getImage().then((value) {
+      uploadImage();
+    });
+    db.collection("userPlan").doc("12345").update({"imageCount":1,"uid":"12345"}).whenComplete(() => log("Added image"));
+  }
+  return check;
+}
   Future getImage() async {
     final pickedFile =
     await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
@@ -65,6 +138,8 @@ class _UploadProfilePicState extends State<UploadProfilePic> {
           statusCode = value.statusCode;
           imgUrl = value.data;
         });
+        
+         db.collection("userPlan").doc("12345").update({"imageCount":imageCount+1}).whenComplete(() => log("image Count ++ success"));
       }
     });
   }
@@ -133,10 +208,15 @@ class _UploadProfilePicState extends State<UploadProfilePic> {
                 ),
               ),
               GestureDetector(
-                  onTap: () {
-                     getImage().then((value) {
-                       uploadImage();
-                     });
+                  onTap: () async{
+                    userIdCheck();
+                    check=  await userIdCheck() ;
+                    log("---------------------$check");
+                      check==1?
+                      getImage().then((value) {
+                        uploadImage();
+                        
+                      }):null;
                   },
                   child: Container(
                     height: 200,
