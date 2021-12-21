@@ -9,6 +9,7 @@ class PostView extends StatefulWidget {
 
   @override
   _PostViewState createState() => _PostViewState();
+
 }
 
 class _PostViewState extends State<PostView> {
