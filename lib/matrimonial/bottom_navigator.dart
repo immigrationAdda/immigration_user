@@ -27,7 +27,7 @@ class _BottomNavState extends State<BottomNav> {
     const ChatList(),
     const  Status(),
     const FavPost(),
-    const Profile(),
+    const ProfileView(),
 
 
   ];

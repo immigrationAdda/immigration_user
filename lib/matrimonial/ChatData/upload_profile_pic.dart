@@ -170,6 +170,18 @@ Future<int> userIdCheck() async{
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Center(
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text('Create your Profile',
+                    style: TextStyle(
+                        color: kRedColor,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
+                ),
+              ),
               const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text('About Yourself',
