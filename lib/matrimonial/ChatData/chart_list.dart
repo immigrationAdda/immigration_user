@@ -193,7 +193,7 @@ class _StatusState extends State<Status> {
                       onPressed: (){
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) =>  const StatusComments()),
+                          MaterialPageRoute(builder: (context) =>   Masseges()),
                         );
                       },
                     ),

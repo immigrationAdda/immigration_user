@@ -169,7 +169,7 @@ class _GuestHouseState extends State<GuestHouse> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => StatusComments(),
+            builder: (context) => Home(),
           ),
         );
       });
@@ -549,7 +549,7 @@ class _BanquetsState extends State<Banquets> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => StatusComments(),
+            builder: (context) => Home(),
           ),
         );
       });
@@ -950,7 +950,7 @@ class _MarriagePalaceState extends State<MarriagePalace> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => StatusComments(),
+            builder: (context) => Home(),
           ),
         );
       });

@@ -35,7 +35,8 @@ class _UserProfileState extends State<UserProfile> {
 
   void initState() {
 
-    initState();getCurrentLocAndAddress ();
+    initState();
+     getCurrentLocAndAddress ();
   }
   var getaddress;
   var finalAddress;

@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
@@ -34,10 +35,11 @@ class _UploadProfilePicState extends State<UploadProfilePic> {
   int? planId;
   int check =0;
 FirebaseFirestore db = FirebaseFirestore.instance;
+   var uid=FirebaseAuth.instance.currentUser!.uid;
 Future<int> userIdCheck() async{
-  await db.collection("userPlan").doc("12345").get().then((value) async {
+  await db.collection("userPlan").doc(uid).get().then((value) async {
 
-    await db.collection("matrimonial").doc("12345").get().then((v){
+    await db.collection("matrimonial").doc(uid).get().then((v){
       setState(() {
         planId= v.data()!["planId"];
         log("---------plan----$planId-----");
@@ -53,7 +55,7 @@ Future<int> userIdCheck() async{
    });
 
   });
-  if(isDocExists== true && planId==0){
+  if(isDocExists== true && planId==3){
     log("-----1st");
     setState(() {
       check =1;
@@ -97,7 +99,7 @@ Future<int> userIdCheck() async{
     getImage().then((value) {
       uploadImage();
     });
-    db.collection("userPlan").doc("12345").update({"imageCount":1,"uid":"12345"}).whenComplete(() => log("Added image"));
+    db.collection("userPlan").doc(uid).update({"imageCount":1,"uid":uid}).whenComplete(() => log("Added image"));
   }
   return check;
 }
@@ -139,7 +141,7 @@ Future<int> userIdCheck() async{
           imgUrl = value.data;
         });
         
-         db.collection("userPlan").doc("12345").update({"imageCount":imageCount+1}).whenComplete(() => log("image Count ++ success"));
+         db.collection("userPlan").doc(uid).update({"imageCount":imageCount+1}).whenComplete(() => log("image Count ++ success"));
       }
     });
   }
@@ -231,7 +233,7 @@ Future<int> userIdCheck() async{
                       }):null;
                   },
                   child: Container(
-                    height: 200,
+                    height: 15 ,
                     width: width * 0.8,
                     child: Card(
                       elevation: 1,
@@ -297,7 +299,7 @@ Future<int> userIdCheck() async{
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
           Container(

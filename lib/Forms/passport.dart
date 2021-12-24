@@ -21,32 +21,20 @@ class Passport extends StatefulWidget {
 
 class _PassportState extends State<Passport> {
   TextEditingController? nameController = new TextEditingController();
-  TextEditingController? companyNameController = new TextEditingController();
-  TextEditingController? companyAddressController = new TextEditingController();
-  TextEditingController? gstController = new TextEditingController();
-  TextEditingController? licenseController = new TextEditingController();
-  TextEditingController? stablizeController = new TextEditingController();
-  TextEditingController? employeeController = new TextEditingController();
-  TextEditingController fathernameController = new TextEditingController();
+   TextEditingController fathernameController = new TextEditingController();
   late TextEditingController? addressController = new TextEditingController();
   late TextEditingController? mobileController = new TextEditingController();
-  late TextEditingController? alternateMobileController =
+  late TextEditingController? emailController =
   new TextEditingController();
   late TextEditingController? passportController = new TextEditingController();
   late TextEditingController? aadhaarController = new TextEditingController();
-  late TextEditingController? noEmployeeController =
+  late TextEditingController? typeOfPassportController =
   new TextEditingController();
-  late TextEditingController? annualTurnOverController =
+  late TextEditingController? typeOfServicesController =
   new TextEditingController();
-  late TextEditingController? investmentRatioController =
+  late TextEditingController? dobController =
   new TextEditingController();
-  late TextEditingController? returnInvestmentController =
-  new TextEditingController();
-  late TextEditingController? totalAreaController = new TextEditingController();
-  late TextEditingController? alterMobileController =
-  new TextEditingController();
-  late TextEditingController? contactPersonController =
-  new TextEditingController();
+
 
   var yearSelected;
   var floorSelected;
@@ -167,35 +155,35 @@ class _PassportState extends State<Passport> {
                     children: [
                       CustomTextFormField(
                           readOnly: false,
-                          controller: companyNameController,
+                          controller: nameController,
                           hintText: "Enter Name here",
                           labelText: "Name"),
 
                       CustomTextFormField(
                           readOnly: false,
-                          controller: companyAddressController,
+                          controller: fathernameController,
                           hintText: "Enter Father/Husband Name here",
                           labelText: "Father / Husband Name"),
                       CustomTextFormField(
                           readOnly: false,
-                          controller: contactPersonController,
+                          controller: dobController,
                           hintText: "Enter Date of Birth here",
                           labelText: "Date of Birth"),
 
                       CustomTextFormField(
                           readOnly: false,
-                          controller: mobileController,
+                          controller: addressController,
                           hintText: "Enter City Name here",
                           labelText: "City Name"),
                       CustomTextFormField(
                           readOnly: false,
-                          controller: alterMobileController,
+                          controller: mobileController,
                           hintText: "Enter  Mobile here",
                           labelText: " Mobile No"),
 
                       CustomTextFormField(
                           readOnly: false,
-                          controller: licenseController,
+                          controller: emailController,
                           hintText: "Enter Email Id here",
                           labelText: "Email Id"),
                       Center(
