@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:immigration/matrimonial/Post/post_view.dart';
+import 'package:immigration/matrimonial/Screens/profile.dart';
+import 'package:immigration/screens/job_requirement.dart';
 import 'package:paytm_allinonesdk/paytm_allinonesdk.dart';
 import 'package:immigration/Forms/education_loan.dart';
 import 'package:immigration/Forms/home_cunsltancy.dart';
@@ -58,12 +60,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(fontFamily: "segoe"),
-        home:   BottomNav(),)
+        home:SplashScreen(),)
     );
   }
 }
-
-
-
-
-

@@ -20,33 +20,37 @@ class TravelInsuranse extends StatefulWidget {
 }
 
 class _TravelInsuranseState extends State<TravelInsuranse> {
-  TextEditingController? nameController = new TextEditingController();
-  TextEditingController? companyNameController = new TextEditingController();
-  TextEditingController? companyAddressController = new TextEditingController();
-  TextEditingController? gstController = new TextEditingController();
-  TextEditingController? licenseController = new TextEditingController();
-  TextEditingController? stablizeController = new TextEditingController();
-  TextEditingController? employeeController = new TextEditingController();
-  TextEditingController fathernameController = new TextEditingController();
+  TextEditingController?      nameController = new TextEditingController();
+  TextEditingController       fathernameController = new TextEditingController();
   late TextEditingController? addressController = new TextEditingController();
   late TextEditingController? mobileController = new TextEditingController();
-  late TextEditingController? alternateMobileController =
+  late TextEditingController? emailController =
   new TextEditingController();
   late TextEditingController? passportController = new TextEditingController();
   late TextEditingController? aadhaarController = new TextEditingController();
-  late TextEditingController? noEmployeeController =
+  late TextEditingController? typeOfPassportController =
   new TextEditingController();
-  late TextEditingController? annualTurnOverController =
+  late TextEditingController? typeOfServicesController =
   new TextEditingController();
-  late TextEditingController? investmentRatioController =
+  late TextEditingController? dobController =
   new TextEditingController();
-  late TextEditingController? returnInvestmentController =
+  late TextEditingController? stablizeController =
   new TextEditingController();
-  late TextEditingController? totalAreaController = new TextEditingController();
-  late TextEditingController? alterMobileController =
+  late TextEditingController? purpuseOfGoingAbroadController =
   new TextEditingController();
-  late TextEditingController? contactPersonController =
+  late TextEditingController? CountryWantController =
   new TextEditingController();
+  late TextEditingController? travelDateController =
+  new TextEditingController();
+  late TextEditingController? returnDateController =
+  new TextEditingController();
+  late TextEditingController? typeOfTripController =
+  new TextEditingController();
+  late TextEditingController? policyController =
+  new TextEditingController();
+  late TextEditingController? companyPolicyController =
+  new TextEditingController();
+
 
   var yearSelected;
   var floorSelected;
@@ -149,35 +153,35 @@ class _TravelInsuranseState extends State<TravelInsuranse> {
                     children: [
                       CustomTextFormField(
                           readOnly: false,
-                          controller: companyNameController,
+                          controller: nameController,
                           hintText: "Enter Name here",
                           labelText: "Name"),
 
                       CustomTextFormField(
                           readOnly: false,
-                          controller: companyAddressController,
+                          controller: fathernameController,
                           hintText: "Enter Father/Husband Name here",
                           labelText: "Father / Husband Name"),
                       CustomTextFormField(
                           readOnly: false,
-                          controller: contactPersonController,
+                          controller: dobController,
                           hintText: "Enter Date of Birth here",
                           labelText: "Date of Birth"),
 
                       CustomTextFormField(
                           readOnly: false,
-                          controller: mobileController,
+                          controller: addressController,
                           hintText: "Enter City Name here",
                           labelText: "City Name"),
                       CustomTextFormField(
                           readOnly: false,
-                          controller: alterMobileController,
+                          controller: mobileController,
                           hintText: "Enter  Mobile here",
                           labelText: " Mobile No"),
 
                       CustomTextFormField(
                           readOnly: false,
-                          controller: licenseController,
+                          controller: emailController,
                           hintText: "Enter Email Id here",
                           labelText: "Email Id"),
                       Center(
@@ -196,44 +200,44 @@ class _TravelInsuranseState extends State<TravelInsuranse> {
                           labelText: "Are you physically fit ?"),
                       CustomTextFormField(
                           readOnly: false,
-                          controller: noEmployeeController,
+                          controller: purpuseOfGoingAbroadController,
                           hintText: "Purpose of going Abroad",
                           labelText: "Purpose of going Abroad"),
                       CustomTextFormField(
                           readOnly: false,
-                          controller: annualTurnOverController,
+                          controller: CountryWantController,
                           hintText: "Which country do you want to go to?",
                           labelText: "Which country do you want to go to?"),
 
                       CustomTextFormField(
                           readOnly: false,
-                          controller: franchiseOfferCityController,
+                          controller: travelDateController,
                           hintText: "Date of Travel ",
                           labelText: "Date of Travel "),
                       CustomTextFormField(
                           readOnly: false,
-                          controller: totalAreaController,
+                          controller: returnDateController,
                           hintText: "Return Date of Travel ",
                           labelText: "Return Date of Travel"),
 
                       CustomTextFormField(
                           readOnly: false,
-                          controller: investmentRatioController,
+                          controller: typeOfTripController,
                           hintText: "Type of Trip",
                           labelText: "Type of Trip"),
                       CustomTextFormField(
                           readOnly: false,
-                          controller: returnInvestmentController,
+                          controller: policyController,
                           hintText: "When to take policy",
                           labelText: "When to take policy"),
                       CustomTextFormField(
                           readOnly: false,
-                          controller: returnInvestmentController,
+                          controller: companyPolicyController,
                           hintText: "Which company policy do you want to take?",
                           labelText: "Which company policy do you want to take?"),
                       CustomTextFormField(
                           readOnly: false,
-                          controller: returnInvestmentController,
+                          controller: companyPolicyController,
                           hintText: "how much insurance do you want to take",
                           labelText: "how much insurance do you want to take"),
                       Center(

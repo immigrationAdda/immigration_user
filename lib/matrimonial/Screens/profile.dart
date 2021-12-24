@@ -17,14 +17,14 @@ import 'package:immigration/matrimonial/model/Post%20Data/marriage_interested_mo
 import 'package:immigration/matrimonial/model/Post%20Data/property_model.dart';
 import 'package:immigration/matrimonial/model/Post%20Data/qualification_model.dart';
 
-class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+class ProfileView extends StatefulWidget {
+  const ProfileView({Key? key}) : super(key: key);
 
   @override
-  _ProfileState createState() => _ProfileState();
+  _ProfileViewState createState() => _ProfileViewState();
 }
 
-class _ProfileState extends State<Profile> {
+class _ProfileViewState extends State<ProfileView> {
   Dio dio = Dio();
   final PostFunction _postFunction = PostFunction();
 

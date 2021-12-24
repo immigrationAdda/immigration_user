@@ -33,12 +33,10 @@ class UserProfile extends StatefulWidget {
 
 class _UserProfileState extends State<UserProfile> {
 
-  void initState() {
-
-    initState();getCurrentLocAndAddress ();
-  }
   var getaddress;
   var finalAddress;
+
+  TextEditingController cityController = TextEditingController();
   getCurrentLocAndAddress() async {
     Position position = await _getGeoLocationPosition();
     GetAddressFromLatLong(position);
@@ -103,7 +101,7 @@ class _UserProfileState extends State<UserProfile> {
         name: nameController.text,
         phoneNo: Provider.of<AuthProvider>(context, listen: false).controllerPhone.text,
         email: emailIdController.text,
-        city: getaddress.text,
+        city: cityController.text,
         dateOfBirth: dateOfBirthController.text,
         profilePicture: ProfilePicture,);
     var res = await http.post(
@@ -218,7 +216,7 @@ class _UserProfileState extends State<UserProfile> {
                       //     context, emailIdController, "Email ID", true,TextInputType.emailAddress),
                       // customTextField(
                       //     context, dateOfBirthController, "Date Of Birth", true,TextInputType.text),
-                      customTextField(context, TextEditingController(text: finalAddress), "City", true,TextInputType.text),
+                      customTextField(context, cityController, "City", true,TextInputType.text),
                       SizedBox(height: 30),
 
                       Padding(

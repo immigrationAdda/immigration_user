@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:immigration/Forms/education_loan.dart';
 import 'package:immigration/Forms/passport.dart';
 import 'package:immigration/Forms/travell_insurance.dart';
+import 'package:immigration/Models/seller_three_post_list_model.dart';
 import 'package:immigration/SizeConfig.dart';
 import 'package:immigration/constants.dart';
 import 'package:immigration/listscreens/postListScreen.dart';
+import 'package:immigration/listscreens/post_by_seller.dart';
 import 'package:immigration/listscreens/sellerLIstScreen.dart';
 import 'package:immigration/matrimonial/Constants/const.dart';
 import 'package:immigration/matrimonial/Screens/welcome_screen.dart';
@@ -246,13 +248,17 @@ class _HomePageState extends State<HomePage> {
                 ),
                 GestureDetector(
                     onTap: () {
-                      print("object yes");
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              SellerThreePosts(type: "jobPost")));
                     },
                     child: button(
                         context, "Job\nRequirements", "assets/images/job.png")),
                 GestureDetector(
                     onTap: () {
-                      print("object yes");
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              SellerThreePosts(type: "franchisePost")));
                     },
                     child: button(
                         context, "Franchise", "assets/images/franchise.png")),
@@ -260,8 +266,7 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              LuggagePostByUser()));
-                      print("object yes");
+                              SellerThreePosts(type: "luggagePost")));
                     },
                     child: button(context, "Luggage\nAdjustment",
                         "assets/images/luggage.png")),

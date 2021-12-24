@@ -7,29 +7,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:immigration/Models/SellerList.dart';
 import 'package:immigration/Models/seller_model.dart';
+import 'package:immigration/Models/seller_three_post_list_model.dart';
 import 'package:immigration/SizeConfig.dart';
 import 'package:immigration/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:immigration/screens/profile.dart';
 
-class SellerLists extends StatefulWidget {
-  const SellerLists({Key? key, required this.type}) : super(key: key);
+class SellerThreePosts extends StatefulWidget {
+  const SellerThreePosts({Key? key, required this.type}) : super(key: key);
   final String type;
 
   @override
-  _SellerListsState createState() => _SellerListsState();
+  _SellerThreePostsState createState() => _SellerThreePostsState();
 }
 
-class _SellerListsState extends State<SellerLists> {
-  late SellerListModel sellerModel;
-  List<SellerListModel> sellerListModel = [];
+class _SellerThreePostsState extends State<SellerThreePosts> {
+  late SellerThreePostModel sellerModel;
+  List<SellerThreePostModel> sellerListModel = [];
 
   late final int value = 3;
 
-  Future<List<SellerListModel>> getListData() async {
+  Future<List<SellerThreePostModel>> getListData() async {
     log("--------------------------------enter");
     http.Response res = await http.get(Uri.parse(
-        "https://frozen-savannah-16893.herokuapp.com/Seller/getList/${widget.type}"));
+        "https://frozen-savannah-16893.herokuapp.com/Seller/postLists/${widget.type}"));
         log("------------------${res.statusCode}");
     if (res.statusCode == 200) {
       log("-----------api---------------------enter");
@@ -37,7 +38,7 @@ class _SellerListsState extends State<SellerLists> {
       var obj = json.decode(res.body);
       print("----------------------${obj}");
       for (var obj1 in obj) {
-        sellerModel = new SellerListModel.fromJson(obj1);
+        sellerModel = new SellerThreePostModel.fromJson(obj1);
 
         sellerListModel.add(sellerModel);
       }
@@ -85,7 +86,7 @@ class _SellerListsState extends State<SellerLists> {
         ),
         body: FutureBuilder(
             future: getListData(),
-            builder: (context, AsyncSnapshot<List<SellerListModel>> snapshot) {
+            builder: (context, AsyncSnapshot<List<SellerThreePostModel>> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
                     child: Column(
@@ -128,7 +129,7 @@ class _SellerListsState extends State<SellerLists> {
                                                 Radius.circular(10)),
                                       ),
                                       child: Image.network(
-                                        snapshot.data![indx].profilePicture
+                                        snapshot.data![indx].postImage
                                             .toString(),
                                         fit: BoxFit.cover,
                                       )),
@@ -162,7 +163,7 @@ class _SellerListsState extends State<SellerLists> {
                                       child: Padding(
                                         padding: const EdgeInsets.only(left: 8),
                                         child: Text(
-                                          snapshot.data![indx].city.toString(),
+                                          snapshot.data![indx].description.toString(),
                                           style: TextStyle(
                                             color: Colors.black,
                                             fontSize:
