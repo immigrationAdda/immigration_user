@@ -51,19 +51,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => AuthProvider()),
-        //ChangeNotifierProvider(create: (_) => DataFunction()),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(fontFamily: "segoe"),
-        home:   BottomNav(),)
-    );
+        providers: [
+          ChangeNotifierProvider(create: (_) => AuthProvider()),
+          //ChangeNotifierProvider(create: (_) => DataFunction()),
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(fontFamily: "segoe"),
+          home: BottomNav(),
+        ));
   }
 }
-
-
-
-
-

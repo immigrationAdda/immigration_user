@@ -15,8 +15,9 @@ import 'package:http_parser/src/media_type.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:immigration/matrimonial/Screens/personal_info.dart';
 import 'package:immigration/matrimonial/Screens/profile.dart';
-class UploadProfilePic extends StatefulWidget {
+import 'package:immigration/matrimonial/bottom_navigator.dart';
 
+class UploadProfilePic extends StatefulWidget {
   UploadProfilePic({Key? key}) : super(key: key);
 
   @override
@@ -24,86 +25,81 @@ class UploadProfilePic extends StatefulWidget {
 }
 
 class _UploadProfilePicState extends State<UploadProfilePic> {
-   File? image;
+  File? image;
   final picker = ImagePicker();
 
-  int? statusCode=0;
+  int? statusCode = 0;
   bool isDocExists = false;
-  int imageCount =0;
-  String? imgUrl= "";
+  int imageCount = 0;
+  String? imgUrl = "";
   int? planId;
-  int check =0;
-FirebaseFirestore db = FirebaseFirestore.instance;
-Future<int> userIdCheck() async{
-  await db.collection("userPlan").doc("12345").get().then((value) async {
-
-    await db.collection("matrimonial").doc("12345").get().then((v){
+  int check = 0;
+  FirebaseFirestore db = FirebaseFirestore.instance;
+  Future<int> userIdCheck() async {
+    await db.collection("userPlan").doc("12345").get().then((value) async {
+      await db.collection("matrimonial").doc("12345").get().then((v) {
+        setState(() {
+          planId = v.data()!["planId"];
+          log("---------plan----$planId-----");
+        });
+      });
       setState(() {
-        planId= v.data()!["planId"];
-        log("---------plan----$planId-----");
-
+        isDocExists = value.exists;
+        log("-----existxs--------$isDocExists-----");
+        imageCount = value.data()!["imageCount"];
+        log("----count---------$imageCount-----");
       });
     });
-   setState(() {
-     isDocExists =value.exists;
-     log("-----existxs--------$isDocExists-----");
-     imageCount=  value.data()!["imageCount"];
-     log("----count---------$imageCount-----");
-
-   });
-
-  });
-  if(isDocExists== true && planId==0){
-    log("-----1st");
-    setState(() {
-      check =1;
-    });
-    Fluttertoast.showToast(msg: "Please update your plan!");
-
-  }else if(isDocExists== true && planId ==1 ){
-    log("-----2t");
-    setState(() {
-      check =1;
-    });
-    log("-check value-2---$check");
-    if(imageCount ==2){
+    if (isDocExists == true && planId == 0) {
+      log("-----1st");
+      setState(() {
+        check = 1;
+      });
       Fluttertoast.showToast(msg: "Please update your plan!");
-       showAboutDialog(context:context,children: [
-        Center(child: Text("Error Happen!")),
-        Text("To upload image please upgrade your plan!"),
-
-      ]);
+    } else if (isDocExists == true && planId == 1) {
+      log("-----2t");
+      setState(() {
+        check = 1;
+      });
+      log("-check value-2---$check");
+      if (imageCount == 2) {
+        Fluttertoast.showToast(msg: "Please update your plan!");
+        showAboutDialog(context: context, children: [
+          Center(child: Text("Error Happen!")),
+          Text("To upload image please upgrade your plan!"),
+        ]);
+      }
+    } else if (isDocExists == true && planId == 2) {
+      log("-0-------3");
+      setState(() {
+        check = 1;
+      });
+      if (imageCount == 5) {
+        showAboutDialog(context: context, children: [
+          Center(child: Text("Error Happen!")),
+          Text("To upload image please upgrade your plan!"),
+        ]);
+      }
+      getImage().then((value) {
+        uploadImage();
+      });
+    } else if (isDocExists == false) {
+      log("----------------4");
+      getImage().then((value) {
+        uploadImage();
+      });
+      db
+          .collection("userPlan")
+          .doc("12345")
+          .update({"imageCount": 1, "uid": "12345"}).whenComplete(
+              () => log("Added image"));
     }
+    return check;
   }
-  else if(isDocExists== true && planId ==2 ){
-    log("-0-------3");
-    setState(() {
-      check =1;
-    });
-    if(imageCount ==5){
-       showAboutDialog(context:context,children: [
-        Center(child: Text("Error Happen!")),
-        Text("To upload image please upgrade your plan!"),
 
-      ]);
-    }
-    getImage().then((value) {
-      uploadImage();
-    });
-
-  }
-  else if(isDocExists== false ){
-    log("----------------4");
-    getImage().then((value) {
-      uploadImage();
-    });
-    db.collection("userPlan").doc("12345").update({"imageCount":1,"uid":"12345"}).whenComplete(() => log("Added image"));
-  }
-  return check;
-}
   Future getImage() async {
     final pickedFile =
-    await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
+        await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
 
     setState(() {
       if (pickedFile != null) {
@@ -113,6 +109,7 @@ Future<int> userIdCheck() async{
       }
     });
   }
+
   Dio dio = Dio();
   uploadImage() async {
     setState(() {
@@ -138,8 +135,12 @@ Future<int> userIdCheck() async{
           statusCode = value.statusCode;
           imgUrl = value.data;
         });
-        
-         db.collection("userPlan").doc("12345").update({"imageCount":imageCount+1}).whenComplete(() => log("image Count ++ success"));
+
+        db
+            .collection("userPlan")
+            .doc("12345")
+            .update({"imageCount": imageCount + 1}).whenComplete(
+                () => log("image Count ++ success"));
       }
     });
   }
@@ -151,18 +152,29 @@ Future<int> userIdCheck() async{
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xffff5275),
-        leading: IconButton(icon: const Icon(Icons.arrow_back),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
           tooltip: "Cancel and Return to List",
-          onPressed: () { Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const PostView()),
-          );},
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const BottomNav()),
+            );
+          },
         ),
-        title: const Center(
-          child: Text('Immigration Adda',
-          style: TextStyle(fontSize: 18),
-          ),
-        ),
+        title: TextButton(
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const BottomNav()),
+              );
+            },
+            child: const Center(
+              child: Text(
+                'Immigration Adda',
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
+            )),
       ),
       body: Stack(
         children: [
@@ -172,27 +184,27 @@ Future<int> userIdCheck() async{
             children: [
               const Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text('About Yourself',
+                child: Text(
+                  'About Yourself',
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 24,
-                      fontWeight: FontWeight.bold
-                  ),
+                      fontWeight: FontWeight.bold),
                 ),
               ),
               const Padding(
-                padding:  EdgeInsets.all(2.0),
+                padding: EdgeInsets.all(2.0),
                 child: TextField(
                   maxLines: 7,
                   style: TextStyle(
                     color: Color(0xff00235a),
                   ),
-                  decoration:  InputDecoration(
+                  decoration: InputDecoration(
                     border: UnderlineInputBorder(),
                   ),
                 ),
               ),
-               Container(
+              Container(
                 alignment: Alignment.topLeft,
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
@@ -208,15 +220,15 @@ Future<int> userIdCheck() async{
                 ),
               ),
               GestureDetector(
-                  onTap: () async{
+                  onTap: () async {
                     userIdCheck();
-                    check=  await userIdCheck() ;
+                    check = await userIdCheck();
                     log("---------------------$check");
-                      check==1?
-                      getImage().then((value) {
-                        uploadImage();
-                        
-                      }):null;
+                    check == 1
+                        ? getImage().then((value) {
+                            uploadImage();
+                          })
+                        : null;
                   },
                   child: Container(
                     height: 200,
@@ -225,15 +237,16 @@ Future<int> userIdCheck() async{
                       elevation: 1,
                       child: image != null
                           ? Container(
-                        decoration: BoxDecoration(
-                          image:
-                          DecorationImage(image: FileImage(image!)),
-                        ),
-                      )
-                          : const Icon(Icons.add_a_photo,
-                      size: 60,
-                      color: Color(0xffff5275),
-                      ),
+                              decoration: BoxDecoration(
+                                image:
+                                    DecorationImage(image: FileImage(image!)),
+                              ),
+                            )
+                          : const Icon(
+                              Icons.add_a_photo,
+                              size: 60,
+                              color: Color(0xffff5275),
+                            ),
                     ),
                   )),
               // Container(
@@ -251,18 +264,18 @@ Future<int> userIdCheck() async{
               //     ),
               //   ),
               // ),
-              const SizedBox(height:9),
+              const SizedBox(height: 9),
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Container(
                   height: 50, width: 200,
                   //color: Color(0xff0d47a1),
                   decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                      BoxDecoration(borderRadius: BorderRadius.circular(20)),
                   child: ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor: MaterialStateColor.resolveWith(
-                            (states) => const Color(0xffff5275),
+                        (states) => const Color(0xffff5275),
                       ),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
@@ -273,7 +286,7 @@ Future<int> userIdCheck() async{
                     onPressed: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) =>  PersonalInfo()),
+                        MaterialPageRoute(builder: (context) => PersonalInfo()),
                       );
                     },
                     child: const Text(
@@ -289,22 +302,21 @@ Future<int> userIdCheck() async{
             ],
           ),
           Container(
-            child: statusCode==100?AlertDialog(
-              insetPadding: const EdgeInsets.symmetric(
-                  horizontal: 2.0, vertical: 2.0),
-              content: SizedBox(
-                height: 100,
-                width: MediaQuery.of(context).size.width * 0.2,
-                child: const SpinKitCubeGrid(
-                  color: kRedColor,
-                ),
-              ),
-            )
-                : Container()
-          ),
+              child: statusCode == 100
+                  ? AlertDialog(
+                      insetPadding: const EdgeInsets.symmetric(
+                          horizontal: 2.0, vertical: 2.0),
+                      content: SizedBox(
+                        height: 100,
+                        width: MediaQuery.of(context).size.width * 0.2,
+                        child: const SpinKitCubeGrid(
+                          color: kRedColor,
+                        ),
+                      ),
+                    )
+                  : Container()),
         ],
       ),
-
     );
   }
 }

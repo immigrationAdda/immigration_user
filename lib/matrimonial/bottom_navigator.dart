@@ -21,41 +21,38 @@ class BottomNav extends StatefulWidget {
 }
 
 class _BottomNavState extends State<BottomNav> {
-  int selecttap=0;
-  static List<Widget> widgetList=<Widget>[
+  int selecttap = 0;
+  static List<Widget> widgetList = <Widget>[
     const Home(),
     const ChatList(),
-    const  Status(),
+    const Status(),
     const FavPost(),
     const Profile(),
-
-
   ];
   @override
   Widget build(BuildContext context) {
-    void _onselecte(int index){
-      setState((){
-        selecttap=index;
+    void _onselecte(int index) {
+      setState(() {
+        selecttap = index;
       });
     }
-    return
-      Scaffold(
-    bottomNavigationBar: ConvexAppBar(
-    style: TabStyle.fixedCircle,
-    backgroundColor: Colors.white,
-    activeColor: kRedColor,
-    color: Colors.black38,
-    onTap:_onselecte,
-    items: const [
-      TabItem(icon: Icons.home, title: 'Home'),
-      TabItem(icon: Icons.forward_to_inbox, title: 'Chat'),
-      TabItem(icon: Icons.add, title: 'Add'),
-      TabItem(icon: Icons.favorite, title: 'Favorite'),
-      TabItem(icon: Icons.people, title: 'Personal'),
 
-    ],
-    ),
-    body: widgetList.elementAt(selecttap),
+    return Scaffold(
+      bottomNavigationBar: ConvexAppBar(
+        style: TabStyle.fixedCircle,
+        backgroundColor: Colors.white,
+        activeColor: kRedColor,
+        color: Colors.black38,
+        onTap: _onselecte,
+        items: const [
+          TabItem(icon: Icons.home, title: 'Home'),
+          TabItem(icon: Icons.forward_to_inbox, title: 'Chat'),
+          TabItem(icon: Icons.add, title: 'Add'),
+          TabItem(icon: Icons.favorite, title: 'Favorite'),
+          TabItem(icon: Icons.people, title: 'Personal'),
+        ],
+      ),
+      body: widgetList.elementAt(selecttap),
     );
   }
 }

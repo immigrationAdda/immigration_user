@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:immigration/matrimonial/ChatData/upload_profile_pic.dart';
 import 'package:immigration/matrimonial/Post/post_view.dart';
+import 'package:immigration/matrimonial/bottom_navigator.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:immigration/matrimonial/Api/api_config.dart';
 import 'package:immigration/matrimonial/Constants/const.dart';
@@ -19,7 +21,7 @@ class PersonalInfo extends StatefulWidget {
 
 class _PersonalInfoState extends State<PersonalInfo> {
   List<String>? living = ['India', 'Abroad'];
-  List<String> selectedCountries=[];
+  List<String> selectedCountries = [];
 
   List<String>? countries = [
     'Canada',
@@ -255,8 +257,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
     }
   }
 
- 
-
   @override
   Widget build(BuildContext context) {
     // final select = ['Working a lot harder', 'Being a lot smarter', 'Being a self-starter', 'Placed in charge of trading charter'];
@@ -271,7 +271,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
           onPressed: () {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const PostView()),
+              MaterialPageRoute(builder: (context) => UploadProfilePic()),
             );
           },
         ),
@@ -279,7 +279,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
             onPressed: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const PostView()),
+                MaterialPageRoute(builder: (context) => UploadProfilePic()),
               );
             },
             child: const Center(
@@ -295,8 +295,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              
-
               const Text(
                 'Personal Information ',
                 style: TextStyle(
@@ -380,39 +378,38 @@ class _PersonalInfoState extends State<PersonalInfo> {
                       Wrap(
                         children: gender!
                             .map((e) => InkWell(
-                            onTap: () {
-                              var object = "I LIKE JAVA";
+                                onTap: () {
+                                  var object = "I LIKE JAVA";
 
-                              setState(() {
-                                selectedgender = e;
-                              });
-                              print(selectedgender);
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                  width: 90.0,
-                                  padding: const EdgeInsets.all(4.0),
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    borderRadius:
-                                    BorderRadius.circular(8.0),
-                                    border: Border.all(
-                                        width: 0.7, color: Colors.grey),
-                                    color: (e == selectedgender)
-                                        ? kRedColor
-                                        : Colors.white,
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Text(e,
-                                        style: TextStyle(
-                                            color: (e ==
-                                                selectedgender)
-                                                ? Colors.white
-                                                : Colors.black)),
-                                  )),
-                            )))
+                                  setState(() {
+                                    selectedgender = e;
+                                  });
+                                  print(selectedgender);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                      width: 90.0,
+                                      padding: const EdgeInsets.all(4.0),
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        border: Border.all(
+                                            width: 0.7, color: Colors.grey),
+                                        color: (e == selectedgender)
+                                            ? kRedColor
+                                            : Colors.white,
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: Text(e,
+                                            style: TextStyle(
+                                                color: (e == selectedgender)
+                                                    ? Colors.white
+                                                    : Colors.black)),
+                                      )),
+                                )))
                             .toList(),
                       ),
                     ],
@@ -1237,22 +1234,22 @@ class _PersonalInfoState extends State<PersonalInfo> {
                       Wrap(
                         children: countries!
                             .map((e) => InkWell(
-                            onTap: () {
-                              var object = "I LIKE JAVA";
-                              if(selectedCountries.contains(e)){
-
-                                setState(() {
-                                  selectedCountries.removeWhere((element) => element ==e);
-                                });
-                                print(selectedCountries);
-
-                              }else{
-                                setState(() {
-                                  selectedCountries.add(e);
-                                  //   selectedWheeler = e! as List<String>;
-                                });
-                                print(selectedCountries);
-                              }},
+                                onTap: () {
+                                  var object = "I LIKE JAVA";
+                                  if (selectedCountries.contains(e)) {
+                                    setState(() {
+                                      selectedCountries.removeWhere(
+                                          (element) => element == e);
+                                    });
+                                    print(selectedCountries);
+                                  } else {
+                                    setState(() {
+                                      selectedCountries.add(e);
+                                      //   selectedWheeler = e! as List<String>;
+                                    });
+                                    print(selectedCountries);
+                                  }
+                                },
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
@@ -1264,7 +1261,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                             BorderRadius.circular(8.0),
                                         border: Border.all(
                                             width: 0.7, color: Colors.grey),
-                                        color: (selectedCountries.contains(e)==true)
+                                        color: (selectedCountries.contains(e) ==
+                                                true)
                                             ? kRedColor
                                             : Colors.white,
                                       ),
@@ -1272,7 +1270,9 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                         padding: const EdgeInsets.all(4.0),
                                         child: Text(e,
                                             style: TextStyle(
-                                                color: (selectedCountries.contains(e)==true)
+                                                color: (selectedCountries
+                                                            .contains(e) ==
+                                                        true)
                                                     ? Colors.white
                                                     : Colors.black)),
                                       )),
@@ -1381,12 +1381,12 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           .split(' ')[0]
                           .isEmpty) {
                         print('DOB');
-                      } else if (selectedInch==null) {
+                      } else if (selectedgender!.isEmpty) {
+                        print('Gender');
+                      } else if (selectedInch == null) {
                         print('Height');
-                      } else if (selectedBodyType == null) {
+                      } else if (selectedBodyType!.isEmpty) {
                         print('BodyType');
-                      } else if (selectedComplexionType.isEmpty) {
-                        print('Complexion');
                       } else if (selectedMaritalStatus.isEmpty) {
                         print('Marital Status');
                       } else if (selectedNoChild.isEmpty) {
@@ -1403,52 +1403,52 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         print('Countries');
                       } else {
                         if (selectedPresentLiving!.isEmpty) {
-                        print('Present Living');
-                      } else if (selectedPermanenttLiving!.isEmpty) {
-                        print('Permanent Living');
-                      } else if (selectedMotherTongue.isEmpty) {
-                        print('Mother Tongue');
-                      } else if (selectedIelts!.isEmpty) {
-                        print('Ielts / Tofel');
-                      } else if (selectedLivingStatusValue.isEmpty) {
-                        print('Living status');
-                      } else {
-                        uploadData();
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ContactInfo(
-                                    firstName: firstNameController.text,
-                                    lastName: lastNameController.text,
-                                    age: ageController.text,
-                                    dob: selectedDate
-                                        .toLocal()
-                                        .toString()
-                                        .split(' ')[0]
-                                        .toString(),
-                                    height: selectedInch.toString(),
-                                    livingStatus: selectedLivingStatusValue,
-                                    weight: weightController.text,
-                                    bodyType: selectedBodyType,
-                                    complexion: selectedComplexionType,
-                                    maritalStatus: selectedMaritalStatus,
-                                    noOfChildrens: selectedNoChild,
-                                    whereAreChildren: selectedWherechild,
-                                    diet: selectedDiet,
-                                    drinking: selectedDrinking,
-                                    smoking: selectedSmoking,
-                                    presentLiving:
-                                        selectedPresentLiving,
-                                    permanentLivingIn:
-                                        selectedPermanenttLiving,
-                                    motherTongue: selectedMotherTongue,
-                                    ieltsTofel: selectedIelts,
-                                interestedCounty: selectedCountries,
-                                  )),
-                        );
+                          print('Present Living');
+                        } else if (selectedPermanenttLiving!.isEmpty) {
+                          print('Permanent Living');
+                        } else if (selectedMotherTongue.isEmpty) {
+                          print('Mother Tongue');
+                        } else if (selectedIelts!.isEmpty) {
+                          print('Ielts / Tofel');
+                        } else if (selectedLivingStatusValue.isEmpty) {
+                          print('Living status');
+                        } else {
+                          uploadData();
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ContactInfo(
+                                      firstName: firstNameController.text,
+                                      lastName: lastNameController.text,
+                                      age: ageController.text,
+                                      dob: selectedDate
+                                          .toLocal()
+                                          .toString()
+                                          .split(' ')[0]
+                                          .toString(),
+                                      height: selectedInch.toString(),
+                                      livingStatus: selectedLivingStatusValue,
+                                      weight: weightController.text,
+                                      bodyType: selectedBodyType,
+                                      complexion: selectedComplexionType,
+                                      maritalStatus: selectedMaritalStatus,
+                                      noOfChildrens: selectedNoChild,
+                                      whereAreChildren: selectedWherechild,
+                                      diet: selectedDiet,
+                                      drinking: selectedDrinking,
+                                      smoking: selectedSmoking,
+                                      gender: gender,
+                                      presentLiving: selectedPresentLiving,
+                                      permanentLivingIn:
+                                          selectedPermanenttLiving,
+                                      motherTongue: selectedMotherTongue,
+                                      ieltsTofel: selectedIelts,
+                                      interestedCounty: selectedCountries,
+                                    )),
+                          );
+                        }
                       }
-                      }
-                      },
+                    },
                     child: const Text(
                       "Continue",
                       style: TextStyle(
@@ -1516,7 +1516,8 @@ class CustomeTextField extends StatelessWidget {
       this.onChanged,
       required this.labelText,
       required this.controller,
-      this.isSubmitted, this.words})
+      this.isSubmitted,
+      this.words})
       : super(key: key);
 
   @override
