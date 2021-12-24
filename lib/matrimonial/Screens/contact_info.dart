@@ -34,38 +34,45 @@ class ContactInfo extends StatefulWidget {
   final String? age;
   final String? gender;
 
-  const ContactInfo(
-      {Key? key,
-      this.firstName,
-      this.lastName,
-        this.age,
-        this.gender,
-      this.dob,
-      this.height,
-      this.weight,
-      this.bodyType,
-      this.complexion,
-      this.maritalStatus,
-      this.noOfChildrens,
-      this.whereAreChildren,
-      this.diet,
-      this.drinking,
-      this.smoking,
-      this.presentLiving,
-      this.permanentLivingIn,
-      this.motherTongue,
-      this.ieltsTofel,
-        this.livingStatus,
-        this.interestedCounty, })
-      : super(key: key);
+  const ContactInfo({
+    Key? key,
+    this.firstName,
+    this.lastName,
+    this.age,
+    this.dob,
+    this.height,
+    this.weight,
+    this.bodyType,
+    this.complexion,
+    this.maritalStatus,
+    this.noOfChildrens,
+    this.whereAreChildren,
+    this.diet,
+    this.drinking,
+    this.smoking,
+    this.presentLiving,
+    this.permanentLivingIn,
+    this.motherTongue,
+    this.ieltsTofel,
+    this.livingStatus,
+    this.interestedCounty,
+    this.gender,
+  }) : super(key: key);
 
   @override
   _ContactInfoState createState() => _ContactInfoState();
 }
 
 class _ContactInfoState extends State<ContactInfo> {
-  List <String>? passport=['Ordinary Passport','Official Passport','Diplomatic Passport','Emergency Passport', 'Family Passport','Collective Passport','None'];
-
+  List<String>? passport = [
+    'Ordinary Passport',
+    'Official Passport',
+    'Diplomatic Passport',
+    'Emergency Passport',
+    'Family Passport',
+    'Collective Passport',
+    'None'
+  ];
 
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController alternativePhoneNumberController =
@@ -77,7 +84,7 @@ class _ContactInfoState extends State<ContactInfo> {
 
   final PostFunction _postFunction = PostFunction();
   Dio dio = Dio();
-String? selectedPassport = '';
+  String? selectedPassport = '';
 
   uploadData() {
     _postFunction.postPersonalInfo({
@@ -85,9 +92,7 @@ String? selectedPassport = '';
       "firstName": widget.firstName,
       "lastName": widget.lastName,
       "dob": widget.dob,
-      'age':widget.age,
-      'gender':widget.gender,
-
+      'age': widget.age,
       "height": widget.height,
       "weight": widget.weight,
       "bodyType": widget.bodyType,
@@ -107,7 +112,7 @@ String? selectedPassport = '';
       "whatsAppNo": whatsaapNumberController.text,
       "emailId": emailIdController.text,
       "livingStatus": widget.livingStatus,
-     // "passportNo": passportNumberController.text,
+      // "passportNo": passportNumberController.text,
       "address": addressController.text,
     });
   }
@@ -160,12 +165,26 @@ String? selectedPassport = '';
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
-                  CustomField( isSubmitted: isSubmitted!, controller: phoneNumberController, labelText: 'Phone Number'),
-                  CustomField( isSubmitted: isSubmitted!, controller: alternativePhoneNumberController, labelText: 'Alternative Phone Number'),
-                  CustomField( isSubmitted: isSubmitted!, controller: whatsaapNumberController, labelText: 'Whatsapp Number'),
-                  CustomField( isSubmitted: isSubmitted!, controller: emailIdController, labelText: 'Email Id'),
-
-                  CustomField( isSubmitted: isSubmitted!, controller: addressController, labelText: 'City'),
+                  CustomField(
+                      isSubmitted: isSubmitted!,
+                      controller: phoneNumberController,
+                      labelText: 'Phone Number'),
+                  CustomField(
+                      isSubmitted: isSubmitted!,
+                      controller: alternativePhoneNumberController,
+                      labelText: 'Alternative Phone Number'),
+                  CustomField(
+                      isSubmitted: isSubmitted!,
+                      controller: whatsaapNumberController,
+                      labelText: 'Whatsapp Number'),
+                  CustomField(
+                      isSubmitted: isSubmitted!,
+                      controller: emailIdController,
+                      labelText: 'Email Id'),
+                  CustomField(
+                      isSubmitted: isSubmitted!,
+                      controller: addressController,
+                      labelText: 'City'),
                   Padding(
                     padding: const EdgeInsets.all(8),
                     child: Container(
@@ -187,17 +206,18 @@ String? selectedPassport = '';
                         ),
                         onPressed: () {
                           setState(() {
-                            isSubmitted= true;
+                            isSubmitted = true;
                           });
                           if (whatsaapNumberController.text.isEmpty ||
-                              whatsaapNumberController.text.length <9) {
+                              whatsaapNumberController.text.length < 9) {
                             print('Whatsapp Number');
                           } else if (phoneNumberController.text.isEmpty ||
-                              phoneNumberController.text.length <9) {  print('Phone Number');
-
+                              phoneNumberController.text.length < 9) {
+                            print('Phone Number');
                           } else if (alternativePhoneNumberController
-                              .text.isEmpty ||
-                              alternativePhoneNumberController.text.length < 9) {
+                                  .text.isEmpty ||
+                              alternativePhoneNumberController.text.length <
+                                  9) {
                             print('Alternative Phone Number');
                           } else if (addressController.text.isEmpty ||
                               addressController.text.length < 4) {
@@ -234,20 +254,18 @@ String? selectedPassport = '';
 }
 
 class CustomField extends StatelessWidget {
-   CustomField({
+  CustomField({
     Key? key,
     required this.isSubmitted,
     required this.controller,
-    required this.labelText, this.words,
-
-
+    required this.labelText,
+    this.words,
   }) : super(key: key);
-
 
   final bool? isSubmitted;
   final TextEditingController? controller;
   final String? labelText;
-   final TextCapitalization? words;
+  final TextCapitalization? words;
 
   @override
   Widget build(BuildContext context) {
@@ -260,11 +278,15 @@ class CustomField extends StatelessWidget {
           color: Color(0xff00235a),
         ),
         decoration: InputDecoration(
-            errorText: (isSubmitted == true && controller!.text.isEmpty) ? "Please fill field":null,
-            suffixIcon: (isSubmitted == true && controller!.text.isEmpty)?  const Icon(Icons.error_outline):null,
-          border:  const OutlineInputBorder(
+          errorText: (isSubmitted == true && controller!.text.isEmpty)
+              ? "Please fill field"
+              : null,
+          suffixIcon: (isSubmitted == true && controller!.text.isEmpty)
+              ? const Icon(Icons.error_outline)
+              : null,
+          border: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.grey)),
-          enabledBorder:  const OutlineInputBorder(
+          enabledBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.grey)),
           focusedBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.redAccent)),

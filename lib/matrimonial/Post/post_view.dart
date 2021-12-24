@@ -258,7 +258,6 @@ class _PostViewState extends State<PostView> {
                                 ),
                               ),
                             ),
-                            
                             SizedBox(
                               width: 95,
                             ),

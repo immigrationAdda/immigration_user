@@ -17,9 +17,10 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   void initState() {
-    getCurrentLocAndAddress ();
+    getCurrentLocAndAddress();
     super.initState();
   }
+
   var getaddress;
   var finalAddress;
   getCurrentLocAndAddress() async {
@@ -63,12 +64,12 @@ class _HomeState extends State<Home> {
 
   Future<void> GetAddressFromLatLong(Position position) async {
     List<Placemark> placemarks =
-    await placemarkFromCoordinates(position.latitude, position.longitude);
+        await placemarkFromCoordinates(position.latitude, position.longitude);
     print(placemarks);
     Placemark place = placemarks[0];
 
     getaddress =
-    '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+        '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
     setState(() {
       finalAddress = getaddress;
     });
@@ -79,174 +80,10 @@ class _HomeState extends State<Home> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
-        title: SizedBox(
-          height: 40,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            //physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-
-            children: [
-              Row(
-  children: [
-                  const Icon(
-                    Icons.search,
-                    color: kRedColor,
-                    size: 30,
-                  ),
-                  const SizedBox(width: 5),
-                  OutlinedButton(
-                    onPressed: null,
-                    child: const Text(
-                      'Latest 100',
-                      style: TextStyle(
-                          color: Color(0xffff5275),
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0))),
-                    ),
-                  ),
-                  const SizedBox(width: 5),
-                  OutlinedButton(
-                    onPressed: null,
-                    child: const Text(
-                      'Near me',
-                      style: TextStyle(
-                          color: Color(0xffff5275),
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0))),
-                    ),
-                  ),
-                  const SizedBox(width: 5),
-                  OutlinedButton(
-                    onPressed: null,
-                    child: const Text(
-                      'My Match',
-                      style: TextStyle(
-                          color: Color(0xffff5275),
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0))),
-                    ),
-                  ),
-                  const SizedBox(width: 5),
-                  OutlinedButton(
-                    onPressed: null,
-                    child: const Text(
-                      'Recently Viewed',
-                      style: TextStyle(
-                          color: Color(0xffff5275),
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0))),
-                    ),
-                  ),
-                  const SizedBox(width: 5),
-                  OutlinedButton(
-                    onPressed: null,
-                    child: const Text(
-                      'Recently Visitor',
-                      style: TextStyle(
-                          color: Color(0xffff5275),
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0))),
-                    ),
-                  ),
-                  const SizedBox(width: 5),
-                  OutlinedButton(
-                    onPressed: null,
-                    child: const Text(
-                      'Interest Received',
-                      style: TextStyle(
-                          color: Color(0xffff5275),
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0))),
-                    ),
-                  ),
-                  const SizedBox(width: 5),
-                  OutlinedButton(
-                    onPressed: null,
-                    child: const Text(
-                      'Interest Accept',
-                      style: TextStyle(
-                          color: Color(0xffff5275),
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0))),
-                    ),
-                  ),
-                  const SizedBox(width: 5),
-                  OutlinedButton(
-                    onPressed: null,
-                    child: const Text(
-                      'Interest Sent',
-                      style: TextStyle(
-                          color: Color(0xffff5275),
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0))),
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
-      body: ListView(
-        children: [
-          PostView(),
-        ],
-      )
-      );
-
-
-  }
-  cutomWidget(BuildContext context){
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-    return ListView(
-        shrinkWrap: true,
-        children: [
-          SizedBox(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.white,
+          title: SizedBox(
             height: 40,
             child: ListView(
               scrollDirection: Axis.horizontal,
@@ -256,6 +93,12 @@ class _HomeState extends State<Home> {
               children: [
                 Row(
                   children: [
+                    const Icon(
+                      Icons.search,
+                      color: kRedColor,
+                      size: 30,
+                    ),
+                    const SizedBox(width: 5),
                     OutlinedButton(
                       onPressed: null,
                       child: const Text(
@@ -266,9 +109,8 @@ class _HomeState extends State<Home> {
                             fontWeight: FontWeight.bold),
                       ),
                       style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0))),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0))),
                       ),
                     ),
                     const SizedBox(width: 5),
@@ -282,9 +124,8 @@ class _HomeState extends State<Home> {
                             fontWeight: FontWeight.bold),
                       ),
                       style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0))),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0))),
                       ),
                     ),
                     const SizedBox(width: 5),
@@ -298,25 +139,23 @@ class _HomeState extends State<Home> {
                             fontWeight: FontWeight.bold),
                       ),
                       style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0))),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0))),
                       ),
                     ),
                     const SizedBox(width: 5),
                     OutlinedButton(
                       onPressed: null,
                       child: const Text(
-                        'Recently viewed',
+                        'Recently Viewed',
                         style: TextStyle(
                             color: Color(0xffff5275),
                             fontSize: 16,
                             fontWeight: FontWeight.bold),
                       ),
                       style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0))),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0))),
                       ),
                     ),
                     const SizedBox(width: 5),
@@ -330,9 +169,8 @@ class _HomeState extends State<Home> {
                             fontWeight: FontWeight.bold),
                       ),
                       style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0))),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0))),
                       ),
                     ),
                     const SizedBox(width: 5),
@@ -346,25 +184,23 @@ class _HomeState extends State<Home> {
                             fontWeight: FontWeight.bold),
                       ),
                       style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0))),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0))),
                       ),
                     ),
                     const SizedBox(width: 5),
                     OutlinedButton(
                       onPressed: null,
                       child: const Text(
-                        'Interest accepted',
+                        'Interest Accept',
                         style: TextStyle(
                             color: Color(0xffff5275),
                             fontSize: 16,
                             fontWeight: FontWeight.bold),
                       ),
                       style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0))),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0))),
                       ),
                     ),
                     const SizedBox(width: 5),
@@ -378,9 +214,8 @@ class _HomeState extends State<Home> {
                             fontWeight: FontWeight.bold),
                       ),
                       style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0))),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0))),
                       ),
                     ),
                   ],
@@ -388,6 +223,153 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
-          PostView()]);
+        ),
+        body: ListView(
+          children: [
+            PostView(),
+          ],
+        ));
+  }
+
+  cutomWidget(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    return ListView(shrinkWrap: true, children: [
+      SizedBox(
+        height: 40,
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          //physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+
+          children: [
+            Row(
+              children: [
+                OutlinedButton(
+                  onPressed: null,
+                  child: const Text(
+                    'Latest 100',
+                    style: TextStyle(
+                        color: Color(0xffff5275),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0))),
+                  ),
+                ),
+                const SizedBox(width: 5),
+                OutlinedButton(
+                  onPressed: null,
+                  child: const Text(
+                    'Near me',
+                    style: TextStyle(
+                        color: Color(0xffff5275),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0))),
+                  ),
+                ),
+                const SizedBox(width: 5),
+                OutlinedButton(
+                  onPressed: null,
+                  child: const Text(
+                    'My Match',
+                    style: TextStyle(
+                        color: Color(0xffff5275),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0))),
+                  ),
+                ),
+                const SizedBox(width: 5),
+                OutlinedButton(
+                  onPressed: null,
+                  child: const Text(
+                    'Recently viewed',
+                    style: TextStyle(
+                        color: Color(0xffff5275),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0))),
+                  ),
+                ),
+                const SizedBox(width: 5),
+                OutlinedButton(
+                  onPressed: null,
+                  child: const Text(
+                    'Recently Visitor',
+                    style: TextStyle(
+                        color: Color(0xffff5275),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0))),
+                  ),
+                ),
+                const SizedBox(width: 5),
+                OutlinedButton(
+                  onPressed: null,
+                  child: const Text(
+                    'Interest Received',
+                    style: TextStyle(
+                        color: Color(0xffff5275),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0))),
+                  ),
+                ),
+                const SizedBox(width: 5),
+                OutlinedButton(
+                  onPressed: null,
+                  child: const Text(
+                    'Interest accepted',
+                    style: TextStyle(
+                        color: Color(0xffff5275),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0))),
+                  ),
+                ),
+                const SizedBox(width: 5),
+                OutlinedButton(
+                  onPressed: null,
+                  child: const Text(
+                    'Interest Sent',
+                    style: TextStyle(
+                        color: Color(0xffff5275),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0))),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+      PostView()
+    ]);
   }
 }

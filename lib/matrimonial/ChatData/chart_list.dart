@@ -463,6 +463,83 @@ class _StatusState extends State<Status> {
                     return Center(child: CircularProgressIndicator());
                   },
                 ),
+                FutureBuilder(
+                  future: db
+                      .collection("post")
+                      .doc('matrimonial')
+                      .collection('status')
+                      .where("mid", isNotEqualTo: "12345")
+                      .get(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                          snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.done) {
+                      postStatusList.clear();
+                      snapshot.data!.docs.forEach((v) {
+                        postStatusList.add(v.data());
+                        lenthOfStatus = v.data();
+
+                        statusImg = v.data()["imgUrl"];
+                        statusCaption = v.data()["caption"];
+                        statusName = v.data()["name"];
+                        statusId = v.data()["statusId"];
+                        statusProfilePic = v.data()["profilePic"];
+                      });
+                      print(postStatusList[0]["imgUrl"]);
+                      return ListView.builder(
+                          itemCount: postStatusList.length,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              children: [
+                                ListTile(
+                                  onTap: () => Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (_) => OtherStatusView(
+                                              profilePic: postStatusList[index]
+                                                  ["profilePic"],
+                                              img: postStatusList[index]
+                                                  ["imgUrl"],
+                                              date: DateFormat("kk:mm:a")
+                                                  .format(postStatusList[index]
+                                                          ["createdAt"]
+                                                      .toDate())
+                                                  .toString(),
+                                              caption: postStatusList[index]
+                                                  ["caption"],
+                                              mId: postStatusList[index]["mId"],
+                                              name: postStatusList[index]
+                                                  ["name"],
+                                              statusId: statusId))),
+                                  title: Text(postStatusList[index]["name"]),
+                                  leading: CircleAvatar(
+                                    backgroundColor: kRedColor,
+                                    radius: 30,
+                                    child: ClipOval(
+                                      child: Image.network(
+                                          postStatusList[index]["imgUrl"]),
+                                    ),
+                                  ),
+                                  subtitle: Text(DateFormat("kk:mm:a")
+                                      .format(postStatusList[index]["createdAt"]
+                                          .toDate())
+                                      .toString()),
+                                ),
+                                Divider(),
+                              ],
+                            );
+                          });
+                    }
+                    // else if (!snapshot.hasData &&
+                    //     snapshot.connectionState == ConnectionState.done) {
+                    //   return Text("No Status Here");
+                    // }
+                    return Center(child: CircularProgressIndicator());
+                  },
+                ),
 
                 // Row(
                 //   children: [
@@ -499,3 +576,4 @@ class _StatusState extends State<Status> {
     );
   }
 }
+
