@@ -17,8 +17,12 @@ import 'package:immigration/matrimonial/model/Post%20Data/qualification_model.da
 class PostFunction {
   Dio dio = Dio();
   FirebaseFirestore db = FirebaseFirestore.instance;
-  addtoDb(){
-    db.collection("matrimonial").doc("12345").update({"plan":0}).then((value) {
+  addPlanToDb(){
+    int? planId;
+    db.collection("extras").doc("plan").get().then((value){
+     planId= value.data()!["planId"];
+    });
+    db.collection("matrimonial").doc("12345").update({"plan":planId}).then((value) {
       print("updated");
 
     }).catchError((onError){

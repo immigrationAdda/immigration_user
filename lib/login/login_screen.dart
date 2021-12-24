@@ -106,15 +106,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
 
-                      // Container(
-                      //   height: height * 0.16,
-                      //   width: width * 0.32,
-                      //   decoration: BoxDecoration(
-                      //       borderRadius: BorderRadius.circular(20),
-                      //       image: DecorationImage(
-                      //           fit: BoxFit.cover,
-                      //           image: AssetImage("assets/images/logo.png"))),
-                      // ),
                       Text(
                         "Immigration Adda",
                         style: TextStyle(color: Colors.white, fontSize: 28),

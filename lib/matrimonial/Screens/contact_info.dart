@@ -32,12 +32,14 @@ class ContactInfo extends StatefulWidget {
   final String? motherTongue;
   final String? ieltsTofel;
   final String? age;
+  final String? gender;
 
   const ContactInfo(
       {Key? key,
       this.firstName,
       this.lastName,
         this.age,
+        this.gender,
       this.dob,
       this.height,
       this.weight,
@@ -84,6 +86,8 @@ String? selectedPassport = '';
       "lastName": widget.lastName,
       "dob": widget.dob,
       'age':widget.age,
+      'gender':widget.gender,
+
       "height": widget.height,
       "weight": widget.weight,
       "bodyType": widget.bodyType,

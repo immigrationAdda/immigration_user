@@ -85,11 +85,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     ),
                   ),
                   onPressed: () {
-                    _postFunction.addtoDb();
-                    // Navigator.pushReplacement(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => const BottomNav()),
-                    // );
+                    _postFunction.addPlanToDb();
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const BottomNav()),
+                    );
                   },
                   child: const Text(
                     "Proceed",

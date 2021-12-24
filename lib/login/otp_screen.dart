@@ -1,5 +1,9 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:immigration/constants.dart';
 import 'package:immigration/provider/auth_provider.dart';
 import 'package:immigration/screens/Home_page.dart';
@@ -30,6 +34,39 @@ class _OtpScreenState extends State<OtpScreen> {
   TextEditingController sixthController = TextEditingController();
 
   TextEditingController otpController = TextEditingController();
+  bool countDownComplete = false;
+
+  var duration;
+  final interval = const Duration(seconds: 1);
+
+  final int timerMaxSeconds = 10;
+
+  int currentSeconds = 0;
+
+  String get timerText =>
+      '${((timerMaxSeconds - currentSeconds) ~/ 60).toString().padLeft(2, '0')}: ${((timerMaxSeconds - currentSeconds) % 60).toString().padLeft(2, '0')}';
+
+  startTimeout([int? milliseconds]) {
+    log("-----interval-----------$interval-");
+
+    setState(() {
+      duration = interval;
+    });
+    log("-----duration--------$duration--");
+    Timer.periodic(duration, (timer) {
+      setState(() {
+        print(timer.tick);
+        currentSeconds = timer.tick;
+        if (timer.tick >= timerMaxSeconds) {
+          setState(() {
+            countDownComplete = true;
+          });
+          timer.cancel();
+        }
+      });
+    });
+  }
+
   void _showErrorDialog(BuildContext context, String message) {
     showDialog(
       context: context,
@@ -47,15 +84,20 @@ class _OtpScreenState extends State<OtpScreen> {
       ),
     );
   }
-Future<String> check(String uId)async{
-    var res =await http.get(Uri.parse("https://frozen-savannah-16893.herokuapp.com/User/check/$uId"));
-    if(res.statusCode==200){
-      print("hgkj8888888888888"+res.body);
-    return res.body;
+
+  Future<String> check(String uId) async {
+    var res = await http.get(Uri.parse(
+        "https://frozen-savannah-16893.herokuapp.com/User/check/$uId"));
+    if (res.statusCode == 200) {
+      print("hgkj8888888888888" + res.body);
+      return res.body;
     }
     return res.body;
-}
+  }
+  int? statuscode = 100;
+
   verifyOTP(BuildContext context) {
+    
     try {
       Provider.of<AuthProvider>(context, listen: false)
           .verifyOTP(firstController.text +
@@ -64,14 +106,25 @@ Future<String> check(String uId)async{
               fourthController.text +
               fifthController.text +
               sixthController.text)
-          .then((_) {
-            print("-----------============------"+FirebaseAuth.instance.currentUser!.uid.toString());
-        if (check(FirebaseAuth.instance.currentUser!.uid.toString()) =="true") {
+          .whenComplete(() {
+           
+        print("-----------============------" +
+            FirebaseAuth.instance.currentUser!.uid.toString());
+            
+        if (check(FirebaseAuth.instance.currentUser!.uid.toString()) ==
+            "true") {
+               setState(() {
+             
+              statuscode == 100;
+            });
           return Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => MainScreen()));
         } else {
           return Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => UserProfile(uId:FirebaseAuth.instance.currentUser!.uid)));
+              context,
+              MaterialPageRoute(
+                  builder: (context) => UserProfile(
+                      uId: FirebaseAuth.instance.currentUser!.uid)));
         }
 
         // Navigator.pushReplacement(
@@ -103,6 +156,7 @@ Future<String> check(String uId)async{
 
   @override
   void initState() {
+    startTimeout();
     super.initState();
     firstNode = FocusNode();
   }
@@ -118,256 +172,295 @@ Future<String> check(String uId)async{
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Stack(
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Container(
-                  height: height * 0.35,
-                  width: width,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          fit: BoxFit.fill,
-                          image: AssetImage("assets/images/pathBlue.png"))),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Enter OTP here",
-                        style: TextStyle(color: Colors.white, fontSize: 28),
+                Stack(
+                  children: [
+                    Container(
+                      height: height * 0.35,
+                      width: width,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              fit: BoxFit.fill,
+                              image: AssetImage("assets/images/pathBlue.png"))),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Enter OTP here",
+                            style: TextStyle(color: Colors.white, fontSize: 28),
+                          ),
+                          Text(
+                            "We sent you one time password on \n+91${Provider.of<AuthProvider>(context, listen: false).controllerPhone.text.toString()}",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          )
+                        ],
                       ),
-                      Text(
-                        "We sent you one time password on \n+91${Provider.of<AuthProvider>(context, listen: false).controllerPhone.text.toString()}",
-                        style: TextStyle(
-                          color: Colors.white,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 50.0),
+                      child: IconButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          icon: Icon(
+                            Icons.arrow_back_ios_new_outlined,
+                            color: Colors.white,
+                          )),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 80,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 50.0,
+                        height: 50.0,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: kBlueColor.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(5.0),
                         ),
-                      )
+                        child: TextField(
+                          focusNode: firstNode,
+                          maxLength: 1,
+                          controller: firstController,
+                          //style: inputOtpTextStyle,
+                          keyboardType: TextInputType.number,
+                          cursorColor: Colors.white,
+                          decoration: InputDecoration(
+                            counterText: "",
+                            contentPadding: EdgeInsets.all(18.0),
+                            border: InputBorder.none,
+                          ),
+                          onChanged: (v) {
+                            FocusScope.of(context).requestFocus(secondNode);
+                          },
+                        ),
+                      ),
+                      Container(
+                        width: 50.0,
+                        height: 50.0,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: kBlueColor.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        child: TextField(
+                          focusNode: secondNode,
+                          maxLength: 1,
+                          controller: secondController,
+                          //style: inputOtpTextStyle,
+                          keyboardType: TextInputType.number,
+                          cursorColor: Colors.white,
+                          decoration: InputDecoration(
+                            counterText: "",
+                            contentPadding: EdgeInsets.all(18.0),
+                            border: InputBorder.none,
+                          ),
+                          onChanged: (v) {
+                            FocusScope.of(context).requestFocus(thirdNode);
+                          },
+                        ),
+                      ),
+                      Container(
+                        width: 50.0,
+                        height: 50.0,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: kBlueColor.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        child: TextField(
+                          focusNode: thirdNode,
+                          maxLength: 1,
+                          controller: thirdController,
+                          //style: inputOtpTextStyle,
+                          keyboardType: TextInputType.number,
+                          cursorColor: Colors.white,
+                          decoration: InputDecoration(
+                            counterText: "",
+                            contentPadding: EdgeInsets.all(18.0),
+                            border: InputBorder.none,
+                          ),
+                          onChanged: (v) {
+                            FocusScope.of(context).requestFocus(fourthNode);
+                          },
+                        ),
+                      ),
+                      Container(
+                        width: 50.0,
+                        height: 50.0,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: kBlueColor.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        child: TextField(
+                          focusNode: fourthNode,
+                          controller: fourthController,
+                          maxLength: 1,
+                          //style: inputOtpTextStyle,
+                          keyboardType: TextInputType.number,
+                          cursorColor: Colors.white,
+                          decoration: InputDecoration(
+                            counterText: "",
+                            contentPadding: EdgeInsets.all(18.0),
+                            border: InputBorder.none,
+                          ),
+                          onChanged: (v) {
+                            FocusScope.of(context).requestFocus(fifthNode);
+                          },
+                        ),
+                      ),
+                      Container(
+                        width: 50.0,
+                        height: 50.0,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: kBlueColor.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        child: TextField(
+                          focusNode: fifthNode,
+                          controller: fifthController,
+                          maxLength: 1,
+                          //style: inputOtpTextStyle,
+                          keyboardType: TextInputType.number,
+                          cursorColor: Colors.white,
+                          decoration: InputDecoration(
+                            counterText: "",
+                            contentPadding: EdgeInsets.all(18.0),
+                            border: InputBorder.none,
+                          ),
+                          onChanged: (v) {
+                            FocusScope.of(context).requestFocus(sixthNode);
+                          },
+                        ),
+                      ),
+                      Container(
+                        width: 50.0,
+                        height: 50.0,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: kBlueColor.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        child: TextField(
+                          focusNode: sixthNode,
+                          controller: sixthController,
+                          maxLength: 1,
+                          //style: inputOtpTextStyle,
+                          keyboardType: TextInputType.number,
+                          cursorColor: Colors.white,
+                          decoration: InputDecoration(
+                            counterText: "",
+                            contentPadding: EdgeInsets.all(18.0),
+                            border: InputBorder.none,
+                          ),
+                          onChanged: (v) {
+                            FocusScope.of(context).requestFocus(buttonNode);
+                          },
+                        ),
+                      ),
                     ],
                   ),
                 ),
+                SizedBox(height: 10),
                 Padding(
-                  padding: const EdgeInsets.only(top: 50.0),
-                  child: IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      icon: Icon(
-                        Icons.arrow_back_ios_new_outlined,
-                        color: Colors.white,
-                      )),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 80,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 50.0,
-                    height: 50.0,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: kBlueColor.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    child: TextField(
-                      focusNode: firstNode,
-                      maxLength: 1,
-                      controller: firstController,
-                      //style: inputOtpTextStyle,
-                      keyboardType: TextInputType.number,
-                      cursorColor: Colors.white,
-                      decoration: InputDecoration(
-                        counterText: "",
-                        contentPadding: EdgeInsets.all(18.0),
-                        border: InputBorder.none,
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.timer,
                       ),
-                      onChanged: (v) {
-                        FocusScope.of(context).requestFocus(secondNode);
-                      },
-                    ),
-                  ),
-                  Container(
-                    width: 50.0,
-                    height: 50.0,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: kBlueColor.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    child: TextField(
-                      focusNode: secondNode,
-                      maxLength: 1,
-                      controller: secondController,
-                      //style: inputOtpTextStyle,
-                      keyboardType: TextInputType.number,
-                      cursorColor: Colors.white,
-                      decoration: InputDecoration(
-                        counterText: "",
-                        contentPadding: EdgeInsets.all(18.0),
-                        border: InputBorder.none,
+                      SizedBox(
+                        width: 5,
                       ),
-                      onChanged: (v) {
-                        FocusScope.of(context).requestFocus(thirdNode);
-                      },
-                    ),
-                  ),
-                  Container(
-                    width: 50.0,
-                    height: 50.0,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: kBlueColor.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    child: TextField(
-                      focusNode: thirdNode,
-                      maxLength: 1,
-                      controller: thirdController,
-                      //style: inputOtpTextStyle,
-                      keyboardType: TextInputType.number,
-                      cursorColor: Colors.white,
-                      decoration: InputDecoration(
-                        counterText: "",
-                        contentPadding: EdgeInsets.all(18.0),
-                        border: InputBorder.none,
-                      ),
-                      onChanged: (v) {
-                        FocusScope.of(context).requestFocus(fourthNode);
-                      },
-                    ),
-                  ),
-                  Container(
-                    width: 50.0,
-                    height: 50.0,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: kBlueColor.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    child: TextField(
-                      focusNode: fourthNode,
-                      controller: fourthController,
-                      maxLength: 1,
-                      //style: inputOtpTextStyle,
-                      keyboardType: TextInputType.number,
-                      cursorColor: Colors.white,
-                      decoration: InputDecoration(
-                        counterText: "",
-                        contentPadding: EdgeInsets.all(18.0),
-                        border: InputBorder.none,
-                      ),
-                      onChanged: (v) {
-                        FocusScope.of(context).requestFocus(fifthNode);
-                      },
-                    ),
-                  ),
-                  Container(
-                    width: 50.0,
-                    height: 50.0,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: kBlueColor.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    child: TextField(
-                      focusNode: fifthNode,
-                      controller: fifthController,
-                      maxLength: 1,
-                      //style: inputOtpTextStyle,
-                      keyboardType: TextInputType.number,
-                      cursorColor: Colors.white,
-                      decoration: InputDecoration(
-                        counterText: "",
-                        contentPadding: EdgeInsets.all(18.0),
-                        border: InputBorder.none,
-                      ),
-                      onChanged: (v) {
-                        FocusScope.of(context).requestFocus(sixthNode);
-                      },
-                    ),
-                  ),
-                  Container(
-                    width: 50.0,
-                    height: 50.0,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: kBlueColor.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    child: TextField(
-                      focusNode: sixthNode,
-                      controller: sixthController,
-                      maxLength: 1,
-                      //style: inputOtpTextStyle,
-                      keyboardType: TextInputType.number,
-                      cursorColor: Colors.white,
-                      decoration: InputDecoration(
-                        counterText: "",
-                        contentPadding: EdgeInsets.all(18.0),
-                        border: InputBorder.none,
-                      ),
-                      onChanged: (v) {
-                        FocusScope.of(context).requestFocus(buttonNode);
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            //   child: TextField(
-            //     decoration: InputDecoration(),
-            //   ),
-            // ),
-            SizedBox(height: 10),
-            TextButton(
-              style: ButtonStyle(
-                splashFactory: NoSplash.splashFactory,
-              ),
-              child: Text("Don't recieve OTP? Resend!",
-                  style: TextStyle(color: kBlueColor)),
-              onPressed: () {
-                //Navigator.pop(context);
-              },
-            ),
-            SizedBox(
-              height: 100,
-            ),
-            SizedBox(
-              height: height * 0.07,
-              width: width * 0.3,
-              child: ElevatedButton(
-                autofocus: true,
-                focusNode: buttonNode,
-                style: ButtonStyle(
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20))),
-                    backgroundColor:
-                        MaterialStateColor.resolveWith((states) => kBlueColor)),
-                onPressed: () {
-                  verifyOTP(context);
-                },
-                child: Text(
-                  "Verify",
-                  style: TextStyle(
-                    fontSize: 18,
+                      Text(timerText),
+                    ],
                   ),
                 ),
-              ),
+                SizedBox(height: 10),
+                (countDownComplete == false)
+                    ? TextButton(
+                        style: ButtonStyle(
+                          splashFactory: NoSplash.splashFactory,
+                        ),
+                        child: Text("Don't recieve OTP? Resend!",
+                            style: TextStyle(color: Colors.grey)),
+                        onPressed: () {
+                          //Navigator.pop(context);
+                        },
+                      )
+                    : TextButton(
+                        style: ButtonStyle(
+                          splashFactory: NoSplash.splashFactory,
+                        ),
+                        child: Text("Don't recieve OTP? Resend!",
+                            style: TextStyle(color: kBlueColor)),
+                        onPressed: () {
+                          //Navigator.pop(context);
+                        },
+                      ),
+                SizedBox(
+                  height: 100,
+                ),
+                SizedBox(
+                  height: height * 0.07,
+                  width: width * 0.3,
+                  child: ElevatedButton(
+                    autofocus: true,
+                    focusNode: buttonNode,
+                    style: ButtonStyle(
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20))),
+                        backgroundColor:
+                            MaterialStateColor.resolveWith((states) => kBlueColor)),
+                    onPressed: () {
+                      verifyOTP(context);
+                    },
+                    child: Text(
+                      "Verify",
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        
+             Container(
+              child: statuscode == 200
+                  ? AlertDialog(
+                insetPadding:
+                EdgeInsets.symmetric(horizontal: 2.0, vertical: 2.0),
+                content: Container(
+                  height: 100,
+                  width: MediaQuery.of(context).size.width * 0.2,
+                  child: SpinKitCubeGrid(
+                    color: kBlueColor,
+                  ),
+                ),
+              )
+                  : Container())
+        ],
       ),
     );
   }

@@ -1,141 +1,18 @@
-import 'dart:developer';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:immigration/matrimonial/ChatData/image_upload.dart';
 import 'package:immigration/matrimonial/ChatData/upload_profile_pic.dart';
 import 'package:immigration/matrimonial/Screens/personal_info.dart';
+import 'package:immigration/screens/profile.dart';
 
 class PostView extends StatefulWidget {
   const PostView({Key? key}) : super(key: key);
 
   @override
   _PostViewState createState() => _PostViewState();
-
 }
 
 class _PostViewState extends State<PostView> {
-  int? statusCode=0;
-  bool isDocExists = false;
-  int profileCount =0;
-  String? imgUrl= "";
-  int? planId;
-  int check =0;
-  FirebaseFirestore db = FirebaseFirestore.instance;
-  var uid=FirebaseAuth.instance.currentUser!.uid;
-  String? gender;
-  getUserGender(){
-    db.collection("matrimonial").doc(uid).get().then((value) {
-      setState(() {
-        gender = value.data()!["gender"];
-      });
-    });
-  }
-  Future<int> userIdCheck() async{
-    await db.collection("userPlan").doc(uid).get().then((value) async {
-
-      await db.collection("matrimonial").doc(uid).get().then((v){
-        setState(() {
-          planId= v.data()!["planId"];
-          log("---------plan----$planId-----");
-
-        });
-      });
-      setState(() {
-        isDocExists =value.exists;
-        log("-----exists--------$isDocExists-----");
-        profileCount=  value.data()!["profileCount"];
-        log("----count---------$profileCount-----");
-
-      });
-    });
-    if(isDocExists== true && planId==0 ){
-      log("-----1st");
-      setState(() {
-        check =1;
-      });
-      Fluttertoast.showToast(msg: "Please update your plan!");
-
-    }else if(isDocExists== true && planId ==1 ){
-      log("-----2t");
-      setState(() {
-        check =1;
-
-      });
-      log("-check value-2---$check");
-      if(profileCount ==75){
-        Fluttertoast.showToast(msg: "Please update your plan!");
-        showAboutDialog(context:context,children: [
-          Center(child: Text("Error Happen!")),
-          Text("To upload image please upgrade your plan!"),
-
-        ]);
-      }
-    }
-    else if(isDocExists== true && planId ==2 && gender =="male"){
-      log("-0-------3");
-      setState(() {
-        check =1;
-      });
-      if(profileCount ==150){
-        showAboutDialog(context:context,children: [
-          Center(child: Text("Error Happen!")),
-          Text("To view profile please upgrade your plan!"),
-
-        ]);
-      }
-
-      db.collection("userPlan").doc(uid).update({"profileCount":1,"mId":uid}).whenComplete(() => log("Added image"));
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              UploadProfilePic (),
-        ),
-      );
-    }else if(isDocExists== true && planId ==3 ){
-      log("-----2t");
-      setState(() {
-        check =1;
-
-      });
-      log("-check value-2---$check");
-      if(profileCount ==300){
-        Fluttertoast.showToast(msg: "Please update your plan!");
-        showAboutDialog(context:context,children: [
-          Center(child: Text("Error Happen!")),
-          Text("To upload image please upgrade your plan!"),
-
-        ]);
-      }
-    }
-    else if(isDocExists== false ){
-      log("----------------4");
-      db.collection("userPlan").doc(uid).update({"profileCount":1,"mId":uid}).whenComplete(() => log("Added image"));
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              UploadProfilePic (),
-        ),
-      );
-      db.collection("userPlan").doc(uid).update({"profileCount":1,"mid":uid}).whenComplete(() => log("Added image"));
-    }
-    return check;
-  }
-  updatePostViewCount(){
-    db.collection("collectionPath");
-  }
-  @override
-  void initState() {
-    getUserGender();// TODO: implement initState
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Object>(
@@ -174,12 +51,11 @@ class _PostViewState extends State<PostView> {
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
                                 child: GestureDetector(
                                   onTap: () {
-
-                                    Navigator.pushReplacement(
+                                    Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                            UploadProfilePic (),
+                                            UploadProfilePic(),
                                       ),
                                     );
                                   },
@@ -203,8 +79,10 @@ class _PostViewState extends State<PostView> {
                                             Radius.circular(26))),
                                     child: Padding(
                                       padding: EdgeInsets.all(5.0),
-                                      child: Icon(Icons.favorite_border_outlined,
-                                          color: Colors.red, size: 30),
+                                      child: Icon(
+                                          Icons.favorite_border_outlined,
+                                          color: Colors.red,
+                                          size: 30),
                                     )),
                               ),
                             ),
@@ -212,7 +90,7 @@ class _PostViewState extends State<PostView> {
                               children: [
                                 Container(
                                   height:
-                                  MediaQuery.of(context).size.height / 1.6,
+                                      MediaQuery.of(context).size.height / 1.6,
                                   alignment: Alignment.bottomLeft,
                                   child: const Padding(
                                     padding: EdgeInsets.all(8.0),
@@ -226,23 +104,25 @@ class _PostViewState extends State<PostView> {
                                     ),
                                   ),
                                 ),
-                                ((gender=="male")&&(planId == 3 || planId ==4))?
                                 Container(
                                   height:
-                                  MediaQuery.of(context).size.height / 1.7,
+                                      MediaQuery.of(context).size.height / 1.7,
                                   alignment: Alignment.bottomLeft,
                                   child: const ImageIcon(
                                     AssetImage('Images/Icons/kingcrown1.png'),
                                     color: Colors.orange,
                                     size: 40,
                                   ),
-                                ):Container(),
+                                ),
                                 Container(
-                                  height: MediaQuery.of(context).size.height / 1.7,
-                                  width: MediaQuery.of(context).size.width / 2.0,
+                                  height:
+                                      MediaQuery.of(context).size.height / 1.7,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.0,
                                   alignment: Alignment.bottomRight,
                                   child: const ImageIcon(
-                                    AssetImage('Images/Icons/MarriagePalace.png'),
+                                    AssetImage(
+                                        'Images/Icons/MarriagePalace.png'),
                                     color: Colors.orange,
                                     size: 40,
                                   ),
@@ -338,74 +218,90 @@ class _PostViewState extends State<PostView> {
                             ),
                           ),
                         ),
-                        // Padding(
-                        //   padding: const EdgeInsets.all(16),
-                        //   child: Container(
-                        //     height: 20, width: 50,
-                        //     //color: Color(0xff0d47a1),
-                        //     decoration:
-                        //     BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                        //     child: ElevatedButton(
-                        //       style: ButtonStyle(
-                        //         backgroundColor: MaterialStateColor.resolveWith(
-                        //               (states) => const Color(0xffff5275),
-                        //         ),
-                        //         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        //           RoundedRectangleBorder(
-                        //             borderRadius: BorderRadius.circular(40.0),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //       onPressed: () {
-                        //         Navigator.pushReplacement(
-                        //           context,
-                        //           MaterialPageRoute(builder: (context) =>  PersonalInfo()),
-                        //         );
-                        //       },
-                        //       child: const Text(
-                        //         "Upload",
-                        //         style: TextStyle(
-                        //             color: Colors.white,
-                        //             fontWeight: FontWeight.bold,
-                        //             fontSize: 24),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                        // Padding(
-                        //   padding: const EdgeInsets.all(16),
-                        //   child: Container(
-                        //     height: 20, width: 50,
-                        //     //color: Color(0xff0d47a1),
-                        //     decoration:
-                        //     BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                        //     child: ElevatedButton(
-                        //       style: ButtonStyle(
-                        //         backgroundColor: MaterialStateColor.resolveWith(
-                        //               (states) => const Color(0xffff5275),
-                        //         ),
-                        //         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        //           RoundedRectangleBorder(
-                        //             borderRadius: BorderRadius.circular(40.0),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //       onPressed: () {
-                        //         Navigator.pushReplacement(
-                        //           context,
-                        //           MaterialPageRoute(builder: (context) =>  PersonalInfo()),
-                        //         );
-                        //       },
-                        //       child: const Text(
-                        //         "Upload",
-                        //         style: TextStyle(
-                        //             color: Colors.white,
-                        //             fontWeight: FontWeight.bold,
-                        //             fontSize: 24),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(4),
+                              child: Container(
+                                height: 28, width: 140,
+                                //color: Color(0xff0d47a1),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: ElevatedButton(
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateColor.resolveWith(
+                                      (states) => const Color(0xffff5275),
+                                    ),
+                                    shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(40.0),
+                                      ),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Profile(
+                                                sId: '0123',
+                                              )),
+                                    );
+                                  },
+                                  child: const Text(
+                                    " View Profile",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 18),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            
+                            SizedBox(
+                              width: 95,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(4),
+                              child: Container(
+                                height: 28, width: 140,
+                                //color: Color(0xff0d47a1),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: ElevatedButton(
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateColor.resolveWith(
+                                      (states) => const Color(0xffff5275),
+                                    ),
+                                    shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(40.0),
+                                      ),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Profile(
+                                                sId: '0123',
+                                              )),
+                                    );
+                                  },
+                                  child: const Text(
+                                    "Sent Request",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 18),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
