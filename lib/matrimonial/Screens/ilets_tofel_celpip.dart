@@ -7,8 +7,6 @@ import 'package:immigration/matrimonial/Screens/about_yourself.dart';
 import 'package:immigration/matrimonial/Screens/abroad.dart';
 import 'package:immigration/matrimonial/Screens/business.dart';
 import 'package:immigration/matrimonial/Screens/contact_info.dart';
-import 'package:immigration/matrimonial/Screens/interested_to_marriage.dart';
-import 'package:immigration/matrimonial/Screens/marriage_interest.dart';
 import 'package:immigration/matrimonial/Screens/welcome_screen.dart';
 
 class IletsTofelCelpip extends StatefulWidget {

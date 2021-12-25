@@ -32,16 +32,16 @@ class _HomePageState extends State<HomePage> {
         floatingActionButton: Container(
           width: 80,
           height:80,
-          
+
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(540)),
               border: Border.all(
-            
+
             color: kRedColor,
             width: 2
           )),
-          
-          
+
+
           child: new FloatingActionButton(
               elevation: 0.0,
               child:Padding(
@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
               }
       ),
         ),
-      backgroundColor: lightGray,
+      backgroundColor: kRoseWhite,
       body: SingleChildScrollView(
         child: Column(
 
@@ -102,7 +102,7 @@ class _HomePageState extends State<HomePage> {
                           builder: (context) =>
                               SellerLists(type: "Tourist & Business Visa")));
                     },
-                    child: button(context, "Tourist &\nBusiness Visa",
+                    child: button(context, "Tourist\ Visa",
                         "assets/images/bus-visa.png")),
 
                 GestureDetector(
@@ -222,13 +222,13 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
 
                     },
-                    child: button(context, "Online IELTS Classes",
+                    child: button(context, "IELTS Classes",
                         "assets/images/ielts-online-class.png")),
                 GestureDetector(
                     onTap: () {
                       print("object yes");
                     },
-                    child: button(context, "Online Weekly Free IELTS Test",
+                    child: button(context, " IELTS Test",
                         "assets/images/week-online-class.png")),
 
                 GestureDetector(
@@ -237,13 +237,13 @@ class _HomePageState extends State<HomePage> {
                           builder: (context) =>
                                PRScore()));
                     },
-                    child: button(context, "Check PR/Study Visa Score Free",
+                    child: button(context, "Check Score",
                         "assets/images/check-pr.png")),
                 GestureDetector(
                   onTap: () {
                     print("object yes");
                   },
-                  child: button(context, "Buyer\nRequirements",
+                  child: button(context, "User\n Requirement",
                       "assets/images/Buyer-ads.png"),
                 ),
                 GestureDetector(
@@ -253,7 +253,7 @@ class _HomePageState extends State<HomePage> {
                               SellerThreePosts(type: "jobPost")));
                     },
                     child: button(
-                        context, "Job\nRequirements", "assets/images/job.png")),
+                        context, "Job\nRequirement", "assets/images/job.png")),
                 GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
@@ -284,14 +284,7 @@ class _HomePageState extends State<HomePage> {
           ),
 
           PostListScreen(uri: "https://frozen-savannah-16893.herokuapp.com/Seller/postLists/f"),]),
-
-
-
-
-
-
-
-        ],
+ ],
       ),)
     );
   }
@@ -300,7 +293,8 @@ class _HomePageState extends State<HomePage> {
 Widget button(BuildContext context, String text, String icon) {
   return Container(
     child: Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0),),
+      elevation: 05,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
         child: Column(
@@ -318,7 +312,7 @@ Widget button(BuildContext context, String text, String icon) {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: kBlueColor,
-                    fontSize: SizeConfig.safeBlockHorizontal! * 2.9,
+                    fontSize: SizeConfig.safeBlockHorizontal! * 2.7,
                 fontWeight: FontWeight.bold),
 
               ),

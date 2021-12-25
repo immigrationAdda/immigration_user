@@ -116,6 +116,7 @@ class _PassportState extends State<Passport> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -218,6 +219,7 @@ class _PassportState extends State<Passport> {
                                 children: passportType!
                                     .map((e) => InkWell(
                                     onTap: () {
+                                      // ignore: unused_local_variable
                                       var object = "I LIKE JAVA";
 
                                       setState(() {
@@ -279,6 +281,7 @@ class _PassportState extends State<Passport> {
                                 children: services
                                     .map((e) => InkWell(
                                     onTap: () {
+                                      // ignore: unused_local_variable
                                       var object = "I LIKE JAVA";
 
                                       setState(() {

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,9 @@ import 'package:immigration/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:immigration/provider/auth_provider.dart';
 import 'package:immigration/screens/MainScreen.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:multi_select_flutter/chip_display/multi_select_chip_display.dart';
 
 import '../api_config.dart';
 
@@ -33,6 +34,88 @@ class UserProfile extends StatefulWidget {
 
 class _UserProfileState extends State<UserProfile> {
 
+  static List<CategoriesType> items = [
+    CategoriesType(
+      id: 0,
+      name: "IELTS",
+    ),
+    CategoriesType(id: 1, name: "Passport"),
+    CategoriesType(id: 2, name: "Study Visa"),
+    CategoriesType(
+      id: 3,
+      name: "Education Loan",
+    ),
+    // CategoriesType(id: 4, name: "Passport"),
+    CategoriesType(
+      id: 5,
+      name: "Air Ticket",
+    ),
+    CategoriesType(
+      id: 6,
+      name: "Travel Insurance",
+    ),
+    CategoriesType(id: 7, name: "Money Exchange"),
+    CategoriesType(
+      id: 8,
+      name: "Transportation",
+    ),
+    CategoriesType(
+      id: 9,
+      name: "Luggage Adjustment",
+    ),
+    CategoriesType(
+      id: 10,
+      name: "Accommodation at Abraod",
+    ),
+    CategoriesType(
+      id: 11,
+      name: "Jobs at Abroad",
+    ),
+    CategoriesType(
+      id: 12,
+      name: "Tour Travel",
+    ),
+    CategoriesType(
+      id: 13,
+      name: "Work Permit",
+    ),
+    CategoriesType(
+      id: 14,
+      name: "Permanent Residence",
+    ),
+    CategoriesType(
+      id: 15,
+      name: "Tourist & Business Visa",
+    ),
+    CategoriesType(
+      id: 16,
+      name: "Events",
+    ),
+    CategoriesType(
+      id: 17,
+      name: "Job requirements",
+    ),
+    CategoriesType(
+      id: 18,
+      name: "International Courier",
+    ),
+    CategoriesType(
+      id: 19,
+      name: "Legal Advisor",
+    ),
+    CategoriesType(
+      id: 20,
+      name: "Online IELTS Classes",
+    ),
+    CategoriesType(
+      id: 21,
+      name: "Franchise",
+    ),
+    CategoriesType(id: 22, name: "Check Your Score"),
+  ];
+  final _items = items
+      .map((type) => MultiSelectItem<CategoriesType>(type, type.name))
+      .toList();
   var getaddress;
   var finalAddress;
 
@@ -94,10 +177,12 @@ class _UserProfileState extends State<UserProfile> {
   var _image;
   late String ProfilePicture;
   int statuscode=0;
+  dynamic categoriedSelected;
 
   getSubmit() async {
     bool check = false;
-    UserModel userModel = new UserModel(uId: widget.uId,
+    UserModel userModel = new UserModel(
+      uId: widget.uId,
         name: nameController.text,
         phoneNo: Provider.of<AuthProvider>(context, listen: false).controllerPhone.text,
         email: emailIdController.text,
@@ -128,7 +213,7 @@ class _UserProfileState extends State<UserProfile> {
     print(fileName);
     FormData formData = FormData.fromMap({
       "file": await MultipartFile.fromFile(_image!.path,
-          contentType: MediaType("image", fileName))
+          contentType: MediaType("image", fileName)),
     });
     return await dio
         .postUri(Uri.parse(ApiConfig.BASE_URL + "Seller/upload"), data: formData)
@@ -156,6 +241,7 @@ class _UserProfileState extends State<UserProfile> {
       _image = file;
       uploadImage();
     });
+
   }
   @override
   Widget build(BuildContext context) {
@@ -207,6 +293,7 @@ class _UserProfileState extends State<UserProfile> {
                             ),
                           ),
                         ),
+
                       ),
 
                       customTextField(context, nameController, "Name", true,TextInputType.text),
@@ -218,6 +305,25 @@ class _UserProfileState extends State<UserProfile> {
                       //     context, dateOfBirthController, "Date Of Birth", true,TextInputType.text),
                       customTextField(context, cityController, "City", true,TextInputType.text),
                       SizedBox(height: 30),
+                      Text("Interested In"),
+                      MultiSelectDialogField(
+                        title: Text("Interested In"),
+                        items: _items,
+                        listType: MultiSelectListType.CHIP,
+                        onConfirm: (values) {
+                          categoriedSelected = values;
+                          //categoriedSelected!.add(values);
+                          print(categoriedSelected!.length);
+                        },
+                        chipDisplay: MultiSelectChipDisplay(
+                          onTap: (value) {
+                            setState(() {
+                              categoriedSelected!.remove(value);
+                            });
+                            print(categoriedSelected!.length);
+                          },
+                        ),
+                      ),
 
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 83.0),
@@ -251,6 +357,7 @@ getSubmit();
                           ),
                         ),
                       ),
+
                     ]
                 )
             ),
@@ -298,4 +405,8 @@ enabled: enable,
     ),
   );
 }
-
+class CategoriesType {
+  final int id;
+  final String name;
+  const CategoriesType({required this.id, required this.name});
+}

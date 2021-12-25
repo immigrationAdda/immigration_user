@@ -3,7 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:immigration/matrimonial/Constants/const.dart';
 import 'package:immigration/matrimonial/Data/post_function.dart';
-import 'package:immigration/matrimonial/Screens/interested_to_marriage.dart';
 import 'package:immigration/matrimonial/Screens/personal_info.dart';
 import 'package:immigration/matrimonial/bottom_navigator.dart';
 import 'package:url_launcher/url_launcher.dart';

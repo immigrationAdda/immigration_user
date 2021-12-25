@@ -4,7 +4,6 @@ import 'package:immigration/matrimonial/Constants/const.dart';
 import 'package:immigration/matrimonial/Data/post_function.dart';
 import 'package:immigration/matrimonial/Screens/abroad.dart';
 import 'package:immigration/matrimonial/Screens/business.dart';
-import 'package:immigration/matrimonial/Screens/interested_to_marriage.dart';
 import 'package:immigration/matrimonial/Screens/qualification.dart';
 import 'package:immigration/matrimonial/Screens/welcome_screen.dart';
 

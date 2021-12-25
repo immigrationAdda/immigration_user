@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:immigration/matrimonial/ChatData/chart_list.dart';
 import 'package:immigration/matrimonial/ChatData/masseges.dart';
@@ -14,17 +16,19 @@ import 'package:immigration/matrimonial/model/Post%20Data/business_model.dart';
 import 'package:immigration/matrimonial/model/Post%20Data/family_model.dart';
 import 'package:immigration/matrimonial/model/Post%20Data/ilets_model.dart';
 import 'package:immigration/matrimonial/model/Post%20Data/marriage_interested_model.dart';
+import 'package:immigration/matrimonial/model/Post%20Data/partner_prefference_details.dart';
 import 'package:immigration/matrimonial/model/Post%20Data/property_model.dart';
 import 'package:immigration/matrimonial/model/Post%20Data/qualification_model.dart';
 
 class ProfileView extends StatefulWidget {
-  const ProfileView({Key? key}) : super(key: key);
+  const ProfileView({Key? key, }) : super(key: key);
 
   @override
   _ProfileViewState createState() => _ProfileViewState();
 }
 
 class _ProfileViewState extends State<ProfileView> {
+  var uid = FirebaseAuth.instance.currentUser!.uid;
   Dio dio = Dio();
   final PostFunction _postFunction = PostFunction();
 
@@ -158,6 +162,147 @@ class _ProfileViewState extends State<ProfileView> {
       TextEditingController();
   TextEditingController livingStatusController = TextEditingController();
 
+  List<String> selectedCountries = [];
+  List<String>? livingstatus = [
+    'Citizenship',
+    'Tourist Visa',
+    "Work Permit",
+    "Permanent Resident",
+    "Study Visa",
+    'Dose not matter',
+  ];
+  List<String>? highQualification = [
+    'Matric',
+    '+2',
+    'Bachelors',
+    'Postgraduate',
+    'Certificate',
+    'Diploma',
+    'Doesnot matter'
+  ];
+  List<String>? ielts = [
+    'IELTS',
+    'TOFEL',
+    'CELPIP',
+    'PTE',
+    'CD-IELTS',
+    'NAATI',
+    'CAEL',
+    'Does not matter '
+  ];
+  List<String>? wherechild = ['Live together', 'Separate', 'None'];
+  List<String>? nochild = ['Yes', 'No', 'Dose not matter'];
+  List<String>? bodytype = [
+    'slim',
+    'Tone',
+    'Muscular',
+    'Stocky',
+    'Large',
+    'Average',
+    'Dose not matter'
+  ];
+  List<String>? complexion = [
+    'Fair skin',
+    "Medium skin",
+    "Olive skin",
+    "Brown skin",
+    "Black skin",
+    'Dose not matter'
+  ];
+  List drinkingList = ["Yes", "No", "Occasionally Drink", 'Dose not matter'];
+  List smoking = ["Yes", "No", "Occasionally Smoking", 'Dose not matter'];
+  List ieltsTofelList = ["IELTS", "TOFEL", "No"];
+  List work = ['Working', 'Non Working', 'Does not matter'];
+
+  List<String>? maritalStatus = [
+    'Single',
+    'Widow / Widower',
+    'Divorced',
+    'Dose not matter'
+  ];
+  List<String>? countries = [
+    'Canada',
+    'USA',
+    'Australia',
+    'New Zealand',
+    'U.K',
+    'Germany',
+    'France',
+    'Italy',
+    'Norway',
+    'Russia',
+    'Austria',
+    'Portugal',
+    'China',
+    'Japan',
+    'Pakistan',
+    'Saudi arab',
+    'UAE',
+    'Singapore',
+    'Malaysia',
+    'Fizi',
+    'Brazil',
+    'Argentina',
+    'Europe',
+    'A Gulf Countries',
+    'Asia',
+    'Africa',
+    'South America',
+    'Nepal',
+    'Sri Lanka',
+    'Other'
+  ];
+  List<String>? motherTongueList = [
+    "Assamese",
+    "Bengali",
+    "Bodo",
+    "Dogri",
+    "Gujarati",
+    "Hindi",
+    "Kannada",
+    "Konkani",
+    "Malayal",
+    "Manipuri",
+    "Marathi",
+    "Nepali",
+    "Odia",
+    "Punjabi",
+    "Sanskrit",
+    "Santali",
+    "Sindhi",
+    "Tamil",
+    "Telugu",
+    "Urdu",
+    'Does not matter'
+  ];
+  List<String> selectedMotherTongue = [''];
+  List<String>? marriagewith = ['Indian', 'Foreigner', 'Does not matter'];
+
+  List<String> dietList = [
+    "Veg",
+    "Non-Veg",
+    "Occasionally Non-Veg",
+    "Eggetarian",
+    "Jain",
+    "Vegan",
+    'Dose not matter'
+  ];
+
+  String selectedLivingStatusValue = '';
+  String selectedBodyType = '';
+  String selectedNoChild = '';
+  String selectedComplexionType = '';
+  String selectedMaritalStatus = '';
+  String selectedDiet = "";
+  String selectedDrinking = '';
+  String selectedSmoking = '';
+  String selectedWherechild = '';
+  String? selectedMarriageWith;
+  String? selectedWork;
+  String? selectedHighQualification;
+  String? selectedCountry;
+  String? selectedIelts;
+
   showCustomDialog() {
     return showDialog(
         context: context,
@@ -284,13 +429,6 @@ class _ProfileViewState extends State<ProfileView> {
                                       style: TextStyle(
                                         color: Color(0xff00235a),
                                       ),
-                                      // decoration: InputDecoration(
-                                      //   // enabledBorder: UnderlineInputBorder(
-                                      //   //     borderSide: BorderSide(color: Colors.black)),
-                                      //   focusedBorder: UnderlineInputBorder(
-                                      //       borderSide:
-                                      //           BorderSide(color: Colors.redAccent)),
-                                      // ),
                                     ),
                                   ),
                                 ],
@@ -329,8 +467,8 @@ class _ProfileViewState extends State<ProfileView> {
                                     data: snapshot.data!.height.toString(),
                                     labelText: "Height"),
                                 CustomTextFieldtoShowData(
-                                    data: snapshot.data!.weight.toString(),
-                                    labelText: "Weight"),
+                                    data: snapshot.data!.gender.toString(),
+                                    labelText: "Gender"),
                                 CustomTextFieldtoShowData(
                                     data: snapshot.data!.bodyType.toString(),
                                     labelText: "Body Type"),
@@ -345,7 +483,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 CustomTextFieldtoShowData(
                                     data: snapshot.data!.noOfChildren
                                         .toString(),
-                                    labelText: "No. of Childrens"),
+                                    labelText: "No. of Children"),
                                 CustomTextFieldtoShowData(
                                     data: snapshot.data!.whereAreTheChildren
                                         .toString(),
@@ -521,145 +659,6 @@ class _ProfileViewState extends State<ProfileView> {
                             ]),
                           ),
                         ),
-
-                        // const SizedBox(height: 3),
-                        // Card(
-                        //   child: Padding(
-                        //     padding: const EdgeInsets.all(8.0),
-                        //     child: Column(
-                        //       children: [
-                        //         const Padding(
-                        //           padding: EdgeInsets.all(8.0),
-                        //           child: Text(
-                        //             'Where you want to marriage',
-                        //             style: TextStyle(
-                        //                 color: Colors.black,
-                        //                 fontSize: 20,
-                        //                 fontWeight: FontWeight.bold),
-                        //           ),
-                        //         ),
-                        //         Padding(
-                        //           padding: const EdgeInsets.all(2.0),
-                        //           child: TextField(
-                        //             style: const TextStyle(
-                        //               color: Color(0xff00235a),
-                        //             ),
-                        //             controller: countryNameController,
-                        //             decoration: const InputDecoration(
-                        //               enabledBorder: UnderlineInputBorder(
-                        //                   borderSide: BorderSide(color: Colors.black)),
-                        //               focusedBorder: UnderlineInputBorder(
-                        //                   borderSide:
-                        //                   BorderSide(color: Colors.redAccent)),
-                        //               labelText: 'Country Name :-',
-                        //               labelStyle: TextStyle(
-                        //                   fontWeight: FontWeight.bold,
-                        //                   color: Color(0xffff5275),
-                        //                   fontSize: 18),
-                        //             ),
-                        //           ),
-                        //         ),
-                        //         Padding(
-                        //           padding: const EdgeInsets.all(2.0),
-                        //           child: TextField(
-                        //             style: const TextStyle(
-                        //               color: Color(0xff00235a),
-                        //             ),
-                        //             controller: cityNameController,
-                        //             decoration: const InputDecoration(
-                        //               enabledBorder: UnderlineInputBorder(
-                        //                   borderSide: BorderSide(color: Colors.black)),
-                        //               focusedBorder: UnderlineInputBorder(
-                        //                   borderSide:
-                        //                   BorderSide(color: Colors.redAccent)),
-                        //               labelText: 'City Name :-',
-                        //               labelStyle: TextStyle(
-                        //                   fontWeight: FontWeight.bold,
-                        //                   color: Color(0xffff5275),
-                        //                   fontSize: 18),
-                        //             ),
-                        //           ),
-                        //         ),
-                        //         Padding(
-                        //           padding: const EdgeInsets.all(2.0),
-                        //           child: TextField(
-                        //             style: const TextStyle(
-                        //               color: Color(0xff00235a),
-                        //             ),
-                        //             controller: interestedToMarriageController,
-                        //             decoration: const InputDecoration(
-                        //               enabledBorder: UnderlineInputBorder(
-                        //                   borderSide: BorderSide(color: Colors.black)),
-                        //               focusedBorder: UnderlineInputBorder(
-                        //                   borderSide:
-                        //                   BorderSide(color: Colors.redAccent)),
-                        //               labelText: 'Interested to marriage with :-',
-                        //               labelStyle: TextStyle(
-                        //                   fontWeight: FontWeight.bold,
-                        //                   color: Color(0xffff5275),
-                        //                   fontSize: 18),
-                        //             ),
-                        //           ),
-                        //         ),
-                        //         CustomTextFieldtoShowData(
-                        //             data: "hghhgg",
-                        //             labelText: "Living"
-                        //
-                        //         ),
-                        //       ],
-                        //     ),
-                        //   ),
-                        // ),
-                        // Card(
-                        //   child: Column(
-                        //     children: [
-                        //       const Text(
-                        //         'To Unlock Contact information',
-                        //         style: TextStyle(
-                        //             color: Colors.black,
-                        //             fontSize: 20,
-                        //             fontWeight: FontWeight.bold),
-                        //       ),
-                        //       Padding(
-                        //         padding: const EdgeInsets.all(8),
-                        //         child: Container(
-                        //           height: 50, width: 250,
-                        //           //color: Color(0xff0d47a1),
-                        //           decoration: BoxDecoration(
-                        //               borderRadius: BorderRadius.circular(40)),
-                        //           child: ElevatedButton(
-                        //             style: ButtonStyle(
-                        //               backgroundColor: MaterialStateColor.resolveWith(
-                        //                     (states) => const Color(0xffff5275),
-                        //               ),
-                        //               shape: MaterialStateProperty.all<
-                        //                   RoundedRectangleBorder>(
-                        //                 RoundedRectangleBorder(
-                        //                   borderRadius: BorderRadius.circular(40.0),
-                        //                 ),
-                        //               ),
-                        //             ),
-                        //             onPressed: () {
-                        //               _formKey.currentState!.validate();
-                        //               // Navigator.pushReplacement(
-                        //               //   context,
-                        //               //   MaterialPageRoute(
-                        //               //       builder: (context) => Masseges()),
-                        //               // );
-                        //             },
-                        //             child: const Text(
-                        //               "GO PREMIUM NOW",
-                        //               style: TextStyle(
-                        //                   color: Colors.white,
-                        //                   fontWeight: FontWeight.bold,
-                        //                   fontSize: 20),
-                        //             ),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
                       ],
                     ),
                   ]);
@@ -1017,8 +1016,8 @@ class _ProfileViewState extends State<ProfileView> {
                 }
                 return const Center(child: CircularProgressIndicator());
               }),
-          FutureBuilder<MarriageInterestModel>(
-              future: getFunction.getMarriageInterestModel(),
+          FutureBuilder<PartnerPreferenceModel>(
+              future: getFunction.getPartnerPreferenceModel(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -1040,29 +1039,86 @@ class _ProfileViewState extends State<ProfileView> {
                                 const Padding(
                                   padding: EdgeInsets.all(8.0),
                                   child: Text(
-                                    'Where you want to marriage',
+                                    'Partner Preference',
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                ),
+                                ),CustomTextFieldtoShowData(
+                                    data: snapshot
+                                        .data!.preferredCountry.toString(),
+                                    labelText: "Preferred Country Name"),
+
                                 CustomTextFieldtoShowData(
                                     data: snapshot
-                                        .data!.wantMarriageCountryName
+                                        .data!.PreferredMarriageWith
                                         .toString(),
-                                    labelText: "Country Name"),
+                                    labelText: "Preferred Nationality"),
                                 CustomTextFieldtoShowData(
-                                    data: snapshot.data!.wantMarriageCityName
+                                    data: snapshot.data!.preferredLivingStatus
                                         .toString(),
-                                    labelText: "City Name"),
+                                    labelText: "Preferred Living Status"),
                                 CustomTextFieldtoShowData(
                                     data: snapshot
-                                        .data!.interestedToMarriageWith
+                                        .data!.preferredWorkingStatus
                                         .toString(),
-                                    labelText: "Interested to marriage with"),
+                                    labelText: "Preferred Working Status"),
                                 CustomTextFieldtoShowData(
-                                    data: "hghhgg", labelText: "Living"),
+                                    data: snapshot
+                                        .data!.PreferredIelts
+                                        .toString(),
+                                    labelText: "Ielts/Tofel"),
+                                CustomTextFieldtoShowData(
+                                    data: snapshot
+                                        .data!.preferredAge
+                                        .toString(),
+                                    labelText: "Preferred Age"),
+                                CustomTextFieldtoShowData(
+                                    data: snapshot
+                                        .data!.preferredHeight
+                                        .toString(),
+                                    labelText: "Preferred Height"),
+                                CustomTextFieldtoShowData(
+                                    data: snapshot
+                                        .data!.preferredHighestQualification
+                                        .toString(),
+                                    labelText: "Preferred Highest Qualification"),
+                                CustomTextFieldtoShowData(
+                                    data: snapshot
+                                        .data!.preferredMaritalStatus
+                                        .toString(),
+                                    labelText: "Preferred Marital Status"),
+                                CustomTextFieldtoShowData(
+                                    data: snapshot
+                                        .data!.preferredBodyType
+                                        .toString(),
+                                    labelText: "Preferred Body Type"),
+                                CustomTextFieldtoShowData(
+                                    data: snapshot
+                                        .data!.preferredComplexion
+                                        .toString(),
+                                    labelText: "Preferred Complexion"),
+                                CustomTextFieldtoShowData(
+                                    data: snapshot
+                                        .data!.preferredDiet
+                                        .toString(),
+                                    labelText: "Preferred Diet"),
+                                CustomTextFieldtoShowData(
+                                    data: snapshot
+                                        .data!.preferredDrinking
+                                        .toString(),
+                                    labelText: "Drinking"),
+                                CustomTextFieldtoShowData(
+                                    data: snapshot
+                                        .data!.preferredSmoking
+                                        .toString(),
+                                    labelText: "Smoking"),
+                                CustomTextFieldtoShowData(
+                                    data: snapshot
+                                        .data!.preferredMotherTounge
+                                        .toString(),
+                                    labelText: "Preferred Mother Tongue"),
                               ],
                             ),
                           ),

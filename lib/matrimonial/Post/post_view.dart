@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:immigration/matrimonial/ChatData/image_upload.dart';
 import 'package:immigration/matrimonial/ChatData/upload_profile_pic.dart';
 import 'package:immigration/matrimonial/Screens/personal_info.dart';
+import 'package:immigration/matrimonial/Screens/profile.dart';
 import 'package:immigration/screens/profile.dart';
 
 class PostView extends StatefulWidget {
@@ -11,8 +12,27 @@ class PostView extends StatefulWidget {
   @override
   _PostViewState createState() => _PostViewState();
 }
+// void main() async {
+//   // Set default database
+//   final database = SearcheableDatabase(
+//     master: MemoryDatabaseAdapter(),
+//     isReadOnly: true,
+//   ).database();
+
+//   // Search items
+//   final collection = database.collection('employee');
+//   final response = await collection.search(
+//     query: Query.parse('"software developer" (dart OR javascript)'),
+//   );
+
+//   // Print items
+//   for (var snapshot in response.snapshots) {
+//     print('Document ID: ${snapshot.document.documentId}');
+//   }
+// }
 
 class _PostViewState extends State<PostView> {
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Object>(
@@ -131,6 +151,7 @@ class _PostViewState extends State<PostView> {
                             ),
                           ],
                         ),
+                        SizedBox(height: 10,),
                         Padding(
                           padding: const EdgeInsets.only(left: 10, top: 4),
                           child: Row(
@@ -218,12 +239,13 @@ class _PostViewState extends State<PostView> {
                             ),
                           ),
                         ),
+                        SizedBox(height: 10,),
                         Row(
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(4),
                               child: Container(
-                                height: 28, width: 140,
+                                height: 35, width: 180,
                                 //color: Color(0xff0d47a1),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20)),
@@ -245,26 +267,23 @@ class _PostViewState extends State<PostView> {
                                     Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Profile(
-                                                sId: '0123',
-                                              )),
+                                          builder: (context) => ProfileView(
+                                          )),
                                     );
                                   },
                                   child: const Text(
-                                    " View Profile",
+                                    " View \ Profile",
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 18),
                                   ),
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              width: 95,
-                            ),
+SizedBox(width: 10,),
                             Padding(
                               padding: const EdgeInsets.all(4),
                               child: Container(
-                                height: 28, width: 140,
+                                height: 35, width: 180,
                                 //color: Color(0xff0d47a1),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20)),
@@ -292,7 +311,7 @@ class _PostViewState extends State<PostView> {
                                     );
                                   },
                                   child: const Text(
-                                    "Sent Request",
+                                    "Sent \ Request",
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 18),
                                   ),

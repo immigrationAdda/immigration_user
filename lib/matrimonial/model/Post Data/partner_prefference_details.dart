@@ -9,10 +9,11 @@ PartnerPreferenceModel partnerPreferenceModelFromJson(String str) => PartnerPref
 String partnerPreferenceModelToJson(PartnerPreferenceModel data) => json.encode(data.toJson());
 
 class PartnerPreferenceModel {
+
+
   PartnerPreferenceModel({
     this.mId,
     this.preferredCountry,
-    this.preferredNationality,
     this.preferredLivingStatus,
     this.preferredWorkingStatus,
     this.preferredAge,
@@ -21,20 +22,23 @@ class PartnerPreferenceModel {
     this.preferredMaritalStatus,
     this.preferredBodyType,
     this.preferredComplexion,
+    this.PreferredIelts,
     this.preferredDiet,
     this.preferredDrinking,
     this.preferredSmoking,
     this.preferredMotherTounge,
+    this.PreferredMarriageWith,
   });
 
   String? mId;
   String? preferredCountry;
-  String? preferredNationality;
+  String? PreferredMarriageWith;
   String? preferredLivingStatus;
   String? preferredWorkingStatus;
-  String? preferredAge;
-  String? preferredHeight;
+  PreferredAge?   preferredAge;
+  PreferredHeight? preferredHeight;
   String? preferredHighestQualification;
+  String? PreferredIelts;
   String? preferredMaritalStatus;
   String? preferredBodyType;
   String? preferredComplexion;
@@ -46,11 +50,12 @@ class PartnerPreferenceModel {
   factory PartnerPreferenceModel.fromJson(Map<String, dynamic> json) => PartnerPreferenceModel(
     mId: json["mId"],
     preferredCountry: json["PreferredCountry"],
-    preferredNationality: json["PreferredNationality"],
+    PreferredIelts: json["PreferredIelts"],
+    PreferredMarriageWith: json["PreferredMarriageWith"],
     preferredLivingStatus: json["PreferredLivingStatus"],
     preferredWorkingStatus: json["PreferredWorkingStatus"],
-    preferredAge: json["PreferredAge"],
-    preferredHeight: json["PreferredHeight"],
+    preferredAge: PreferredAge.fromJson(json["PreferredAge"]),
+    preferredHeight: PreferredHeight.fromJson(json["PreferredHeight"]),
     preferredHighestQualification: json["PreferredHighestQualification"],
     preferredMaritalStatus: json["PreferredMaritalStatus"],
     preferredBodyType: json["PreferredBodyType"],
@@ -62,20 +67,46 @@ class PartnerPreferenceModel {
   );
 
   Map<String, dynamic> toJson() => {
-    "mId": mId,
-    "PreferredCountry": preferredCountry,
-    "PreferredNationality": preferredNationality,
-    "PreferredLivingStatus": preferredLivingStatus,
-    "PreferredWorkingStatus": preferredWorkingStatus,
-    "PreferredAge": preferredAge,
-    "PreferredHeight": preferredHeight,
-    "PreferredHighestQualification": preferredHighestQualification,
-    "PreferredMaritalStatus": preferredMaritalStatus,
-    "PreferredBodyType": preferredBodyType,
-    "PreferredComplexion": preferredComplexion,
-    "PreferredDiet": preferredDiet,
-    "PreferredDrinking": preferredDrinking,
-    "PreferredSmoking": preferredSmoking,
-    "PreferredMotherTounge": preferredMotherTounge,
+
+  };
+}
+
+class PreferredAge {
+  PreferredAge({
+     this.minAge,
+    this.maxAge,
+  });
+
+  String? minAge;
+  String? maxAge;
+
+  factory PreferredAge.fromJson(Map<String, dynamic> json) => PreferredAge(
+    minAge: json["minAge"],
+    maxAge: json["maxAge"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "minAge": minAge,
+    "maxAge": maxAge,
+  };
+}
+
+class PreferredHeight {
+  PreferredHeight({
+     this.minHeight,
+     this.maxHeight,
+  });
+
+  String? minHeight;
+  String? maxHeight;
+
+  factory PreferredHeight.fromJson(Map<String, dynamic> json) => PreferredHeight(
+    minHeight: json["minHeight"],
+    maxHeight: json["maxHeight"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "minHeight": minHeight,
+    "maxHeight": maxHeight,
   };
 }

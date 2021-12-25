@@ -29,7 +29,7 @@ class ProfileModel {
     this.noOfChildren,
     this.complexion,
     this.mId,
-    this.weight,
+    this.gender,
     this.firstName,
     this.alternativePhoneNo,
     this.dob,
@@ -57,7 +57,7 @@ class ProfileModel {
   String? profilePic;
   String? complexion;
   String? mId;
-  String? weight;
+  String? gender;
   String? firstName;
   String? alternativePhoneNo;
   DateTime? dob;
@@ -85,7 +85,7 @@ class ProfileModel {
     profilePic: json["profilePic"],
     complexion: json["complexion"],
     mId: json["mId"],
-    weight: json["weight"],
+    gender: json["gender"],
     firstName: json["firstName"],
     alternativePhoneNo: json["alternativePhoneNo"],
     dob: DateTime.parse(json["dob"]),
@@ -114,7 +114,7 @@ class ProfileModel {
     "profilePic": profilePic,
     "complexion": complexion,
     "mId": mId,
-    "weight": weight,
+    "gender": gender,
     "firstName": firstName,
     "alternativePhoneNo": alternativePhoneNo,
     "dob": "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}",
