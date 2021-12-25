@@ -273,12 +273,13 @@ class _UserProfileState extends State<UserProfile> {
                   shrinkWrap: true,
                      physics: NeverScrollableScrollPhysics(),
                     children: [
+
                       GestureDetector(
                         onTap: (){
                           getLostData();
                         },
                         child: Padding(
-                          padding: const EdgeInsets.only(bottom: 18.0),
+                          padding:  EdgeInsets.only(bottom: 18.0),
                           child: Center(
                             child: _image != null
                                 ?CircleAvatar(
@@ -293,9 +294,15 @@ class _UserProfileState extends State<UserProfile> {
                             ),
                           ),
                         ),
-
                       ),
-
+                      Center(
+                        child: Text("Photo Optional",
+                          style: TextStyle(
+                              fontSize: 10,
+                              color: Colors.grey
+                          ),
+                        ),
+                      ),
                       customTextField(context, nameController, "Name", true,TextInputType.text),
                       customTextField(
                           context,  Provider.of<AuthProvider>(context,listen: false).controllerPhone, "Phone No", false,TextInputType.phone),
