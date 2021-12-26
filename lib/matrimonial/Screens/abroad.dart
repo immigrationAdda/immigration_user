@@ -5,7 +5,7 @@ import 'package:immigration/matrimonial/Data/post_function.dart';
 import 'package:immigration/matrimonial/Screens/contact_info.dart';
 import 'package:immigration/matrimonial/Screens/family.dart';
 import 'package:immigration/matrimonial/Screens/ilets_tofel_celpip.dart';
-import 'package:immigration/matrimonial/Screens/interested_to_marriage.dart';
+import 'package:immigration/matrimonial/Screens/partner_prefrence.dart';
 import 'package:immigration/matrimonial/Screens/welcome_screen.dart';
 
 class AbroadStatus extends StatefulWidget {
@@ -655,7 +655,7 @@ class _AbroadStatusState extends State<AbroadStatus> {
                      uploadData();
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => const InterestedToMarriage()),
+                      MaterialPageRoute(builder: (context) => const PartnerPrefrence()),
                     );}
                   },
                   child:  const Text(

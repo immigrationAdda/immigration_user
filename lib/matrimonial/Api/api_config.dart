@@ -5,10 +5,10 @@ class ApiConfig{
   static String ILETS_DETAILS_POST = 'matrimonial/IeltsDetails';
   static String PROPERTIES_DETAILS_POST = 'matrimonial/PropertyDetails';
   static String FAMILY_DETAILS_POST = 'matrimonial/FamilyDetails';
-  static String PARTNER_DETAILS_POST = 'matrimonial/Partner';
+  static String PARTNER_DETAILS_POST = 'matrimonial/PartnerDetails';
   static String ABROAD_DETAILS_POST = 'matrimonial/AbroadDetails';
-  static String MARRIGEINTEREST_DETAILS_POST = 'matrimonial/InterestedDetails';
-  static String BUSINESS_DETAILS_POST = 'matrimonial/BusinessDetails';
+  static String MARRIGEINTEREST_DETAILS_POST = 'matrimonial/InterestedDetails/';
+  static String BUSINESS_DETAILS_POST = 'matrimonial/BusinessDetails/';
   static String PERSONAL_DETAILS_GET ='matrimonial/getData/PersonDetails/';
   static String FAMILY_DETAILS_GET ='matrimonial/getData/FamilyDetails/';
   static String QUALIFICATION_DETAILS_GET ='matrimonial/getData/QualificationDetails/';

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:immigration/constants.dart';
 import 'package:immigration/listscreens/favouritePostListScreen.dart';
 import 'package:immigration/listscreens/postListScreen.dart';
+import 'package:immigration/notification.dart';
 import 'package:immigration/screens/Home_page.dart';
 import 'package:immigration/screens/Post_detals.dart';
 import 'package:immigration/screens/addPostScreen.dart';
@@ -40,7 +41,11 @@ class _MainScreenState extends State<MainScreen> {
         actions: [
 
           IconButton(onPressed: null, icon: Icon(Icons.search,color: kBlueColor,
-          )), IconButton(onPressed: null, icon: Icon(Icons.notifications_active,color: kBlueColor,
+          )), IconButton(onPressed: (){
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) =>
+                    Notify()));
+          }, icon: Icon(Icons.notifications_active,color: kBlueColor,
           )),
         ],
         leading: Image.asset("assets/images/logo.png"),

@@ -1,4 +1,6 @@
 
+// ignore_for_file: unused_local_variable
+
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -117,6 +119,7 @@ class _TravelInsuranseState extends State<TravelInsuranse> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(

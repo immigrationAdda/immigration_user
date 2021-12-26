@@ -148,6 +148,7 @@ setState(() {
                                                 backgroundColor: kBlueColor),
                                           ),
                                         ),
+                                        SizedBox(height: 3,),
                                         Padding(
                                           padding: const EdgeInsets.only(
                                               left: 5, top: 5),
@@ -159,7 +160,7 @@ setState(() {
                                                 fontWeight: FontWeight.bold,
                                                 fontSize:
                                                     SizeConfig.blockSizeVertical! *
-                                                        3),
+                                                       2.2 ),
                                           ),
                                         ),
                                         Padding(
@@ -173,7 +174,7 @@ setState(() {
                                               color: kBlueColor,
 
                                               fontSize:
-                                                  SizeConfig.screenHeight!/30,
+                                                  SizeConfig.screenHeight!/40,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),

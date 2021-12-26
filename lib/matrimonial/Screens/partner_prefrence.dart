@@ -1,12 +1,15 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:immigration/matrimonial/Api/api_config.dart';
 import 'package:immigration/matrimonial/Constants/const.dart';
 import 'package:immigration/matrimonial/Data/post_function.dart';
 import 'package:immigration/matrimonial/Screens/Plans/plans.dart';
 import 'package:immigration/matrimonial/Screens/about_yourself.dart';
+import 'package:immigration/matrimonial/Screens/abroad.dart';
 import 'package:immigration/matrimonial/Screens/contact_info.dart';
-import 'package:immigration/matrimonial/Screens/interested_to_marriage.dart';
 import 'package:immigration/matrimonial/Screens/welcome_screen.dart';
 import 'package:immigration/matrimonial/model/Post%20Data/partner_prefference_details.dart';
 import 'package:immigration/matrimonial/model/Post%20Data/personal_info_model.dart';
@@ -168,20 +171,26 @@ class _PartnerPrefrenceState extends State<PartnerPrefrence> {
 
   uploadData() async {
     _postFunction.postPartnerDetails({
-      "mId": '0123',
-      "PreferredCountry": selectedCountries,
-      "PreferredLivingStatus": selectedLivingStatusValue,
-      "PreferredWorkingStatus": selectedWork,
-      "PreferredAge": _age,
-      "PreferredHeight": _height,
-      "PreferredHighestQualification": selectedHighQualification,
-      "PreferredMaritalStatus": selectedMaritalStatus,
-      "PreferredBodyType": selectedBodyType,
-      "PreferredComplexion": selectedComplexionType,
-      "PreferredDiet": selectedDiet,
-      "PreferredDrinking": selectedDrinking,
-      "PreferredSmoking": selectedSmoking,
-      "PreferredMotherTounge": selectedMotherTongue,
+      "mId": "0123",
+      "PreferredCountry": selectedCountries.toString(),
+      "PreferredLivingStatus": selectedLivingStatusValue.toString(),
+      "PreferredWorkingStatus": selectedWork.toString(),
+      "PreferredAge": {
+        "minAge":_age.start.toString(),
+        "maxAge":_age.end.toString(),
+      },
+      "PreferredHeight": {
+        "minHeight":_height.start.toString(),
+        "maxHeight":_height.end.toString(),
+      },
+      "PreferredHighestQualification": selectedHighQualification.toString(),
+      "PreferredMaritalStatus": selectedMaritalStatus.toString(),
+      "PreferredBodyType": selectedBodyType.toString(),
+      "PreferredComplexion": selectedComplexionType.toString(),
+      "PreferredDiet": selectedDiet.toString(),
+      "PreferredDrinking": selectedDrinking.toString(),
+      "PreferredSmoking": selectedSmoking.toString(),
+      "PreferredMotherTounge": selectedMotherTongue.toString(),
     });
   }
 
@@ -225,13 +234,14 @@ class _PartnerPrefrenceState extends State<PartnerPrefrence> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xffff5275),
+        automaticallyImplyLeading: false,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           tooltip: "Cancel and Return to List",
           onPressed: () {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const InterestedToMarriage()),
+              MaterialPageRoute(builder: (context) => const AbroadStatus()),
             );
           },
         ),
@@ -239,7 +249,7 @@ class _PartnerPrefrenceState extends State<PartnerPrefrence> {
             onPressed: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const InterestedToMarriage()),
+                MaterialPageRoute(builder: (context) => const AbroadStatus()),
               );
             },
             child: const Center(
@@ -286,7 +296,7 @@ class _PartnerPrefrenceState extends State<PartnerPrefrence> {
                         children: countries!
                             .map((e) => InkWell(
                                 onTap: () {
-                                  var object = "I LIKE JAVA";
+                                
                                   if (selectedCountries.contains(e)) {
                                     setState(() {
                                       selectedCountries.removeWhere(
@@ -359,7 +369,7 @@ class _PartnerPrefrenceState extends State<PartnerPrefrence> {
                         children: marriagewith!
                             .map((e) => InkWell(
                                 onTap: () {
-                                  var object = "I LIKE JAVA";
+                                
 
                                   setState(() {
                                     selectedMarriageWith = e;
@@ -422,7 +432,7 @@ class _PartnerPrefrenceState extends State<PartnerPrefrence> {
                         children: livingstatus!
                             .map((e) => InkWell(
                                 onTap: () {
-                                  var object = "I LIKE JAVA";
+                                  
 
                                   setState(() {
                                     selectedLivingStatusValue = e;
@@ -485,7 +495,7 @@ class _PartnerPrefrenceState extends State<PartnerPrefrence> {
                         children: work
                             .map((e) => InkWell(
                                 onTap: () {
-                                  var object = "I LIKE JAVA";
+                                 
 
                                   setState(() {
                                     selectedWork = e;
@@ -892,7 +902,7 @@ class _PartnerPrefrenceState extends State<PartnerPrefrence> {
                         children: bodytype!
                             .map((e) => InkWell(
                                 onTap: () {
-                                  var object = "I LIKE JAVA";
+                                
 
                                   setState(() {
                                     selectedBodyType = e;
@@ -1190,7 +1200,7 @@ class _PartnerPrefrenceState extends State<PartnerPrefrence> {
                         children: motherTongueList!
                             .map((e) => InkWell(
                                 onTap: () {
-                                  var object = "I LIKE JAVA";
+                                
                                   if (selectedMotherTongue.contains(e)) {
                                     setState(() {
                                       selectedMotherTongue.removeWhere(
@@ -1291,10 +1301,10 @@ class _PartnerPrefrenceState extends State<PartnerPrefrence> {
                         print('Country');
                       } else {
                         uploadData();
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => Plans()),
-                        );
+                        // Navigator.pushReplacement(
+                        //   context,
+                        //   MaterialPageRoute(builder: (context) => Plans()),
+                        // );
                       }
                     },
                     child: const Text(

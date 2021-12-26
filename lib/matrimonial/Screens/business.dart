@@ -4,7 +4,6 @@ import 'package:immigration/matrimonial/Constants/const.dart';
 import 'package:immigration/matrimonial/Data/post_function.dart';
 import 'package:immigration/matrimonial/Screens/abroad.dart';
 import 'package:immigration/matrimonial/Screens/ilets_tofel_celpip.dart';
-import 'package:immigration/matrimonial/Screens/interested_to_marriage.dart';
 import 'package:immigration/matrimonial/Screens/properties_details.dart';
 import 'package:immigration/matrimonial/Screens/welcome_screen.dart';
 

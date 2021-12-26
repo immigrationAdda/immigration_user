@@ -83,6 +83,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   //         ),
                   //       ),
                   //     )),
+
                   Container(
                     width: SizeConfig.safeBlockHorizontal! * 100,
                     alignment: Alignment.center,

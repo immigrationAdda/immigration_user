@@ -5,7 +5,6 @@ import 'package:immigration/matrimonial/Constants/const.dart';
 import 'package:immigration/matrimonial/Data/post_function.dart';
 import 'package:immigration/matrimonial/Screens/Plans/plans.dart';
 import 'package:immigration/matrimonial/Screens/family.dart';
-import 'package:immigration/matrimonial/Screens/marriage_interest.dart';
 import 'package:immigration/matrimonial/Screens/personal_info.dart';
 import 'package:immigration/matrimonial/Screens/properties_details.dart';
 import 'package:immigration/matrimonial/Screens/welcome_screen.dart';

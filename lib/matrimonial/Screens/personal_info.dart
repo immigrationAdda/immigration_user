@@ -1386,7 +1386,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         print('Gender');
                       } else if (selectedInch == null) {
                         print('Height');
-                      } else if (selectedBodyType!.isEmpty) {
+                      } else if (selectedBodyType==null) {
                         print('BodyType');
                       } else if (selectedMaritalStatus.isEmpty) {
                         print('Marital Status');

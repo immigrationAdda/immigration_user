@@ -28,41 +28,41 @@ class GetFunction{
   }
 
 
-  FamilyModel? _personalInfoModel;
-  List<FamilyModel> PersonalInfoModelList = [];
+  FamilyModel? _familyModel;
+  List<FamilyModel> FamilyModelList = [];
   Future<FamilyModel> getFamilyDetails()async{
     Response value = await dio.get(ApiConfig.BASE_URL+ApiConfig.FAMILY_DETAILS_GET+"0123");
     if(value.statusCode == 200)
     {
-      _personalInfoModel = FamilyModel.fromJson(value.data);
-      PersonalInfoModelList.add(_personalInfoModel!);
+      _familyModel = FamilyModel.fromJson(value.data);
+      FamilyModelList.add(_familyModel!);
       print(value.data);
     }
-    return _personalInfoModel!;
+    return _familyModel!;
   }
-  QualificationModel? _QualificationModel;
+  QualificationModel? _qualificationModel;
   List<QualificationModel> QualificationModelList = [];
   Future<QualificationModel> getQualifictionDetails()async{
     Response value = await dio.get(ApiConfig.BASE_URL+ApiConfig.QUALIFICATION_DETAILS_GET+"0123");
     if(value.statusCode == 200)
     {
-      _QualificationModel = QualificationModel.fromJson(value.data);
-      QualificationModelList.add(_QualificationModel!);
+      _qualificationModel = QualificationModel.fromJson(value.data);
+      QualificationModelList.add(_qualificationModel!);
       print(value.data);
     }
-    return _QualificationModel!;
+    return _qualificationModel!;
   }
-  PropertyModel? _PropertyModel;
+  PropertyModel? _propertyModel;
   List<PropertyModel>PropertyModelList = [];
   Future<PropertyModel> getPropertyModel()async{
     Response value = await dio.get(ApiConfig.BASE_URL+ApiConfig.PROPERTIES_DETAILS_GET+"0123");
     if(value.statusCode == 200)
     {
-      _PropertyModel = PropertyModel.fromJson(value.data);
-      PropertyModelList.add(_PropertyModel!);
+      _propertyModel = PropertyModel.fromJson(value.data);
+      PropertyModelList.add(_propertyModel!);
       print(value.data);
     }
-    return _PropertyModel!;
+    return _propertyModel!;
   }
   BusinessModel? _BusinessModel;
   List<BusinessModel>BusinessModelList = [];
@@ -88,17 +88,17 @@ class GetFunction{
     }
     return _IletsModel!;
   }
-  MarriageInterestModel? _MarriageInterestModel;
+  MarriageInterestModel? _marriageInterestModel;
   List<MarriageInterestModel>MarriageInterestModelList = [];
   Future<MarriageInterestModel> getMarriageInterestModel()async{
     Response value = await dio.get(ApiConfig.BASE_URL+ApiConfig.MARRIGEINTEREST_DETAILS_GET+"0123");
     if(value.statusCode == 200)
     {
-      _MarriageInterestModel= MarriageInterestModel.fromJson(value.data);
-      MarriageInterestModelList.add(_MarriageInterestModel!);
+      _marriageInterestModel= MarriageInterestModel.fromJson(value.data);
+      MarriageInterestModelList.add(_marriageInterestModel!);
       print(value.data);
     }
-    return _MarriageInterestModel!;
+    return _marriageInterestModel!;
   }
   PartnerPreferenceModel? _PartnerPreferenceModel;
   List<PartnerPreferenceModel>PartnerPreferenceModelList = [];

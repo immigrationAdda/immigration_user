@@ -129,7 +129,7 @@ class _HomeCunsultancyState extends State<HomeCunsultancy> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
+   // double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: Padding(

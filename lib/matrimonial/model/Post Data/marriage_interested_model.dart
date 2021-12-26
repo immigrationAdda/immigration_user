@@ -31,6 +31,8 @@ class MarriageInterestModel {
     wantMarriageCityName: json["wantMarriageCityName"],
   );
 
+  get preferredCountry => null;
+
   Map<String, dynamic> toJson() => {
     "wantMarriageCountryName": wantMarriageCountryName,
     "mId": mId,
