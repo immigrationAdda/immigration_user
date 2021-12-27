@@ -10,6 +10,7 @@ import 'package:immigration/Forms/travell_insurance.dart';
 import 'package:immigration/api_config.dart';
 import 'package:immigration/constants.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:immigration/screens/MainScreen.dart';
 
 class EducationLoan extends StatefulWidget {
   const EducationLoan({Key? key}) : super(key: key);
@@ -118,11 +119,21 @@ class _EducationLoanState extends State<EducationLoan> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text("Education Loan"),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Color(0xff0D47A1)),
+          tooltip: "Cancel and Return to List",
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) =>  MainScreen(0)),
+            );
+          },
         ),
-        backgroundColor: kBlueColor,
+        backgroundColor: Colors.white,
+        title: Text(
+          "Educational Loan",
+          style: TextStyle(color: kBlueColor),
+        ),
       ),
       body: Stack(
         children: [
@@ -131,12 +142,15 @@ class _EducationLoanState extends State<EducationLoan> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Center(
-                  child: Text('Personal Information',
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: kBlueColor,
-                        fontWeight: FontWeight.bold
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Text('Personal Information',
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: kBlueColor,
+                          fontWeight: FontWeight.bold
+                      ),
                     ),
                   ),
                 ),
@@ -184,12 +198,15 @@ class _EducationLoanState extends State<EducationLoan> {
                           controller: licenseController,
                           hintText: "Enter Email Id here",
                           labelText: "Email Id"),
-                      Center(
-                        child: Text('Loan Information',
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: kBlueColor,
-                              fontWeight: FontWeight.bold
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                          child: Text('Loan Information',
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: kBlueColor,
+                                fontWeight: FontWeight.bold
+                            ),
                           ),
                         ),
                       ),
@@ -308,7 +325,7 @@ class _EducationLoanState extends State<EducationLoan> {
                                                 style: TextStyle(
                                                     color: (e == selectedHouse)
                                                         ? Colors.white
-                                                        : Colors.black)),
+                                                        : kBlueColor)),
                                           )),
                                     )))
                                     .toList(),
@@ -368,7 +385,7 @@ class _EducationLoanState extends State<EducationLoan> {
                                                 style: TextStyle(
                                                     color: (e == selectedproperty)
                                                         ? Colors.white
-                                                        : Colors.black)),
+                                                        : kBlueColor)),
                                           )),
                                     )))
                                     .toList(),
@@ -405,7 +422,7 @@ class _EducationLoanState extends State<EducationLoan> {
                             : Container(
                           decoration: BoxDecoration(
                               color: Colors.white,
-                              border: Border.all(color: Colors.black45, width: 0.8),
+                              border: Border.all(color: kBlueColor, width: 0.8),
                               borderRadius: BorderRadius.circular(3)),
 
                           width: 100,
@@ -413,7 +430,7 @@ class _EducationLoanState extends State<EducationLoan> {
                           child: Icon(
                             Icons.camera_alt,
                             size: 70,
-                            color: Colors.grey[400],
+                            color: kBlueColor,
                           ),
                         ),
                       ),

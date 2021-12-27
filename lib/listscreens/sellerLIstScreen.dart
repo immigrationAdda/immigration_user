@@ -10,6 +10,7 @@ import 'package:immigration/Models/seller_model.dart';
 import 'package:immigration/SizeConfig.dart';
 import 'package:immigration/constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:immigration/screens/MainScreen.dart';
 import 'package:immigration/screens/profile.dart';
 
 class SellerLists extends StatefulWidget {
@@ -68,7 +69,18 @@ class _SellerListsState extends State<SellerLists> {
     sellerListModel.clear();
     return Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Color(0xff0D47A1)),
+            tooltip: "Cancel and Return to List",
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) =>  MainScreen(0)),
+              );
+            },
+          ),
           actions: [
+
             IconButton(
                 onPressed: null,
                 icon: Icon(
@@ -76,7 +88,6 @@ class _SellerListsState extends State<SellerLists> {
                   color: kBlueColor,
                 ))
           ],
-          leading: Image.asset("assets/images/logo.png"),
           backgroundColor: Colors.white,
           title: Text(
             "Immigration Adda",

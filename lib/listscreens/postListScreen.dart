@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:immigration/Models/postmodel.dart';
@@ -28,7 +29,7 @@ class _PostListScreenState extends State<PostListScreen> {
 
   Future<String> SetFavorite(String pId) async {
     var res = await http.get(Uri.parse(
-        ApiConfig.BASE_URL+"User/favorite/hfk/$pId"));
+        ApiConfig.BASE_URL+"User/favorite/${FirebaseAuth.instance.currentUser!.uid}/$pId"));
     var result=json.decode(res.body);
     checkFavorite=result;
     print("Check Favourite"+result.toString());

@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:immigration/api_config.dart';
 import 'package:immigration/constants.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:immigration/screens/MainScreen.dart';
 class TravelInsuranse extends StatefulWidget {
   const TravelInsuranse({Key? key}) : super(key: key);
 
@@ -124,24 +125,37 @@ class _TravelInsuranseState extends State<TravelInsuranse> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(child: Text("Travel Insurance")),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Color(0xff0D47A1)),
+          tooltip: "Cancel and Return to List",
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) =>  MainScreen(0)),
+            );
+          },
         ),
-        backgroundColor: kBlueColor,
+        backgroundColor: Colors.white,
+        title: Text(
+          "Travel Insurance",
+          style: TextStyle(color: kBlueColor),
+        ),
       ),
       body: Stack(
         children: [
           ListView(
             shrinkWrap: true,
             children: [
-              Center(
-                child: Text('Personal Information',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: kBlueColor,
-                  fontWeight: FontWeight.bold
-                ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text('Personal Information',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: kBlueColor,
+                    fontWeight: FontWeight.bold
+                  ),
+                  ),
                 ),
               ),
               Form(
@@ -187,12 +201,15 @@ class _TravelInsuranseState extends State<TravelInsuranse> {
                           controller: emailController,
                           hintText: "Enter Email Id here",
                           labelText: "Email Id"),
-                      Center(
-                        child: Text('Travel Insurance Information',
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: kBlueColor,
-                              fontWeight: FontWeight.bold
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                          child: Text('Travel Insurance Information',
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: kBlueColor,
+                                fontWeight: FontWeight.bold
+                            ),
                           ),
                         ),
                       ),

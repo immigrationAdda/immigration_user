@@ -14,8 +14,10 @@ import 'package:immigration/matrimonial/Constants/const.dart';
 import 'package:immigration/matrimonial/Screens/welcome_screen.dart';
 import 'package:immigration/postCreateScreens/pr_score.dart';
 import 'package:immigration/screens/Login.dart';
+import 'package:immigration/screens/MainScreen.dart';
 import 'package:immigration/screens/ProfileScreen.dart';
 import 'package:immigration/screens/luggage_post_user.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -25,6 +27,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  YoutubePlayerController _controller = YoutubePlayerController(
+    initialVideoId: 'K18cpp_-gP8',
+    params: YoutubePlayerParams(
+      playlist: ['nPt8bK2gbaU', 'gQDByCdjUXw'], // Defining custom playlist
+      startAt: Duration(seconds: 30),
+      showControls: true,
+      showFullscreenButton: true,
+    ),
+  );
+  /*
+  YoutubePlayerController _controller = YoutubePlayerController(
+    initialVideoId: 'iLnmTe5Q2Qw',
+    flags: YoutubePlayerFlags(
+      autoPlay: true,
+      mute: true,
+    ),
+  );
+
+   */
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -65,6 +86,24 @@ class _HomePageState extends State<HomePage> {
             physics:const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         children:[
+          Padding(
+            padding: const EdgeInsets.only(left: 20,top: 10),
+            child: Text(
+              "IA Tv",
+              style: TextStyle(
+                  fontSize: SizeConfig.blockSizeHorizontal! * 5,
+                  fontWeight: FontWeight.bold,
+                  color: kBlueColor),
+            ),
+          ),
+          Container(
+            height: MediaQuery.of(context).size.height*0.3,
+            child: YoutubePlayerIFrame(
+              controller: _controller,
+
+            ),
+          ),
+
           Padding(
             padding: const EdgeInsets.only(left: 20,top: 10),
             child: Text(
@@ -243,7 +282,7 @@ class _HomePageState extends State<HomePage> {
                   onTap: () {
                     print("object yes");
                   },
-                  child: button(context, "User\n Requirement",
+                  child: blueBorderButton(context, "User\n Requirement",
                       "assets/images/Buyer-ads.png"),
                 ),
                 GestureDetector(
@@ -252,7 +291,7 @@ class _HomePageState extends State<HomePage> {
                           builder: (context) =>
                               SellerThreePosts(type: "jobPost")));
                     },
-                    child: button(
+                    child: blueBorderButton(
                         context, "Job\nRequirement", "assets/images/job.png")),
                 GestureDetector(
                     onTap: () {
@@ -260,7 +299,7 @@ class _HomePageState extends State<HomePage> {
                           builder: (context) =>
                               SellerThreePosts(type: "franchisePost")));
                     },
-                    child: button(
+                    child: blueBorderButton(
                         context, "Franchise", "assets/images/franchise.png")),
                 GestureDetector(
                     onTap: () {
@@ -268,7 +307,7 @@ class _HomePageState extends State<HomePage> {
                           builder: (context) =>
                               SellerThreePosts(type: "luggagePost")));
                     },
-                    child: button(context, "Luggage\nAdjustment",
+                    child: blueBorderButton(context, "Luggage\nAdjustment",
                         "assets/images/luggage.png")),
               ],
             ),
@@ -283,15 +322,55 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
 
-          PostListScreen(uri: "https://frozen-savannah-16893.herokuapp.com/Seller/postLists/f"),]),
+          PostListScreen(uri: "https://frozen-savannah-16893.herokuapp.com/Seller/postLists/true"),]),
  ],
       ),)
     );
   }
 }
+Widget blueBorderButton(BuildContext context, String text, String icon) {
+  return
+    Container(
+      child: Card(
+
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: kBlueColor,),
+
+          borderRadius: BorderRadius.circular(15.0),),
+        elevation: 05,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                icon,
+                height: SizeConfig.safeBlockVertical! * 4,
+                width: SizeConfig.safeBlockHorizontal! * 8,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 2),
+                child: Text(
+                  text,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: kBlueColor,
+                      fontSize: SizeConfig.safeBlockHorizontal! * 2.7,
+                      fontWeight: FontWeight.bold),
+
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+}
+
 
 Widget button(BuildContext context, String text, String icon) {
-  return Container(
+  return
+    Container(
     child: Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0),),
       elevation: 05,

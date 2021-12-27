@@ -25,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
           if(snapshot.data == null){
             return LoginScreen();
           }else{
-            return MainScreen();
+            return MainScreen(0);
           }
 
           return CircularProgressIndicator();

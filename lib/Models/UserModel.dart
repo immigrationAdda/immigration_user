@@ -6,7 +6,7 @@ class UserModel {
     required this.email,
     required this.city,
     required this.dateOfBirth,
-    required this.profilePicture,
+     this.profilePicture,
   });
   late final String uId;
   late final String name;
@@ -14,7 +14,7 @@ class UserModel {
   late final String email;
   late final String city;
   late final String dateOfBirth;
-  late final String profilePicture;
+   String? profilePicture;
 
   UserModel.fromJson(Map<String, dynamic> json){
     uId = json['uId'];

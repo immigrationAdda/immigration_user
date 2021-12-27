@@ -1,14 +1,17 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:immigration/Models/SellerList.dart';
 import 'package:immigration/Models/postmodel.dart';
 import 'package:immigration/Models/seller_model.dart';
 import 'package:immigration/Models/seller_profile_model.dart';
 import 'package:immigration/SizeConfig.dart';
+import 'package:immigration/chat/chat.dart';
 import 'package:immigration/screens/profile.dart';
-
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import '../constants.dart';
 import 'package:http/http.dart' as http;
 
@@ -18,24 +21,45 @@ class PostDetails extends StatelessWidget {
   late final String? pId;
 
   PostDetails(this.pId);
+  _handlePressed(types.User otherUser, BuildContext context) async {
+    print("---------$otherUser");
+    final room = await FirebaseChatCore.instance.createRoom(otherUser);
+    print("----room------$room");
 
-  getSIdDetails(String sId) async { Dio dio = Dio();
-  GetFunction _dataFunction = GetFunction();
-  SellerProfileModel? model= await _dataFunction.getSellerProfileData(sId);
-  return model;
+    Navigator.of(context).pop();
+    await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ChatPage(
+          room: room,
+        ),
+      ),
+    );
   }
+
+  getSIdDetails(String sId) async {
+    Dio dio = Dio();
+    GetFunction _dataFunction = GetFunction();
+    SellerProfileModel? model = await _dataFunction.getSellerProfileData(sId);
+    log("--SID------${model!.sId}");
+
+    return model;
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     SellerProfileModel? model;
     Future<PostModel> getDetails() async {
       var res = await http.get(Uri.parse(
-          "https://frozen-savannah-16893.herokuapp.com/Seller/postList/" + pId!));
+          "https://frozen-savannah-16893.herokuapp.com/Seller/postList/" +
+              pId!));
       Map<String, dynamic> result = json.decode(res.body);
-      PostModel? postModel;  if (res.statusCode == 200) {
-     postModel = PostModel.fromJson(result);
+      PostModel? postModel;
+      if (res.statusCode == 200) {
+        postModel = PostModel.fromJson(result);
 
-        model=await getSIdDetails(postModel.sId);   print("///" + result.toString());
+        model = await getSIdDetails(postModel.sId);
+        print("///" + result.toString());
       } else {
         print("not" + res.statusCode.toString());
       }
@@ -75,7 +99,7 @@ class PostDetails extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
             }
-            if(snapshot.connectionState == ConnectionState.done){
+            if (snapshot.connectionState == ConnectionState.done) {
               return ListView(shrinkWrap: true, children: [
                 Container(
                   child: Card(
@@ -140,11 +164,9 @@ class PostDetails extends StatelessWidget {
                   ),
                 ),
                 GestureDetector(
-                  onTap: (){
-                    Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                Profile(sId: model!.sId)));
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => Profile(sId: model!.sId)));
                   },
                   child: Card(
                     elevation: 10,
@@ -159,8 +181,9 @@ class PostDetails extends StatelessWidget {
                             child: CircleAvatar(
                               radius: SizeConfig.safeBlockVertical! * 4,
                               backgroundColor: Colors.white,
-                              backgroundImage: NetworkImage(model!.profilePicture,),
-
+                              backgroundImage: NetworkImage(
+                                model!.profilePicture,
+                              ),
                             ),
                           ),
                         ),
@@ -179,7 +202,27 @@ class PostDetails extends StatelessWidget {
                             backgroundColor: Colors.white,
                             child: IconButton(
                               icon: Icon(Icons.chat),
-                              onPressed: null,
+                              onPressed: () async {
+                                types.User otherUser = await types.User(
+                                  firstName: model!.companyName,
+                                  id: model!.sId,
+                                  imageUrl: model!.profilePicture,
+                                );
+                                final room = await FirebaseChatCore.instance
+                                    .createRoom(otherUser);
+                                print("----room------$room");
+ 
+                                Navigator.of(context).pop();
+                                await Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => ChatPage(
+                                      room: room,
+                                    ),
+                                  ),
+                                );
+                              }
+                              //await _handlePressed(otherUser, context);
+                              ,
                             ),
                           ),
                         ),
@@ -190,7 +233,8 @@ class PostDetails extends StatelessWidget {
                   ),
                 ),
               ]);
-            }return Container(
+            }
+            return Container(
               width: SizeConfig.screenWidth,
               height: SizeConfig.screenHeight,
               alignment: Alignment.center,

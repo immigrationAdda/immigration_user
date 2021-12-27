@@ -27,7 +27,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<UserModel?> getData() async {
     log("-------------enter------");
-    log("------Id---${FirebaseAuth.instance.currentUser!.uid}");
+   // log("------Id---${FirebaseAuth.instance.currentUser!.uid}");
   Response response = await dio.get("https://frozen-savannah-16893.herokuapp.com/User/getdata/${FirebaseAuth.instance.currentUser!.uid}");
   log("---------datda------${response.data}--");
    if(response.statusCode ==200){
@@ -53,17 +53,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   var getDataUser;
   UserModel? userDetails;
+
+  @override
+  void initState() {
+    getData();
+  }
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return Container(
-      child: FutureBuilder<UserModel?>(
+    return Scaffold(
+
+      body: FutureBuilder<UserModel?>(
           future: getData(),
           builder: (context,AsyncSnapshot<UserModel?> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
             }
             if (snapshot.connectionState == ConnectionState.done) {
+
               return Column(
                 children: [
                   // Container(
@@ -87,13 +94,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Container(
                     width: SizeConfig.safeBlockHorizontal! * 100,
                     alignment: Alignment.center,
-                    child: Text(userDetails!.name),
+                    child: Text(snapshot.data!.name),
                   ),
                   GestureDetector(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (cont) => UserProfile(
-                                uId: FirebaseAuth.instance.currentUser!.uid)));
+                              uId: "3oU1l2KewvPrPl8StwtFO77HQMq1",
+                            //    uId: FirebaseAuth.instance.currentUser!.uid
+                            )));
                       },
                       child: textButton(context, "Profile", Icons.person)),
                   GestureDetector(
@@ -131,10 +140,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  @override
-  void initState() {
-    getDataUser = getData();
-  }
 }
 
 Widget textButton(BuildContext buildContext, String title, IconData iconData) {

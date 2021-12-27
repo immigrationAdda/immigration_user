@@ -118,7 +118,7 @@ class _OtpScreenState extends State<OtpScreen> {
               statuscode == 100;
             });
           return Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => MainScreen()));
+              context, MaterialPageRoute(builder: (context) => MainScreen(0)));
         } else {
           return Navigator.pushReplacement(
               context,

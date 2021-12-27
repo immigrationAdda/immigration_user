@@ -11,6 +11,7 @@ import 'package:immigration/Forms/travell_insurance.dart';
 import 'package:immigration/api_config.dart';
 import 'package:immigration/constants.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:immigration/screens/MainScreen.dart';
 
 class Passport extends StatefulWidget {
   const Passport({Key? key}) : super(key: key);
@@ -121,11 +122,21 @@ class _PassportState extends State<Passport> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text("Passport"),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Color(0xff0D47A1)),
+          tooltip: "Cancel and Return to List",
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) =>  MainScreen(0)),
+            );
+          },
         ),
-        backgroundColor: kBlueColor,
+        backgroundColor: Colors.white,
+        title: Text(
+          "Passport",
+          style: TextStyle(color: kBlueColor),
+        ),
       ),
       body: Stack(
         children: [
@@ -187,12 +198,15 @@ class _PassportState extends State<Passport> {
                           controller: emailController,
                           hintText: "Enter Email Id here",
                           labelText: "Email Id"),
-                      Center(
-                        child: Text('Passport Information',
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: kBlueColor,
-                              fontWeight: FontWeight.bold
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                          child: Text('Passport Information',
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: kBlueColor,
+                                fontWeight: FontWeight.bold
+                            ),
                           ),
                         ),
                       ),
@@ -205,7 +219,7 @@ class _PassportState extends State<Passport> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(top: 8.0, left: 8),
+                                padding: EdgeInsets.only(top: 4.0, left: 8,bottom: 2),
                                 child: Text(
                                   'Type of Passport',
                                   style: TextStyle(
@@ -219,7 +233,6 @@ class _PassportState extends State<Passport> {
                                 children: passportType!
                                     .map((e) => InkWell(
                                     onTap: () {
-                                      // ignore: unused_local_variable
                                       var object = "I LIKE JAVA";
 
                                       setState(() {
@@ -248,7 +261,7 @@ class _PassportState extends State<Passport> {
                                                 style: TextStyle(
                                                     color: (e == selectedpassportType)
                                                         ? Colors.white
-                                                        : Colors.black)),
+                                                        : kBlueColor)),
                                           )),
                                     )))
                                     .toList(),
@@ -310,7 +323,7 @@ class _PassportState extends State<Passport> {
                                                 style: TextStyle(
                                                     color: (e == selectedservices)
                                                         ? Colors.white
-                                                        : Colors.black)),
+                                                        : kBlueColor)),
                                           )),
                                     )))
                                     .toList(),
@@ -347,7 +360,7 @@ class _PassportState extends State<Passport> {
                             : Container(
                           decoration: BoxDecoration(
                               color: Colors.white,
-                              border: Border.all(color: Colors.black45, width: 0.8),
+                              border: Border.all(color: kBlueColor, width: 0.8),
                               borderRadius: BorderRadius.circular(3)),
 
                           width: 100,
@@ -355,7 +368,7 @@ class _PassportState extends State<Passport> {
                           child: Icon(
                             Icons.camera_alt,
                             size: 70,
-                            color: Colors.grey[400],
+                            color: kBlueColor,
                           ),
                         ),
                       ),

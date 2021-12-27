@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:immigration/Models/postmodel.dart';
@@ -27,8 +28,8 @@ class _FavouritePostListScreenState extends State<FavouritePostListScreen> {
   late final int value = 3;
 
   Future<String> SetFavorite(String pId) async {
-    var res = await http.get(Uri.parse(
-        ApiConfig.BASE_URL+"User/favorite/hfk/$pId"));
+    var res = await http.delete(Uri.parse(
+        ApiConfig.BASE_URL+"User/favoriteDelete/${FirebaseAuth.instance.currentUser!.uid}/$pId"));
     var result=json.decode(res.body);
     checkFavorite=result;
     print("Check Favourite"+result.toString());
@@ -59,6 +60,8 @@ setState(() {
       if(checkFavorite){
 
       }else {
+        //woh api check kr rha tha
+       // post ka method nhui hai yaha
         checkFavorite = false;
       }
     }

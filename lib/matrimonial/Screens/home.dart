@@ -224,7 +224,8 @@ class _HomeState extends State<Home> {
             ),
           ),
         ),
-        body: ListView(
+        body: Column(
+
           children: [
             PostView(),
           ],
