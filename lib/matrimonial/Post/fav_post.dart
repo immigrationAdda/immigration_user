@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:immigration/matrimonial/ChatData/image_upload.dart';
+import 'package:immigration/matrimonial/ChatData/create_profile.dart';
 import 'package:immigration/matrimonial/Screens/personal_info.dart';
 
 class FavPost extends StatefulWidget {

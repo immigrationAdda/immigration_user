@@ -305,7 +305,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 8, horizontal: 16),
-                                    child: Text('Category Selected',
+                                    child: Text('Deal in this categories',
                                         style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold

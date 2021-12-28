@@ -16,7 +16,9 @@ import 'package:immigration/postCreateScreens/pr_score.dart';
 import 'package:immigration/screens/Login.dart';
 import 'package:immigration/screens/MainScreen.dart';
 import 'package:immigration/screens/ProfileScreen.dart';
+import 'package:immigration/screens/coming_soon.dart';
 import 'package:immigration/screens/luggage_post_user.dart';
+import 'package:immigration/screens/pr_sts_score.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class HomePage extends StatefulWidget {
@@ -28,9 +30,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   YoutubePlayerController _controller = YoutubePlayerController(
-    initialVideoId: 'K18cpp_-gP8',
+    initialVideoId: 'YoY--ngoAd0',
     params: YoutubePlayerParams(
-      playlist: ['nPt8bK2gbaU', 'gQDByCdjUXw'], // Defining custom playlist
+      playlist: ['YoY--ngoAd0', 'gQDByCdjUXw'], // Defining custom playlist
       startAt: Duration(seconds: 30),
       showControls: true,
       showFullscreenButton: true,
@@ -103,6 +105,31 @@ class _HomePageState extends State<HomePage> {
 
             ),
           ),
+           Align(
+             alignment: Alignment.topRight,
+             child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateColor.resolveWith(
+                            (states) => const Color(0xff0D47A1),
+                      ),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                      ),
+                    ),
+                    onPressed: () {},
+                
+                    child:  const Text(
+                      "IA TV",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24),
+                    ),
+                  ),
+           ),
+          
 
           Padding(
             padding: const EdgeInsets.only(left: 20,top: 10),
@@ -260,13 +287,21 @@ class _HomePageState extends State<HomePage> {
                 GestureDetector(
                     onTap: () {
 
-                    },
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              ComingSoon()));
+              
+},
                     child: button(context, "IELTS Classes",
                         "assets/images/ielts-online-class.png")),
                 GestureDetector(
-                    onTap: () {
-                      print("object yes");
-                    },
+                  onTap: () {
+
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              ComingSoon()));
+              
+},
                     child: button(context, " IELTS Test",
                         "assets/images/week-online-class.png")),
 
@@ -274,7 +309,8 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                               PRScore()));
+                               PrStudyScore()));
+                              
                     },
                     child: button(context, "Check Score",
                         "assets/images/check-pr.png")),

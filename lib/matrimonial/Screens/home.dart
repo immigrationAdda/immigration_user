@@ -224,11 +224,13 @@ class _HomeState extends State<Home> {
             ),
           ),
         ),
-        body: Column(
+        body: SingleChildScrollView(
+          child: Column(
 
-          children: [
-            PostView(),
-          ],
+            children: [
+              PostView(),
+            ],
+          ),
         ));
   }
 

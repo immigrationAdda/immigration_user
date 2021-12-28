@@ -210,11 +210,7 @@ class _EducationLoanState extends State<EducationLoan> {
                           ),
                         ),
                       ),
-                      CustomTextFormField(
-                          readOnly: false,
-                          controller: stablizeController,
-                          hintText: "Are you physically fit ?",
-                          labelText: "Are you physically fit ?"),
+                    
                       CustomTextFormField(
                           readOnly: false,
                           controller: noEmployeeController,
@@ -231,11 +227,6 @@ class _EducationLoanState extends State<EducationLoan> {
                           controller: franchiseOfferCityController,
                           hintText: "Date of Travel ",
                           labelText: "Date of Travel "),
-                      CustomTextFormField(
-                          readOnly: false,
-                          controller: totalAreaController,
-                          hintText: "Return Date of Travel ",
-                          labelText: "Return Date of Travel"),
 
                       CustomTextFormField(
                           readOnly: false,
@@ -245,18 +236,18 @@ class _EducationLoanState extends State<EducationLoan> {
                       CustomTextFormField(
                           readOnly: false,
                           controller: returnInvestmentController,
-                          hintText: "When to take policy",
-                          labelText: "When to take policy"),
+                          hintText: "When you take Loan",
+                          labelText: "When you take Loan"),
                       CustomTextFormField(
                           readOnly: false,
                           controller: returnInvestmentController,
-                          hintText: "Which company policy do you want to take?",
-                          labelText: "Which company policy do you want to take?"),
+                          hintText: "Which Bank you prefered to take loan ?",
+                          labelText: "Which Bank you prefered to take loan ?"),
                       CustomTextFormField(
                           readOnly: false,
                           controller: returnInvestmentController,
-                          hintText: "how much insurance do you want to take",
-                          labelText: "how much insurance do you want to take"),
+                          hintText: "How much Amount do you take Loan",
+                          labelText: "How much Amount do you take Loan"),
                       Center(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),

@@ -96,6 +96,7 @@ class _UploadProfilePicState extends State<UploadProfilePic> {
     }
     return check;
   }
+  
 
   Future getImage() async {
     final pickedFile =
@@ -158,7 +159,7 @@ class _UploadProfilePicState extends State<UploadProfilePic> {
           onPressed: () {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const BottomNav()),
+              MaterialPageRoute(builder: (context) => const Plans()),
             );
           },
         ),
@@ -166,7 +167,7 @@ class _UploadProfilePicState extends State<UploadProfilePic> {
             onPressed: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const BottomNav()),
+                MaterialPageRoute(builder: (context) => const Plans()),
               );
             },
             child: const Center(
@@ -286,7 +287,7 @@ class _UploadProfilePicState extends State<UploadProfilePic> {
                     onPressed: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => PersonalInfo()),
+                        MaterialPageRoute(builder: (context) => Plans()),
                       );
                     },
                     child: const Text(

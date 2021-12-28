@@ -1,140 +1,37 @@
-import 'dart:developer';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:immigration/matrimonial/ChatData/image_upload.dart';
+import 'package:immigration/matrimonial/ChatData/create_profile.dart';
 import 'package:immigration/matrimonial/ChatData/upload_profile_pic.dart';
-import 'package:immigration/matrimonial/Constants/const.dart';
 import 'package:immigration/matrimonial/Screens/personal_info.dart';
+import 'package:immigration/matrimonial/Screens/profile.dart';
+import 'package:immigration/screens/profile.dart';
 
 class PostView extends StatefulWidget {
   const PostView({Key? key}) : super(key: key);
 
   @override
   _PostViewState createState() => _PostViewState();
-
 }
+// void main() async {
+//   // Set default database
+//   final database = SearcheableDatabase(
+//     master: MemoryDatabaseAdapter(),
+//     isReadOnly: true,
+//   ).database();
+
+//   // Search items
+//   final collection = database.collection('employee');
+//   final response = await collection.search(
+//     query: Query.parse('"software developer" (dart OR javascript)'),
+//   );
+
+//   // Print items
+//   for (var snapshot in response.snapshots) {
+//     print('Document ID: ${snapshot.document.documentId}');
+//   }
+// }
 
 class _PostViewState extends State<PostView> {
-  int? statusCode=0;
-  bool isDocExists = false;
-  int profileCount =0;
-  String? imgUrl= "";
-  int? planId;
-  int check =0;
-  FirebaseFirestore db = FirebaseFirestore.instance;
-  String? gender;
-  getUserGender(){
-    db.collection("matrimonial").doc("12345").get().then((value) {
-     setState(() {
-       gender = value.data()!["gender"];
-     });
-    });
-  }
-  Future<int> userIdCheck() async{
-    await db.collection("userPlan").doc("12345").get().then((value) async {
-
-      await db.collection("matrimonial").doc("12345").get().then((v){
-        setState(() {
-          planId= v.data()!["planId"];
-          log("---------plan----$planId-----");
-
-        });
-      });
-      setState(() {
-        isDocExists =value.exists;
-        log("-----existxs--------$isDocExists-----");
-        profileCount=  value.data()!["profileCount"];
-        log("----count---------$profileCount-----");
-
-      });
-///plan btana ek bar mujhe view krne wala
-    });
-    if(isDocExists== true && planId==0 && profileCount ==5){
-      log("-----1st");
-      setState(() {
-        check =1;
-      });
-      Fluttertoast.showToast(msg: "Please update your plan!");
-
-    }else if(isDocExists== true && planId ==1 ){
-      log("-----2t");
-      setState(() {
-        check =1;
-
-      });
-      log("-check value-2---$check");
-      if(profileCount ==2){
-        Fluttertoast.showToast(msg: "Please update your plan!");
-        showAboutDialog(context:context,children: [
-          Center(child: Text("Error Happen!")),
-          Text("To upload image please upgrade your plan!"),
-
-        ]);
-      }
-    }
-    else if(isDocExists== true && planId ==2 ){
-      log("-0-------3");
-      setState(() {
-        check =1;
-      });
-      if(profileCount ==5){
-        showAboutDialog(context:context,children: [
-          Center(child: Text("Error Happen!")),
-          Text("To view profile please upgrade your plan!"),
-
-        ]);
-      }
-      db.collection("userPlan").doc("12345").update({"profileCount":1,"uid":"12345"}).whenComplete(() => log("Added image"));
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              UploadProfilePic (),
-        ),
-      );
-      /*
-      getImage().then((value) {
-        uploadImage();
-      });
-
-       */
-
-    }
-    else if(isDocExists== false ){
-      log("----------------4");
-      db.collection("userPlan").doc("12345").update({"profileCount":1,"uid":"12345"}).whenComplete(() => log("Added image"));
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              UploadProfilePic (),
-        ),
-      );
-      /*
-      getImage().then((value) {
-        uploadImage();
-      });
-
-       */
-      db.collection("userPlan").doc("12345").update({"profileCount":1,"uid":"12345"}).whenComplete(() => log("Added image"));
-    }
-    return check;
-  }
-   /// initialise firebase
-
-  updatePostViewCount(){
-    db.collection("collectionPath");
-  }
-  @override
-  void initState() {
-    getUserGender();// TODO: implement initState
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +46,7 @@ class _PostViewState extends State<PostView> {
               return Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: Container(
-                  height: MediaQuery.of(context).size.height / 1.2,
+                  height: MediaQuery.of(context).size.height / 1.1,
                   child: Card(
                     elevation: 8,
                     shape: RoundedRectangleBorder(
@@ -174,12 +71,11 @@ class _PostViewState extends State<PostView> {
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
                                 child: GestureDetector(
                                   onTap: () {
-
-                                    Navigator.pushReplacement(
+                                    Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                             UploadProfilePic (),
+                                            PersonalInfo(),
                                       ),
                                     );
                                   },
@@ -203,8 +99,10 @@ class _PostViewState extends State<PostView> {
                                             Radius.circular(26))),
                                     child: Padding(
                                       padding: EdgeInsets.all(5.0),
-                                      child: Icon(Icons.favorite_border_outlined,
-                                          color: Colors.red, size: 30),
+                                      child: Icon(
+                                          Icons.favorite_border_outlined,
+                                          color: Colors.red,
+                                          size: 30),
                                     )),
                               ),
                             ),
@@ -226,7 +124,6 @@ class _PostViewState extends State<PostView> {
                                     ),
                                   ),
                                 ),
-                                ((gender=="male")&&(planId == 3 || planId ==4))?
                                 Container(
                                   height:
                                       MediaQuery.of(context).size.height / 1.7,
@@ -236,13 +133,16 @@ class _PostViewState extends State<PostView> {
                                     color: Colors.orange,
                                     size: 40,
                                   ),
-                                ):Container(),
+                                ),
                                 Container(
-                                  height: MediaQuery.of(context).size.height / 1.7,
-                                  width: MediaQuery.of(context).size.width / 2.0,
+                                  height:
+                                      MediaQuery.of(context).size.height / 1.7,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.0,
                                   alignment: Alignment.bottomRight,
                                   child: const ImageIcon(
-                                    AssetImage('Images/Icons/MarriagePalace.png'),
+                                    AssetImage(
+                                        'Images/Icons/MarriagePalace.png'),
                                     color: Colors.orange,
                                     size: 40,
                                   ),
@@ -251,6 +151,7 @@ class _PostViewState extends State<PostView> {
                             ),
                           ],
                         ),
+                        SizedBox(height: 10,),
                         Padding(
                           padding: const EdgeInsets.only(left: 10, top: 4),
                           child: Row(
@@ -337,6 +238,87 @@ class _PostViewState extends State<PostView> {
                               ],
                             ),
                           ),
+                        ),
+                        SizedBox(height: 10,),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(4),
+                              child: Container(
+                                height: 35, width: 160,
+                                //color: Color(0xff0d47a1),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: ElevatedButton(
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateColor.resolveWith(
+                                      (states) => const Color(0xffff5275),
+                                    ),
+                                    shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(40.0),
+                                      ),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ProfileView(
+                                          )),
+                                    );
+                                  },
+                                  child: const Text(
+                                    " View \ Profile",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 18),
+                                  ),
+                                ),
+                              ),
+                            ),
+SizedBox(width: 2),
+                            Padding(
+                              padding: const EdgeInsets.all(4),
+                              child: Container(
+                                height: 35, width: 160,
+                                //color: Color(0xff0d47a1),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: ElevatedButton(
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateColor.resolveWith(
+                                      (states) => const Color(0xffff5275),
+                                    ),
+                                    shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(40.0),
+                                      ),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Profile(
+                                                sId: '0123',
+                                              )),
+                                    );
+                                  },
+                                  child: const Text(
+                                    "Sent \ Request",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 18),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

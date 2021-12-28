@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -56,6 +57,8 @@ class _PRScore extends State<PRScore> {
   TextEditingController? motherOccupationController=new TextEditingController();
   TextEditingController? familyBackgroundController=new TextEditingController();
 
+  var _image;
+
   // PRScore({Key? key}) : super(key: key);
 
 
@@ -99,7 +102,6 @@ class _PRScore extends State<PRScore> {
       fatherOccupationController!.text,
       motherOccupationController!.text,
       familyBackgroundController!.text, );
-
       var res = await http.post(
           Uri.parse(
               "https://frozen-savannah-16893.herokuapp.com/User/luggagePost"),
@@ -108,6 +110,7 @@ class _PRScore extends State<PRScore> {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           });
+
       if (res.statusCode == 200) {
         print("Luggage Post Success fully complete");
         setState(() {
@@ -136,6 +139,7 @@ class _PRScore extends State<PRScore> {
         });
       }
     }  SizeConfig().init(context);
+    
     double height = MediaQuery.of(context).size.height;
     var testDateController=new TextEditingController();
     return Material(
@@ -268,6 +272,45 @@ class _PRScore extends State<PRScore> {
           textfield(context, detailController!, "Detail", [
             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
           ]),
+            Center(
+                               child: Padding(
+                                 padding: const EdgeInsets.all(8.0),
+                                 child: Text('Upload you Image',
+                                   style: TextStyle(
+                                       fontSize: 18,
+                                       color: kBlueColor,
+                                       fontWeight: FontWeight.bold
+                                   ),
+                                 ),
+                               ),
+                             ),
+                      Card(
+                        margin: EdgeInsets.all(10),
+                        child: _image != null
+                            ? ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.file(
+                            _image,
+                            width: 100,
+                            height: 200,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                            : Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: kBlueColor, width: 0.8),
+                              borderRadius: BorderRadius.circular(3)),
+
+                          width: 100,
+                          height: 200,
+                          child: Icon(
+                            Icons.camera_alt,
+                            size: 70,
+                            color: kBlueColor,
+                          ),
+                        ),
+                      ),
         ],
       ),
     );

@@ -272,7 +272,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
           onPressed: () {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => UploadProfilePic()),
+              MaterialPageRoute(builder: (context) => BottomNav()),
             );
           },
         ),
@@ -280,7 +280,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
             onPressed: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => UploadProfilePic()),
+                MaterialPageRoute(builder: (context) => BottomNav()),
               );
             },
             child: const Center(

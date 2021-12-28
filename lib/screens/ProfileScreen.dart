@@ -23,8 +23,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   UserModel? userModel;
   List<UserModel> profileModelList=[];
-  Dio dio = Dio();
-
+  Dio dio = Dio(); 
   Future<UserModel?> getData() async {
     log("-------------enter------");
    // log("------Id---${FirebaseAuth.instance.currentUser!.uid}");

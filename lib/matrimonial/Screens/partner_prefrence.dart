@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:immigration/matrimonial/Api/api_config.dart';
+import 'package:immigration/matrimonial/ChatData/upload_profile_pic.dart';
 import 'package:immigration/matrimonial/Constants/const.dart';
 import 'package:immigration/matrimonial/Data/post_function.dart';
 import 'package:immigration/matrimonial/Screens/Plans/plans.dart';
@@ -1301,10 +1302,10 @@ class _PartnerPrefrenceState extends State<PartnerPrefrence> {
                         print('Country');
                       } else {
                         uploadData();
-                        // Navigator.pushReplacement(
-                        //   context,
-                        //   MaterialPageRoute(builder: (context) => Plans()),
-                        // );
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => UploadProfilePic()),
+                        );
                       }
                     },
                     child: const Text(
