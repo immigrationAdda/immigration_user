@@ -14,8 +14,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
-
+  
   decider(){
     return StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),

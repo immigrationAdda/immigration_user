@@ -6,30 +6,15 @@ import 'package:immigration/matrimonial/Screens/personal_info.dart';
 import 'package:immigration/matrimonial/Screens/profile.dart';
 import 'package:immigration/screens/profile.dart';
 
+import '../multi_select.dart';
+
 class PostView extends StatefulWidget {
   const PostView({Key? key}) : super(key: key);
 
   @override
   _PostViewState createState() => _PostViewState();
 }
-// void main() async {
-//   // Set default database
-//   final database = SearcheableDatabase(
-//     master: MemoryDatabaseAdapter(),
-//     isReadOnly: true,
-//   ).database();
 
-//   // Search items
-//   final collection = database.collection('employee');
-//   final response = await collection.search(
-//     query: Query.parse('"software developer" (dart OR javascript)'),
-//   );
-
-//   // Print items
-//   for (var snapshot in response.snapshots) {
-//     print('Document ID: ${snapshot.document.documentId}');
-//   }
-// }
 
 class _PostViewState extends State<PostView> {
 
@@ -75,7 +60,7 @@ class _PostViewState extends State<PostView> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                            PersonalInfo(),
+                                            MultiImage(),
                                       ),
                                     );
                                   },
@@ -267,7 +252,7 @@ class _PostViewState extends State<PostView> {
                                     Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => ProfileView(
+                                          builder: (context) => PersonalInfo(
                                           )),
                                     );
                                   },

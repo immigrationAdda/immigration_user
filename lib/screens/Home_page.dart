@@ -17,6 +17,7 @@ import 'package:immigration/screens/Login.dart';
 import 'package:immigration/screens/MainScreen.dart';
 import 'package:immigration/screens/ProfileScreen.dart';
 import 'package:immigration/screens/coming_soon.dart';
+import 'package:immigration/screens/immigration_tv.dart';
 import 'package:immigration/screens/luggage_post_user.dart';
 import 'package:immigration/screens/pr_sts_score.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
@@ -33,21 +34,21 @@ class _HomePageState extends State<HomePage> {
     initialVideoId: 'YoY--ngoAd0',
     params: YoutubePlayerParams(
       playlist: ['YoY--ngoAd0', 'gQDByCdjUXw'], // Defining custom playlist
-      startAt: Duration(seconds: 30),
+      startAt: Duration(seconds: 00),
       showControls: true,
       showFullscreenButton: true,
     ),
   );
-  /*
-  YoutubePlayerController _controller = YoutubePlayerController(
-    initialVideoId: 'iLnmTe5Q2Qw',
-    flags: YoutubePlayerFlags(
-      autoPlay: true,
-      mute: true,
-    ),
-  );
 
-   */
+  // YoutubePlayerController _controller = YoutubePlayerController(
+  //   initialVideoId: 'YoY--ngoAd0',
+  //   flags: YoutubePlayerFlags(
+  //     autoPlay: true,
+  //     mute: true,
+  //   ),
+  // );
+
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -102,7 +103,6 @@ class _HomePageState extends State<HomePage> {
             height: MediaQuery.of(context).size.height*0.3,
             child: YoutubePlayerIFrame(
               controller: _controller,
-
             ),
           ),
            Align(
@@ -118,8 +118,12 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-                    onPressed: () {},
-                
+                    onPressed: (){
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => YT()),
+                      );
+                    },
                     child:  const Text(
                       "IA TV",
                       style: TextStyle(

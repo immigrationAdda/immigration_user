@@ -102,7 +102,7 @@ class PersonalInfoModel {
     "livingStatus": livingStatus,
     "profilePic": profilePic,
     "mId": mId,
-    gender: gender,
+    "gender": gender,
     "dob": dob,
     "age": age,
     "height": height,

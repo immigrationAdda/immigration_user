@@ -14,6 +14,7 @@ import 'package:immigration/matrimonial/Screens/contact_info.dart';
 import 'package:immigration/matrimonial/Screens/welcome_screen.dart';
 import 'package:immigration/matrimonial/model/Post%20Data/partner_prefference_details.dart';
 import 'package:immigration/matrimonial/model/Post%20Data/personal_info_model.dart';
+import 'package:immigration/matrimonial/multi_select.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 class PartnerPrefrence extends StatefulWidget {
@@ -1304,7 +1305,7 @@ class _PartnerPrefrenceState extends State<PartnerPrefrence> {
                         uploadData();
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => UploadProfilePic()),
+                          MaterialPageRoute(builder: (context) => MultiImage()),
                         );
                       }
                     },

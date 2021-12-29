@@ -398,30 +398,35 @@ class _EducationLoanState extends State<EducationLoan> {
                           ),
                         ),
                       ),
-                      Card(
-                        margin: EdgeInsets.all(10),
-                        child: _image != null
-                            ? ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Image.file(
-                            _image,
+                      GestureDetector(
+                        onTap: (){
+                          getLostData();
+                        },
+                        child: Card(
+                          margin: EdgeInsets.all(10),
+                          child: _image != null
+                              ? ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.file(
+                              _image,
+                              width: 100,
+                              height: 200,
+                              fit: BoxFit.cover,
+                            ),
+                          )
+                              : Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(color: kBlueColor, width: 0.8),
+                                borderRadius: BorderRadius.circular(3)),
+
                             width: 100,
                             height: 200,
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                            : Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: kBlueColor, width: 0.8),
-                              borderRadius: BorderRadius.circular(3)),
-
-                          width: 100,
-                          height: 200,
-                          child: Icon(
-                            Icons.camera_alt,
-                            size: 70,
-                            color: kBlueColor,
+                            child: Icon(
+                              Icons.camera_alt,
+                              size: 70,
+                              color: kBlueColor,
+                            ),
                           ),
                         ),
                       ),

@@ -391,49 +391,7 @@ class _ProfileViewState extends State<ProfileView> {
                               const SizedBox(
                                 width: 5,
                               ),
-                              TextButton(
-                                child: const Text(
-                                  'Name',
-                                  style: TextStyle(
-                                      fontSize: 25, color: Colors.black),
-                                ),
-                                onPressed: () {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ChatList()),
-                                  );
-                                },
-                              ),
                             ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: const [
-                                  Text(
-                                    'About Yourself',
-                                    style: TextStyle(
-                                        color: kRedColor,
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.all(2.0),
-                                    child: Text(
-                                      'hioii',
-                                      style: TextStyle(
-                                        color: Color(0xff00235a),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
                           ),
                         ),
                         const SizedBox(height: 3),

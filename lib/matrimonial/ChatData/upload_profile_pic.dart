@@ -16,6 +16,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:immigration/matrimonial/Screens/personal_info.dart';
 import 'package:immigration/matrimonial/Screens/profile.dart';
 import 'package:immigration/matrimonial/bottom_navigator.dart';
+import 'package:multi_image_picker2/multi_image_picker2.dart';
 
 class UploadProfilePic extends StatefulWidget {
   UploadProfilePic({Key? key}) : super(key: key);
@@ -27,14 +28,30 @@ class UploadProfilePic extends StatefulWidget {
 class _UploadProfilePicState extends State<UploadProfilePic> {
   File? image;
   final picker = ImagePicker();
-
+  List<Asset> images = <Asset>[];
   int? statusCode = 0;
+  bool uploading = false;
+  double val = 0;
+  List<File>? _multipleImageList = [];
   bool isDocExists = false;
   int imageCount = 0;
   String? imgUrl = "";
   int? planId;
   int check = 0;
   FirebaseFirestore db = FirebaseFirestore.instance;
+  Widget buildGridView() {
+    return GridView.count(
+      crossAxisCount: 3,
+      children: List.generate(images.length, (index) {
+        Asset asset = images[index];
+        return AssetThumb(
+          asset: asset,
+          width: 300,
+          height: 300,
+        );
+      }),
+    );
+  }
   Future<int> userIdCheck() async {
     await db.collection("userPlan").doc("12345").get().then((value) async {
       await db.collection("matrimonial").doc("12345").get().then((v) {
@@ -96,7 +113,6 @@ class _UploadProfilePicState extends State<UploadProfilePic> {
     }
     return check;
   }
-  
 
   Future getImage() async {
     final pickedFile =
@@ -112,6 +128,7 @@ class _UploadProfilePicState extends State<UploadProfilePic> {
   }
 
   Dio dio = Dio();
+
   uploadImage() async {
     setState(() {
       statusCode = 100;
@@ -144,6 +161,41 @@ class _UploadProfilePicState extends State<UploadProfilePic> {
                 () => log("image Count ++ success"));
       }
     });
+  }
+  String _error = 'No Error Dectected';
+
+
+  Future<void> loadAssets() async {
+    List<Asset> resultList = <Asset>[];
+    String error = 'No Error Detected';
+
+    try {
+      resultList = await MultiImagePicker.pickImages(
+        maxImages: 20,
+        enableCamera: true,
+        selectedAssets: images,
+        cupertinoOptions: CupertinoOptions(
+          takePhotoIcon: "chat",
+          doneButtonTitle: "Fatto",
+        ),
+        materialOptions: MaterialOptions(
+          actionBarColor: "#abcdef",
+          actionBarTitle: "Example App",
+          allViewTitle: "All Photos",
+          useDetailsView: false,
+          selectCircleStrokeColor: "#000000",
+        ),
+      );
+    } on Exception catch (e) {
+      error = e.toString();
+    }
+    if (!mounted) return;
+
+    setState(() {
+      images = resultList;
+      _error = error;
+    });
+
   }
 
   @override
@@ -205,6 +257,7 @@ class _UploadProfilePicState extends State<UploadProfilePic> {
                   ),
                 ),
               ),
+
               Container(
                 alignment: Alignment.topLeft,
                 child: const Padding(
@@ -220,36 +273,14 @@ class _UploadProfilePicState extends State<UploadProfilePic> {
                   ),
                 ),
               ),
-              GestureDetector(
-                  onTap: () async {
-                    userIdCheck();
-                    check = await userIdCheck();
-                    log("---------------------$check");
-                    check == 1
-                        ? getImage().then((value) {
-                            uploadImage();
-                          })
-                        : null;
-                  },
-                  child: Container(
-                    height: 200,
-                    width: width * 0.8,
-                    child: Card(
-                      elevation: 1,
-                      child: image != null
-                          ? Container(
-                              decoration: BoxDecoration(
-                                image:
-                                    DecorationImage(image: FileImage(image!)),
-                              ),
-                            )
-                          : const Icon(
-                              Icons.add_a_photo,
-                              size: 60,
-                              color: Color(0xffff5275),
-                            ),
-                    ),
-                  )),
+              ElevatedButton(
+                child: Text("Pick images"),
+                onPressed: loadAssets,
+              ),
+              Container(
+                child: buildGridView(),
+              ),
+
               // Container(
               //   alignment: Alignment.topLeft,
               //   child: const Padding(
